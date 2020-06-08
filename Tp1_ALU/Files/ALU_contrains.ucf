@@ -1,0 +1,23 @@
+# PlanAhead Generated physical constraints 
+
+NET "switches[0]" LOC = P11;
+NET "switches[1]" LOC = L3;
+NET "switches[2]" LOC = K3;
+NET "switches[3]" LOC = B4;
+NET "switches[4]" LOC = G3;
+NET "switches[5]" LOC = F3;
+NET "switches[6]" LOC = E2;
+NET "switches[7]" LOC = N3;
+NET "Leds[0]" LOC = M5;
+NET "Leds[1]" LOC = M11;
+NET "Leds[2]" LOC = P7;
+NET "Leds[3]" LOC = P6;
+NET "Leds[4]" LOC = N5;
+NET "Leds[5]" LOC = N4;
+NET "Leds[6]" LOC = P4;
+NET "Leds[7]" LOC = G1;
+NET "btn_A" LOC = A7;
+NET "btn_B" LOC = M4;
+NET "btn_Op" LOC = C11;
+NET "reset" LOC = G12;
+NET "clk" LOC = B8;
