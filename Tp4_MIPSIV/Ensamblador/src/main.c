@@ -20,9 +20,13 @@ int main (int argc, char *argv[])
       fprintf(stderr,"-Error : Opcion invalida\n-Uso : %s input_filepath.asm\n-Option : -o outputname\n\n",argv[0]);
       return 1; 
     }
+    parse_asm(argv[1],argv[3]);
   }
+  else
+  {
     parse_asm(argv[1],"out.coe");
-    return 0;
+  }
+  return 0;
 }
 
 
