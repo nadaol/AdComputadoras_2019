@@ -1,6 +1,6 @@
 #include "instruction_set.h"
 
-///Array of supported instructions
+///Array of supported instructions based on MIPSIV instruction set
 instruction_set supported_ins [NSUPORTED_INST] =
 {
 ///R-type supported Instructions (code = function)
@@ -216,7 +216,7 @@ instruction_set supported_ins [NSUPORTED_INST] =
 #define LINE_LENGTH 128
 #define WORD_LENGTH 32
 
-
+///Busqueda de instruccion soportada por nombre
 int get_inst_index(char* instruction_name)
 {
     for(int i=0;i<NSUPORTED_INST;i++)
@@ -229,6 +229,7 @@ int get_inst_index(char* instruction_name)
     return -1;
 }
 
+///Parsea una instruccion 'instruction' en ensamblador a instruccion hexadecimal segun el set de instrucciones del MIPSIV
 void write_inst(char* instruction , FILE* fp_out ,int line_num)
 {
     char* instruction_name = malloc(WORD_LENGTH);
@@ -329,12 +330,17 @@ void parse_asm(const char* in_file,const char* out_file)
         fprintf(stderr,"Error al abrir el archivo\n");
         return;
     }
-    int line_num=1;
+    const char init [LINE_LENGTH]= "memory_initialization_radix=16;\nmemory_initialization_vector=\n";
+    fwrite(&init,strlen(init),1,fp_out);
+    int line_num=2;
     while(fgets(line, LINE_LENGTH,fp_in)) 
     {
         write_inst(line,fp_out,line_num);
         line_num ++;
     }
+    fseek(fp_out,-2,SEEK_END);
+    char end = ';';
+    fwrite(&end,sizeof(char),1,fp_out);
     free(line);
     fclose(fp_in);
     fclose(fp_out);
