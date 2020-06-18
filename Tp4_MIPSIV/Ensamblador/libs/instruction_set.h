@@ -16,17 +16,19 @@ Created on 17/06/2020.
 
 ///Number of supported instructions
 #define NSUPORTED_INST 34
-#define RFORMAT "%*s %[0-9]%[0-9]%[0-9]"
+#define RFORMAT "%*s %u,%u,%u"
 #define IFORMAT "%*s"
 #define JFORMAT "%s "
+#define OUT_FORMAT "%08x,\n"
 
 void parse_asm(const char* in_file,const char* out_file);
 
 enum format_code
 {
-    R_FORMAT = 0,
-    I_FORMAT = 1,
-    J_FORMAT = 2
+    R1_FORMAT = 0,
+    R2_FORMAT = 1,
+    I_FORMAT = 2,
+    J_FORMAT = 3
 };
 
 ///Supported instruction set structure
@@ -36,8 +38,8 @@ typedef struct _intruction_set
     const char* name;
     ///Format specifier
     enum format_code format;
-    ///Opcode/function of instruction
-    char code [6];
+    ///Hexadecimal Opcode/function of instruction
+    unsigned int code ;
 }instruction_set;
 
 
@@ -49,41 +51,40 @@ extern instruction_set supported_ins [NSUPORTED_INST];
 typedef struct _R_instruction
 {
     ///6-bit primary operation code
-    char opcode [3] ;
+    unsigned int opcode ;
     ///5-bit source register specifier
-    char rs [3];
+    unsigned int rs ;
     ///5-bit target (source/destination) register specifier or used to specify funcions within the primary opcode value REGIMM
-    char rt [3];
+    unsigned int rt ;
     ///5-bit destination register specifier
-    char rd [3];
+    unsigned int rd ;
     ///5-bit shift amount
-    char sa [3];
+    unsigned int sa ;
     ///6-bit function field used to specify functions within the primary operation code value SPECIAL
-    char function [3];
+    unsigned int function;
 }R_instruction;
 
 ///I-Type instruction (Inmmediate)
 typedef struct _I_instruction
 {
     ///6-bit primary operation code
-    char opcode [3] ;
+    unsigned int opcode ;
     ///5-bit source register specifier or immediate offset base value
-    char rs [3];
+    unsigned int rs ;
     ///5-bit target (source/destination) register specifier or used to specify funcions within the primary opcode value REGIMM
-    char rt [3];
+    unsigned int rt ;
     /**16-bit signed immediate used for logical/arithmetic operands,load/store address byte offsets,
     PC-relative branch signed instruction displacement**/
-    char immediate[6];
-
+    unsigned int immediate ;
 }I_instruction;
 
 ///J-Type intruction (jump)
 typedef struct _J_instruction
 {
     ///6-bit primary operation code
-    char opcode [7] ;
+    unsigned int opcode ;
     ///26-bit insdex shifted left two bits to supply the low-order 28 bits of the jump target address
-    char instr_index[27];
+    unsigned int instr_index ;
 }J_instruction;
 
 #endif

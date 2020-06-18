@@ -1,3 +1,3 @@
-ADDI 9, 9, 5
-ADDI 9, 9, 15 ; -- comentario --
-SW 9, 0(0)
+xor 2, 2, 2 ; -- comentario --
+add 3, 8, 1 ; -- comentario --
+SLL 8, 5, 0 ;
