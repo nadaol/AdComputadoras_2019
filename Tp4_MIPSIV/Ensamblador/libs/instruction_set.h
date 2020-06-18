@@ -16,19 +16,29 @@ Created on 17/06/2020.
 
 ///Number of supported instructions
 #define NSUPORTED_INST 34
-#define RFORMAT "%*s %u,%u,%u"
+///Register's offset from rigth to left
+#define RS_OFFSET 21
+#define RT_OFFSET 16
+#define RD_OFFSET 11
+#define SA_OFFSET 6
+//Instructions formats
+#define RDRTSA sscanf(instruction,"%*s %u , %u , %u",&inst->rd,&inst->rt,&inst->sa)
+#define RDRTRS sscanf(instruction,"%*s %u , %u , %u",&inst->rd,&inst->rt,&inst->rs)
+#define RDRSRT sscanf(instruction,"%*s %u , %u , %u",&inst->rd,&inst->rs,&inst->rt)
 #define IFORMAT "%*s"
 #define JFORMAT "%s "
+//.coe output line format
 #define OUT_FORMAT "%08x,\n"
 
 void parse_asm(const char* in_file,const char* out_file);
 
 enum format_code
 {
-    R1_FORMAT = 0,
-    R2_FORMAT = 1,
-    I_FORMAT = 2,
-    J_FORMAT = 3
+    RDRTSA_FORMAT = 0,
+    RDRTRS_FORMAT = 1,
+    RDRSRT_FORMAT = 2,
+    I_FORMAT = 3,
+    J_FORMAT = 4
 };
 
 ///Supported instruction set structure

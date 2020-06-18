@@ -1,3 +1,2 @@
-xor 2, 2, 2 ; -- comentario --
-add 3, 8, 1 ; -- comentario --
-SLL 8, 5, 0 ;
+add 11,1,2
+sub 12, 9 , 2

@@ -6,67 +6,67 @@ instruction_set supported_ins [NSUPORTED_INST] =
 ///R-type supported Instructions (code = function)
 {
     .name = "SLL",
-    .format = R1_FORMAT,
+    .format = RDRTSA_FORMAT,
     .code = 0x00000000
 },
 {
     .name = "SRL",
-    .format = R1_FORMAT,
+    .format = RDRTSA_FORMAT,
     .code = 0x00000002
 },
 {
     .name = "SRA",
-    .format = R1_FORMAT,
+    .format = RDRTSA_FORMAT,
     .code = 0x00000003
 },  
 {
     .name = "SRLV",
-    .format = R2_FORMAT,
+    .format = RDRTRS_FORMAT,
     .code = 0x00000006
 },  
 {
     .name = "SRAV",
-    .format = R2_FORMAT,
+    .format = RDRTRS_FORMAT,
     .code = 0x00000007
 },  
 {
     .name = "ADD",
-    .format = R2_FORMAT,
+    .format = RDRSRT_FORMAT,
     .code = 0x00000020
 },  
 {
     .name = "SLLV",
-    .format = R2_FORMAT,
+    .format = RDRTRS_FORMAT,
     .code = 0x000000004
 },  
 {
     .name = "SUB",
-    .format = R2_FORMAT,
+    .format = RDRSRT_FORMAT,
     .code = 0x00000022
 },  
 {
     .name = "AND",
-    .format = R2_FORMAT,
+    .format = RDRSRT_FORMAT,
     .code = 0x00000024
 },  
 {
     .name = "OR",
-    .format = R2_FORMAT,
+    .format = RDRSRT_FORMAT,
     .code = 0x00000025
 },  
 {
     .name = "XOR",
-    .format = R2_FORMAT,
+    .format = RDRSRT_FORMAT,
     .code = 0x00000026
 },  
 {
     .name = "NOR",
-    .format = R2_FORMAT,
+    .format = RDRSRT_FORMAT,
     .code = 0x00000027
 }, 
 {
     .name = "SLT",
-    .format = R2_FORMAT,
+    .format = RDRSRT_FORMAT,
     .code = 0x0000002A
 },
 ///I-type supported Instructions (code = opcode)
@@ -195,7 +195,7 @@ int get_inst_index(char* instruction_name)
     return -1;
 }
 
-void write_inst(char* instruction , FILE* fp_out)
+void write_inst(char* instruction , FILE* fp_out ,int line_num)
 {
     char* instruction_name = malloc(WORD_LENGTH);
     if(instruction_name == NULL)
@@ -205,42 +205,37 @@ void write_inst(char* instruction , FILE* fp_out)
     }
     sscanf(instruction,"%s ",instruction_name);
     int inst_index = get_inst_index(instruction_name);
+    if(inst_index < 0)
+    {
+        fprintf(stderr,"Error Invalid instruction at line %d\n",line_num);
+        exit(EXIT_FAILURE);
+    }
     switch (supported_ins[inst_index].format)
     {
 
-    case R1_FORMAT:
+    case RDRSRT_FORMAT : case RDRTRS_FORMAT : case RDRTSA_FORMAT:
         {   
-            R_instruction* inst = malloc(sizeof(R_instruction));
-            inst->opcode = 0;
-            inst->rs = 0;
+            R_instruction* inst = calloc(1,sizeof(R_instruction));
             //inst->function = supported_ins[inst_index].code;
-            sscanf(instruction,RFORMAT,&inst->rd,&inst->rt,&inst->sa);
-            unsigned int instruction = inst->opcode + (inst->rs << 21) + (inst->rt << 16) + (inst->rd << 11) + (inst->sa << 6) + supported_ins[inst_index].code;
-            char instruction_hex [11] ;
-            sprintf(instruction_hex,OUT_FORMAT,instruction);
-            printf("instruction : %s , rd : %d rt : %d sa : %d code : %s\n",instruction_name,inst->rd,inst->rt,inst->sa,instruction_hex);
-            fwrite(&instruction_hex,sizeof(char),10,fp_out);
-            break;
-        }
-
-    case R2_FORMAT:
-        {   
-            R_instruction* inst = malloc(sizeof(R_instruction));
-            inst->opcode = 0;
-            inst->sa = 0;
-            //inst->opcode = 0;
-            //inst->function = supported_ins[inst_index].code;
-            sscanf(instruction,RFORMAT,&inst->rd,&inst->rt,&inst->rs);
-            unsigned int instruction = inst->opcode + (inst->rs << 21) + (inst->rt << 16) + (inst->rd << 11) + (inst->sa << 6) + supported_ins[inst_index].code;
+            int ret;
+            if(supported_ins[inst_index].format == RDRTSA_FORMAT)ret=RDRTSA;
+            else if (supported_ins[inst_index].format == RDRSRT_FORMAT)ret=RDRSRT;
+            else ret=RDRTRS;
+            if(ret<3 || inst->rd > 31 || inst->rs > 31 || inst->rt > 31 || inst->sa > 31)
+            {
+                fprintf(stderr,"Error Invalid instruction at line %d\n",line_num);
+                exit(EXIT_FAILURE);    
+            }
+            unsigned int instruction = inst->opcode + (inst->rs << RS_OFFSET) + (inst->rt << RT_OFFSET) + (inst->rd << RD_OFFSET) + (inst->sa << SA_OFFSET) + supported_ins[inst_index].code;
             char instruction_hex [WORD_LENGTH] ;
             sprintf(instruction_hex,OUT_FORMAT,instruction);
-            printf("instruction : %s , rd : %d rt : %d rs : %d code : %s\n",instruction_name,inst->rd,inst->rt,inst->rs,instruction_hex);
+            printf("instruction : %s , rd : %d rt : %d rs : %d sa : %d code : %s\n",instruction_name,inst->rd,inst->rt,inst->rs,inst->sa,instruction_hex);
             fwrite(&instruction_hex,sizeof(char),10,fp_out);
             break;
         }
 
     case I_FORMAT:
-        /* code */
+        //I_instruction* inst = calloc(1,sizeof(I_instruction));
         break;
 
     case J_FORMAT:
@@ -268,10 +263,11 @@ void parse_asm(const char* in_file,const char* out_file)
         fprintf(stderr,"Error al abrir el archivo\n");
         return;
     }
-
+    int line_num=1;
     while(fgets(line, LINE_LENGTH,fp_in)) 
     {
-        write_inst(line,fp_out);
+        write_inst(line,fp_out,line_num);
+        line_num ++;
     }
     free(line);
     fclose(fp_in);
