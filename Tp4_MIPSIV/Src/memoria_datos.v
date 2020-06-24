@@ -6,7 +6,7 @@
 // 
 // Create Date: 11/02/2019 09:13:33 PM
 // Design Name: 
-// Module Name: memoria_datos
+// Module Name: Data_memory
 // Project Name: BIPI
 // Target Devices: 
 // Tool Versions: 
@@ -21,12 +21,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module memoria_datos
+module Data_memory
 #(
-  parameter RAM_WIDTH = 16,             //ancho de entradas
-  parameter RAM_DEPTH = 1024,             //numero de entradas de la memoria
-  parameter RAM_PERFORMANCE = "LOW_LATENCY", 
-  parameter INIT_FILE = ""                         // direccion del archivo txt de inicializacion de la memoria
+  parameter RAM_WIDTH = 32,             //ancho de entradas
+  parameter RAM_DEPTH = 1024,           //numero de entradas de la memoria
+  parameter INIT_FILE ="",
+  parameter RAM_PERFORMANCE="LOW_LATENCY"
 )
 (
   input [clogb2(RAM_DEPTH)-1:0] i_addr,   //Bus de direccion

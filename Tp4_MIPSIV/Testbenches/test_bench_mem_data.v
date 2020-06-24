@@ -21,7 +21,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-module test_bench_memoria_datos();
+module test_bench_Data_memory();
        
    // Parametros
    parameter RAM_WIDTH = 16;                       // Specify RAM data width
@@ -73,7 +73,7 @@ module test_bench_memoria_datos();
 
 
 // Modulo para pasarle los estimulos del banco de pruebas.
-memoria_datos
+Data_memory
    #(
         .RAM_WIDTH (RAM_WIDTH),
         .RAM_PERFORMANCE (RAM_PERFORMANCE),

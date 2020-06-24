@@ -20,7 +20,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module memoria_programa
+module Instruction_memory
 #(
   parameter RAM_WIDTH = 16,                       //ancho de entradas
   parameter RAM_DEPTH = 2048,                     //numero de entradas de la memoria

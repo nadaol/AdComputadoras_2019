@@ -41,28 +41,6 @@
 `define RAM_DEPTH_PROGRAMA   2048     
 
 module test_bench_top();
-       
-   // Parametros
-   parameter WIDTH_WORD_TOP    = `WIDTH_WORD_TOP;
-   parameter FREC_CLK_MHZ      = `FREC_CLK_MHZ;
-   parameter BAUD_RATE_TOP     = `BAUD_RATE_TOP;
-   parameter CANT_BIT_STOP_TOP = `CANT_BIT_STOP_TOP;
-   parameter PC_CANT_BITS      = `PC_CANT_BITS;
-   parameter SUM_DIR           = `SUM_DIR;
-   parameter OPCODE_LENGTH     = `OPCODE_LENGTH;
-   parameter CC_LENGTH         = `CC_LENGTH;
-   parameter ACC_LENGTH        = `ACC_LENGTH;
-   parameter HALT_OPCODE       = `HALT_OPCODE;
-   parameter OPERANDO_LENGTH   = `OPERANDO_LENGTH;         
-   parameter OPERANDO_FINAL_LENGHT     = `OPERANDO_FINAL_LENGHT;    
-   parameter RAM_WIDTH_DATOS           = `RAM_WIDTH_DATOS;
-   parameter RAM_WIDTH_PROGRAMA        =  `RAM_WIDTH_PROGRAMA;
-   parameter RAM_PERFORMANCE_DATOS     =  `RAM_PERFORMANCE_DATOS;
-   parameter RAM_PERFORMANCE_PROGRAMA  = `RAM_PERFORMANCE_PROGRAMA;
-   parameter INIT_FILE_DATOS           =   `INIT_FILE_DATOS;
-   parameter INIT_FILE_PROGRAMA        =  `INIT_FILE_PROGRAMA;     
-   parameter RAM_DEPTH_DATOS           =  `RAM_DEPTH_DATOS;
-   parameter RAM_DEPTH_PROGRAMA        =  `RAM_DEPTH_PROGRAMA;
    
    // Entradas.
    reg clock;                                  // Clock.
@@ -70,7 +48,7 @@ module test_bench_top();
    reg uart_txd_in_reg;                        // Tx de PC.
       // Salidas.
    wire uart_rxd_out_wire;                     // Rx de PC.
-   wire [ACC_LENGTH - 1 : 0] led;                     // ACC
+   wire [`ACC_LENGTH - 1 : 0] led;                     // ACC
    
    
    initial    begin
@@ -134,26 +112,26 @@ module test_bench_top();
 //Modulo para pasarle los estimulos del banco de pruebas.
 TOP
    #(
-       .WIDTH_WORD_TOP  (WIDTH_WORD_TOP),
-       .FREC_CLK_MHZ    (FREC_CLK_MHZ),
-       .BAUD_RATE_TOP   (BAUD_RATE_TOP),
-       .CANT_BIT_STOP_TOP (CANT_BIT_STOP_TOP),
-       .PC_CANT_BITS  (PC_CANT_BITS),
-       .SUM_DIR   (SUM_DIR),
-       .OPCODE_LENGTH  (OPCODE_LENGTH),
-       .CC_LENGTH     (CC_LENGTH),
-       .ACC_LENGTH  (ACC_LENGTH),
-       .HALT_OPCODE     (HALT_OPCODE),
-       .OPERANDO_LENGTH   (OPERANDO_LENGTH),
-       .OPERANDO_FINAL_LENGHT      (OPERANDO_FINAL_LENGHT),    
-       .RAM_WIDTH_DATOS            (RAM_WIDTH_DATOS),
-       .RAM_WIDTH_PROGRAMA         (RAM_WIDTH_PROGRAMA),
-       .RAM_PERFORMANCE_DATOS      (RAM_PERFORMANCE_DATOS),
-       .RAM_PERFORMANCE_PROGRAMA   (RAM_PERFORMANCE_PROGRAMA),
-       .INIT_FILE_DATOS            (INIT_FILE_DATOS),
-       .INIT_FILE_PROGRAMA         (INIT_FILE_PROGRAMA),  
-       .RAM_DEPTH_DATOS            (RAM_DEPTH_DATOS),
-       .RAM_DEPTH_PROGRAMA         (RAM_DEPTH_PROGRAMA)
+       .WIDTH_WORD_TOP  (`WIDTH_WORD_TOP),
+       .FREC_CLK_MHZ    (`FREC_CLK_MHZ),
+       .BAUD_RATE_TOP   (`BAUD_RATE_TOP),
+       .CANT_BIT_STOP_TOP (`CANT_BIT_STOP_TOP),
+       .PC_CANT_BITS  (`PC_CANT_BITS),
+       .SUM_DIR   (`SUM_DIR),
+       .OPCODE_LENGTH  (`OPCODE_LENGTH),
+       .CC_LENGTH     (`CC_LENGTH),
+       .ACC_LENGTH  (`ACC_LENGTH),
+       .HALT_OPCODE     (`HALT_OPCODE),
+       .OPERANDO_LENGTH   (`OPERANDO_LENGTH),
+       .OPERANDO_FINAL_LENGHT      (`OPERANDO_FINAL_LENGHT),    
+       .RAM_WIDTH_DATOS            (`RAM_WIDTH_DATOS),
+       .RAM_WIDTH_PROGRAMA         (`RAM_WIDTH_PROGRAMA),
+       .RAM_PERFORMANCE_DATOS      (`RAM_PERFORMANCE_DATOS),
+       .RAM_PERFORMANCE_PROGRAMA   (`RAM_PERFORMANCE_PROGRAMA),
+       .INIT_FILE_DATOS            (`INIT_FILE_DATOS),
+       .INIT_FILE_PROGRAMA         (`INIT_FILE_PROGRAMA),  
+       .RAM_DEPTH_DATOS            (`RAM_DEPTH_DATOS),
+       .RAM_DEPTH_PROGRAMA         (`RAM_DEPTH_PROGRAMA)
     ) 
    top_arquitectura_1
    (

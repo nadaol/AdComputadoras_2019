@@ -189,14 +189,14 @@ datapath
         .o_ACC (wire_valor_ACC)            
     );
 
-memoria_datos
+Data_memory
    #(
         .RAM_WIDTH (RAM_WIDTH_DATOS),
         .RAM_PERFORMANCE (RAM_PERFORMANCE_DATOS),
         .INIT_FILE (INIT_FILE_DATOS),
         .RAM_DEPTH (RAM_DEPTH_DATOS)
     ) 
-   memoria_datos_1    
+  Data_memory1
    (
      .i_clk (i_clock),
      .i_addr (wire_addr_mem_datos),
@@ -205,14 +205,14 @@ memoria_datos
      .o_data (wire_datos_out_mem_data)
    );
 
-memoria_programa
+Instruction_memory
     #(
         .RAM_WIDTH (RAM_WIDTH_PROGRAMA),
         .RAM_PERFORMANCE (RAM_PERFORMANCE_PROGRAMA),
         .INIT_FILE (INIT_FILE_PROGRAMA),
         .RAM_DEPTH (RAM_DEPTH_PROGRAMA)
     )
-    memoria_programa_1
+  Instruction_memory1
     (
         .i_clk (i_clock),
         .i_addr (wire_addr_mem_programa),
