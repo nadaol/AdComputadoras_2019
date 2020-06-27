@@ -44,11 +44,9 @@ module test_bench_datapath();
 	
 	initial	begin
 		reg_clock = 1'b0;
-		reg_reset = 1'b0; 
-
 		reg_dato_mem = 2;
 		reg_operando = 5;
-		reg_reset = 1'b1; // comienzo el PC.
+		reg_reset = 1'b0; // comienzo el PC.
 		
         reg_wrACC = 1;//escribo al registro acc
         reg_selA = 0;//entrada al ACC <- dato en mem 
@@ -97,7 +95,7 @@ module test_bench_datapath();
 
 
 //Modulo para pasarle los estimulos del banco de pruebas.
-datapath
+Datapath
    #(
 	   .OPCODE_LENGTH (OPCODE_LENGTH),
 	   .OPERANDO_LENGTH (OPERANDO_LENGTH),

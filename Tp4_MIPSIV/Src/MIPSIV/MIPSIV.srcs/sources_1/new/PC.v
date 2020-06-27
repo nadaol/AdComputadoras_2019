@@ -20,7 +20,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module PC
+module Pc
 #(
   parameter PC_CANT_BITS = 11,  // Cantidad de bits del PC.
   parameter SUM_DIR = 1         // Cantidad a sumar al PC para obtener la direccion siguiente.

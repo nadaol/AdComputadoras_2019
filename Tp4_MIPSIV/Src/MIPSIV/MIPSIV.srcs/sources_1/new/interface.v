@@ -20,7 +20,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module interface
+module Interface
  #(
    parameter CANT_BITS_OPCODE = 5,      //  Cantidad de bits del opcode.
    parameter CC_LENGTH = 11,            //  Cantidad de bits del contador de ciclos.
@@ -50,7 +50,7 @@ reg registro_rx_done;
 
 always@( posedge i_clock ) begin //Memory
    // Se resetean los registros.
-  if (~ i_reset) begin
+  if (i_reset) begin
       reg_state <= 1;
       registro_rx_done <= 0;
       reg_start_counter <= 0;

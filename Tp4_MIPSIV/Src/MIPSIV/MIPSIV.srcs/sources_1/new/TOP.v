@@ -98,7 +98,7 @@ assign led[ACC_LENGTH - 1 : ACC_LENGTH/2 ] = wire_cuenta_ciclos[7 : 0];
 
 // Modulo interface_circuit.
 
-interface
+Interface
     #(
         .CANT_BITS_OPCODE (OPCODE_LENGTH),      //  Cantidad de bits del opcode.
         .CC_LENGTH (CC_LENGTH),                 //  Cantidad de bits del contador de ciclos.
@@ -117,7 +117,7 @@ interface
    
 
 // Modulo baud_rate_generator  
-baud_rate_generator
+Baud_rate_generator
     #(
         .BAUD_RATE (BAUD_RATE_TOP),
         .FREC_CLOCK_MHZ (FREC_CLK_MHZ)
@@ -130,7 +130,7 @@ baud_rate_generator
     );
       
 // Modulo receptor      
-rx
+Rx
     #(
         .WIDTH_WORD (WIDTH_WORD_TOP),
         .CANT_BIT_STOP (CANT_BIT_STOP_TOP)
@@ -149,7 +149,7 @@ rx
 
 // Modulo ALU.
 
-control
+Control
     #(
         .PC_CANT_BITS (PC_CANT_BITS),   // Cantidad de bits del PC.
         .SUM_DIR (SUM_DIR),             // Cantidad a sumar al PC para obtener la direccion siguiente.
@@ -169,7 +169,7 @@ control
     );
     
 
-datapath
+Datapath
     #(
         .OPERANDO_LENGTH (OPERANDO_LENGTH),                 // Cantidad de bits del operando.
         .OPERANDO_FINAL_LENGHT (OPERANDO_FINAL_LENGHT),     // Cantidad de bits del operando con extension 
@@ -220,7 +220,7 @@ Instruction_memory
     );
 
 
-CC
+Cc
     #(
         .CONTADOR_LENGTH (PC_CANT_BITS),
         .OPCODE_LENGTH(OPCODE_LENGTH)

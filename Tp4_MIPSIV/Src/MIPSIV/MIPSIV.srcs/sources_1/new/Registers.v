@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 `define REGISTERS_ADDRWIDTH $clog2(memory_depth)
 
+//Registros del procesador
 module Registers
 #(
     parameter registers_width = 32,

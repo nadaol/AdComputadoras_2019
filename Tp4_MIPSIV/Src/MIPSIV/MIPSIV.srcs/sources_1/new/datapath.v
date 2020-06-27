@@ -20,7 +20,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module datapath
+module Datapath
 #(
   parameter OPERANDO_LENGTH = 11,         // Cantidad de bits del operando.
   parameter OPERANDO_FINAL_LENGHT = 16,   // Cantidad de bits del operando con extension 
@@ -52,7 +52,7 @@ module datapath
 
 
   always @(posedge i_clock) begin
-    if (~i_reset) begin // Se resetean los registros.
+    if (i_reset) begin // Se resetean los registros.
       reg_ACC <= 0;
     end
     else begin

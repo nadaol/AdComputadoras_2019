@@ -20,7 +20,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module control 
+module Control 
     #(
         parameter PC_CANT_BITS = 11,  // Cantidad de bits del PC.
         parameter SUM_DIR = 1,         // Cantidad a sumar al PC para obtener la direccion siguiente.
@@ -43,7 +43,7 @@ module control
     wire wire_wr_mem;
     assign o_wr_rd_mem = (wire_rd_mem & 1'b0) | wire_wr_mem;
 
-    PC
+    Pc
     #(
          .PC_CANT_BITS (PC_CANT_BITS),
          .SUM_DIR (SUM_DIR)
@@ -57,7 +57,7 @@ module control
    );
 
 
-   instruction_decoder
+   Instruction_decoder
    #(
        .OPCODE_LENGTH (OPCODE_LENGTH)
    )

@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//Unidad aritmetica logica con soporte para 11 operaciones
 module Alu #(
 	parameter registers_data_width = 32,
     parameter alu_control_opcode_width = 4
@@ -46,6 +46,7 @@ localparam NOR =    {{alu_control_opcode_width-4{1'b0}},4'b1000};
 localparam SLT =    {{alu_control_opcode_width-4{1'b0}},4'b1001};
 localparam SLL16 =  {{alu_control_opcode_width-4{1'b0}},4'b1010};
 
+//Multiplexor de operaciones segun el codigo de control
 	always @(*)
 	begin : alu_operations
 		case (alu_control_opcode)

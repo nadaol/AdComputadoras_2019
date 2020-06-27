@@ -24,10 +24,10 @@ module test_bench_interface();
 	
 	initial	begin
 		reg_clock = 1'b0;
-		reg_reset = 1'b0; // Reset en 0. (Normal cerrado el boton del reset).
+		reg_reset = 1'b1; // Reset 
 		reg_i_opcode = 1'b1;
 		reg_rx_done = 1'b0;
-		#10 reg_reset = 1'b1; // Desactivo la accion del reset.
+		#10 reg_reset = 1'b0; // Desactivo la accion del reset.
 		
 		i_data = 8'hff;
 		#10 reg_rx_done = 1'b1;//mando los dos codigos de start
@@ -45,7 +45,7 @@ module test_bench_interface();
 	always #2.5 reg_clock = ~reg_clock;
 
 
-interface
+Interface
     #(
          .CANT_BITS_OPCODE (CANT_BITS_OPCODE),
          .CC_LENGTH (CC_LENGTH),

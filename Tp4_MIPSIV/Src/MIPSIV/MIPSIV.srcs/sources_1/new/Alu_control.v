@@ -19,6 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+//Control para el modulo Alu , segun la instruccion genera el codigo de operacion a realizar por la Alu
 module Alu_control
 #(
     parameter alu_control_opcode_width = 4,

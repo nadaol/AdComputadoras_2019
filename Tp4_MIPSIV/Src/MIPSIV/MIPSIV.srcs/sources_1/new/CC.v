@@ -21,7 +21,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module CC
+module Cc
     #(
         parameter CONTADOR_LENGTH = 11,
         parameter OPCODE_LENGTH =5
@@ -37,7 +37,7 @@ module CC
 
 always@( posedge i_clock) begin
      // Se resetea el contador
-    if (~ i_reset) begin
+    if (i_reset) begin
         o_cuenta <= 0;
     end 
     else if (i_opcode!=0) begin

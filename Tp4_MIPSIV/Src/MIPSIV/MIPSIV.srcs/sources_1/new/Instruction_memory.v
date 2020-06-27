@@ -19,70 +19,44 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+`define DATA_ADDRWIDTH $clog2(memory_depth)
 
+//Memoria de programa del procesador
 module Instruction_memory
 #(
-  parameter RAM_WIDTH = 16,                       //ancho de entradas
-  parameter RAM_DEPTH = 2048,                     //numero de entradas de la memoria
-  parameter RAM_PERFORMANCE = "HIGH_PERFORMANCE", 
-  parameter INIT_FILE = ""             // direccion del archivo txt de inicializacion de la memoria
+  parameter memory_width = 32,                       //Ancho de entradas,(instruction_width)
+  parameter memory_depth = 2048                     //Numero de entradas de la memoria
 )
 (
-  input [clogb2(RAM_DEPTH) - 2 : 0] i_addr,   //Bus de direccion
-  input i_clk,                            // Clock
-  output [RAM_WIDTH - 1 : 0] o_data       //Output para la lectura
-);
-        
-  wire wea = 0 ;                 
-  wire [RAM_WIDTH - 1 : 0] dina = 0;  // RAM input data
+  input [`DATA_ADDRWIDTH - 1 : 0] loader_addr,                  //Bus de direccion para escritura
+  input [`DATA_ADDRWIDTH - 1 : 0] pc_addr,                       //Bus de direccion para lectura
+  input [memory_width - 1 : 0] instruction_memory_in,           //Input para la escritura
+  input clk,reset,wea,                                         // Clock
+  output reg [memory_width - 1 : 0] instruction_memory_out    //Output para la lectura
+);               
 
-  reg [RAM_WIDTH - 1 : 0] BRAM [RAM_DEPTH - 1 : 0];
-  reg [RAM_WIDTH - 1 : 0] ram_data = {RAM_WIDTH {1'b0}};
+  reg [memory_width - 1 : 0] ram_data [memory_depth - 1 : 0] ;
+  
+  always @(posedge clk)
+  begin
+		if (reset)
+		  reset_all();
+        else if (wea)
+         ram_data [loader_addr] <= instruction_memory_in;//si esta en modo escritura se escribe en ram el input data
+        else if((pc_addr == pc_addr))//check z , x inputs
+        instruction_memory_out <= ram_data[pc_addr];
+        else
+        instruction_memory_out <= {memory_width{1'b0}};
+  end
 
-  // Inicializacion de la memoria ,en 0's si el archivo es nulo
-  generate
-    if (INIT_FILE != "") begin: use_init_file
-      initial
-        $readmemb(INIT_FILE, BRAM, 0, RAM_DEPTH - 1);
-    end else begin: init_bram_to_zero
-      integer ram_index;
-      initial
-        for (ram_index = 0; ram_index < RAM_DEPTH; ram_index = ram_index + 1)
-          BRAM[ram_index] = {RAM_WIDTH {1'b0}};
+
+task reset_all;
+    begin : resetall
+    integer row ;
+        for (row = 0 ; row < memory_depth ; row = row + 1)
+            ram_data[row] <= {memory_width{1'b0}} ;
+    instruction_memory_out <= {memory_width{1'b0}};
     end
-  endgenerate
-
-  always @(posedge i_clk)
-      if (wea)
-        BRAM [i_addr] <= dina;//si esta en modo escritura se escribe en bram el input data
-      else
-        ram_data <= BRAM [i_addr];//lectura en flaco descendente para la mem datos
-
-  //  modo HIGH_PERFORMANCE (flanco ascendente) o LOW_LATENCY (flanco descendente)
-  generate
-    if (RAM_PERFORMANCE == "LOW_LATENCY") begin: no_output_register
-
-
-       assign o_data = ram_data;//lectura en flaco descendente para la mem datos
-
-    end else begin: output_register
-
-
-      reg [RAM_WIDTH - 1 : 0] reg_data_out = {RAM_WIDTH {1'b0}};
-
-      always @(posedge i_clk)
-          reg_data_out <= ram_data;     
-
-      assign o_data = reg_data_out;//lectura en flaco ascendente para la mem de programa
-
-    end
-  endgenerate
-
-  //funcion para el calculo de la direccion en base a la ram_depth
-  function integer clogb2;
-    input integer depth;
-      for (clogb2 = 0; depth > 0; clogb2 = clogb2+1)
-        depth = depth >> 1;
-  endfunction
+endtask
 
 endmodule
