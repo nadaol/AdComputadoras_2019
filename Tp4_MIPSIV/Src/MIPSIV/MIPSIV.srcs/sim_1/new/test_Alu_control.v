@@ -18,16 +18,14 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`define CONTROL_ALUOP_WIDTH 3       // Tamano de los de entrada 
-`define ALU_CONTROL_OPCODE_WIDTH 4      // Tamano de la senal de control
 `define MAX_CONTROL_ALUOP 7
 `define MAX_INST_FUNCTION 63
 `define ASYNC_WAIT      #10         //Period for asyc wait steps in timescale unit
 
 module test_bench_Alu_control();
     //Test Parameters
-    parameter alu_control_opcode_width = `ALU_CONTROL_OPCODE_WIDTH;
-    parameter control_aluop_width = `CONTROL_ALUOP_WIDTH;
+    parameter alu_control_opcode_width = `ALU_CONTROL_WIDTH;
+    parameter control_aluop_width = `ALUOP_WIDTH;
     //Test Inputs
 	reg [5:0] inst_function;
 	reg [control_aluop_width-1:0] control_aluop;
@@ -61,8 +59,8 @@ module test_bench_Alu_control();
 	//Module under test Instantiation
 	Alu_control
 	#(
-	   .alu_control_opcode_width(`ALU_CONTROL_OPCODE_WIDTH),
-	   .control_aluop_width(`CONTROL_ALUOP_WIDTH)
+	   .alu_control_opcode_width(`ALU_CONTROL_WIDTH),
+	   .control_aluop_width(`ALUOP_WIDTH)
 	)
 	uut
 	(

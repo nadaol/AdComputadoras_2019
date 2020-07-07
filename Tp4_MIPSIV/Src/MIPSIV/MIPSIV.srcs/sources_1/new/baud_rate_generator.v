@@ -19,13 +19,13 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "Parameters.vh"
 
 module Baud_rate_generator
 #(
 // Parametros, valores por defecto
-parameter BAUD_RATE    = 19200,
-parameter FREC_CLOCK_MHZ  = 100
+parameter BAUD_RATE    = `BAUD_RATE ,
+parameter FREC_CLOCK_MHZ  = `FREC_CLOCK_MHZ
 )
 (
     input clk, 
@@ -34,7 +34,7 @@ parameter FREC_CLOCK_MHZ  = 100
     );
 
 // Local Param
-localparam integer MODULO_CONTADOR = (FREC_CLOCK_MHZ * 1000000) / (BAUD_RATE * 16);
+localparam integer MODULO_CONTADOR = (FREC_CLOCK_MHZ * 1000000) / (BAUD_RATE * `BIT_RESOLUTION);
 
 // Registros.
 reg [ $clog2 (MODULO_CONTADOR) - 1 : 0 ] reg_contador;

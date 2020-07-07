@@ -20,11 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 `define CLK_PERIOD      5      //Periodo generador de clk en unidad especificada en timescale 
-`define BAUD_RATE       19200
-`define FREC_CLOCK_MHZ 100
+//`define BAUD_RATE       19200
+//`define FREC_CLOCK_MHZ 100
 `define STOP_BIT_COUNT          1          // Cantidad de bits de parada de trama UART.
-`define WORD_WIDTH                8          // Tamanio de palabra util enviada por trama UART.
-`define INSTRUCTION_WIDTH 32 //WORD_IN_WIDTH * 4
+//`define WORD_WIDTH                8          // Tamanio de palabra util enviada por trama UART.
+//`define INSTRUCTION_WIDTH 32 //WORD_IN_WIDTH * 4
 `define MEMORY_DEPTH 128 //instruction memory depth
 
 module test_bench_rx();
@@ -35,6 +35,7 @@ module test_bench_rx();
 	reg clk;
 	reg reset;
 	reg rx;
+	reg rea;
 
 //Test Outputs
     //baud rate generator output
@@ -46,6 +47,8 @@ module test_bench_rx();
 	wire [`INSTRUCTION_WIDTH-1:0] loader_inst_out;
 	wire [`MEMORY_ADDR_WIDTH-1:0] loader_addr_out;
 	wire loader_wea;
+	//instr memory out
+	wire [`INSTRUCTION_WIDTH-1:0] instruction_memory_read;
 
 //Test Variables
     reg [`WORD_WIDTH-1:0] rx_word_input;
@@ -63,14 +66,15 @@ module test_bench_rx();
 	   rx_word_input = {`WORD_WIDTH{1'b0}};
 	   @(posedge clk) #1;   
 	   reset =         1'b1;
-    
+       rea = 1'b0;
 	   repeat(10)                                  //Resetear y esperar 10 ciclos de reloj
 	   @(posedge clk) #1;                   
         reset= 0;
         i = 0;
         j = 0;
         
-        while(rx_word_input == rx_word_input)//Enviar las intrucciones (out.coe)por bytes al modulo rx para cargarlas en memoria de instruccion
+        //Enviar las intrucciones (out.coe)por bytes al modulo rx para cargarlas en memoria de instruccion
+        while(rx_word_input == rx_word_input)
         begin
  	       while (j < `INSTRUCTION_WIDTH/`WORD_WIDTH )
             begin 
@@ -145,7 +149,7 @@ module test_bench_rx();
     );
     
     //Module under test Instantiation
-	Instruction_memory
+	Memory
 	#(
 	   .memory_depth(`MEMORY_DEPTH),
 	   .memory_width(`INSTRUCTION_WIDTH)
@@ -155,9 +159,10 @@ module test_bench_rx();
 		.clk(clk), 
 		.reset(reset), 
 		.wea(loader_wea),                         //to write instruction  
-		.instruction_memory_in(loader_inst_out),     
-		.loader_addr(loader_addr_out)       
-	//	.instruction_memory_out(instruction_memory_out), //to read instruction
+		.write_data(loader_inst_out),     
+		.write_addr(loader_addr_out),
+	 	.rea(rea),                               //to read instruction
+	 	.read_data(instruction_memory_read)
     );
 
     task send;

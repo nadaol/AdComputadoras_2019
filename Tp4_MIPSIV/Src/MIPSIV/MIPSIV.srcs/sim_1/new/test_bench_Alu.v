@@ -18,15 +18,13 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`define REGISTERS_DATA_WIDTH 32       // Tamano de los de entrada 
-`define ALU_CONTROL_OPCODE_WIDTH 4      // Tamano de la senal de control
 `define NUM_SUPP_OPERATIONS 11
 `define ASYNC_WAIT      #10         //Period for asyc wait steps in timescale unit
 
 module test_bench_Alu();
     //Test Parameters
-    parameter registers_data_width = `REGISTERS_DATA_WIDTH;
-    parameter alu_control_opcode_width = `ALU_CONTROL_OPCODE_WIDTH;
+    parameter registers_data_width = `REGISTERS_WIDTH;
+    parameter alu_control_opcode_width = `ALU_CONTROL_WIDTH;
     //Test Inputs
 	reg signed [registers_data_width-1 : 0] registers_data1;
 	reg signed [registers_data_width-1 : 0] registers_data2;
@@ -54,8 +52,8 @@ module test_bench_Alu();
 	//Module under test Instantiation
 	Alu
 	#(
-	   .registers_data_width(`REGISTERS_DATA_WIDTH),
-	   .alu_control_opcode_width(`ALU_CONTROL_OPCODE_WIDTH)
+	   .registers_data_width(`REGISTERS_WIDTH),
+	   .alu_control_opcode_width(`ALU_CONTROL_WIDTH)
 	)
 	uut
 	(

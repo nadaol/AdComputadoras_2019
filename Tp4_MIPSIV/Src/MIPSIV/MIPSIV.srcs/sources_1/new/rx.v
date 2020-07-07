@@ -19,23 +19,23 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`define BIT_RESOLUTION 16   //Number of ticks per bit sample
 `define BIT_COUNTER_WIDTH $clog2(WORD_WIDTH)
 `define TICK_COUNTER_WIDTH $clog2(STOP_TICK_COUNT)
 
 module Rx
 #(	
-parameter WORD_WIDTH = 8, //#Data Nbits
-parameter STOP_BIT_COUNT = 1 //ticks for STOP bits 
+parameter WORD_WIDTH = `WORD_WIDTH, //#Data Nbits
+parameter STOP_BIT_COUNT = `STOP_BIT_COUNT , //bits for stop signal
+parameter BIT_RESOLUTION = `BIT_RESOLUTION //Number of ticks per bit sample
 )
 ( 
-input  wire  clk, reset, 
-input  wire  rx,  tick, 
+input  clk, reset, 
+input  rx,  tick, 
 output  reg  rx_done, 
 output  reg  [WORD_WIDTH-1:0]  rx_out
 );
 					 
-localparam STOP_TICK_COUNT = STOP_BIT_COUNT * `BIT_RESOLUTION;
+localparam STOP_TICK_COUNT = STOP_BIT_COUNT * BIT_RESOLUTION;
 localparam STATE_WIDTH = 4;
   
 // One hot  state  constants
@@ -87,7 +87,7 @@ begin
 			end 
 		START:
 			if  (tick) 
-				if  (s_reg==7) //cuento ticks hasta la mitad del STOP bit
+				if  (s_reg==BIT_RESOLUTION/2) //cuento ticks hasta la mitad del STOP bit
 					begin 
 						state_next  =  DATA; //sampleo
 						s_next  =  0; //reseteo contador de ticks/bits
@@ -97,11 +97,11 @@ begin
 					s_next  =  s_reg  +  1;//contador ticks +1
 		DATA:
 			if  (tick) 
-				if  (s_reg==15) //sampleo cada 16 ticks con desfasaje de 8
+				if  (s_reg==BIT_RESOLUTION-1) //sampleo cada 16 ticks con desfasaje de 8
 					begin 
 						s_next  =  0; 
 						//desplazo byte a la izq y agrego el bit rx al Lsb
-						b_next  =  {rx , b_reg  [7 : 1]} ; 
+						b_next  =  {rx , b_reg  [WORD_WIDTH-1 : 1]} ; 
 						if  (n_reg==(WORD_WIDTH - 1)) //al recibir DBIT's
 							state_next  =  STOP  ; //defino siguiente estado en STOP
 						else 
@@ -127,7 +127,7 @@ always@(*)
 case(state_reg)
     IDLE :
     begin
-    rx_out = rx_out;//Mantain rx_out and done flag till start transmiting again
+    rx_out = rx_out;//Mantain rx_out and done flag till start recieving again
     rx_done = 0;
     end
     START :

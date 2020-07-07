@@ -18,17 +18,13 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
-//Module under test parameters
-`define REGISTERS_WIDTH 32       // Tamano de los registros    
-`define MEMORY_DEPTH    32      // Cantidad de registros
 //Test parameters
 `define CLK_PERIOD      5      //Periodo generador de clk en unidad especificada en timescale 
 
 
 module test_bench_Registers();
 //Test Parameters
-    parameter memory_depth = `MEMORY_DEPTH;
+    parameter memory_depth = `REGISTERS_DEPTH;
     parameter registers_width = `REGISTERS_WIDTH;
 
 //Test Inputs
@@ -81,7 +77,7 @@ module test_bench_Registers();
 //Module under test Instantiation
 	Registers
 	#(
-	   .memory_depth(`MEMORY_DEPTH),
+	   .memory_depth(`REGISTERS_DEPTH),
 	   .registers_width(`REGISTERS_WIDTH)
 	)
 	uut

@@ -25,9 +25,9 @@
 //Interfaz para la carga de intrucciones , del modulo rx (dato 8bits) a la memoria de programa (instruction 32bits)
 module Instruction_loader
 #(
-    parameter WORD_IN_WIDTH = 8 ,//#Rx data input width
-    parameter INSTRUCTION_WIDTH = 32,
-    parameter MEMORY_DEPTH = 128
+    parameter WORD_IN_WIDTH = `WORD_WIDTH ,//#Rx data input width
+    parameter INSTRUCTION_WIDTH = `INSTRUCTION_WIDTH,
+    parameter MEMORY_DEPTH = `INST_MEMORY_DEPTH
 )
 (
     input [WORD_IN_WIDTH -1:0] rx_out,

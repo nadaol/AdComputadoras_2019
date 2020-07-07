@@ -3,73 +3,45 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="test_bench_rx_behav.wdb" id="1">
+      <db_ref path="test_bench_Instruction_memory_behav.wdb" id="1">
          <top_modules>
             <top_module name="glbl" />
-            <top_module name="test_bench_rx" />
+            <top_module name="test_bench_Instruction_memory" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="3955672666fs"></ZoomStartTime>
-      <ZoomEndTime time="10475672667fs"></ZoomEndTime>
-      <Cursor1Time time="9389006000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="328501fs"></ZoomEndTime>
+      <Cursor1Time time="913184fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="194"></NameColumnWidth>
-      <ValueColumnWidth column_width="113"></ValueColumnWidth>
+      <ValueColumnWidth column_width="109"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="13" />
-   <wvobject fp_name="/test_bench_rx/clk" type="logic">
+   <WVObjectSize size="6" />
+   <wvobject fp_name="/test_bench_Instruction_memory/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_bench_rx/reset" type="logic">
+   <wvobject fp_name="/test_bench_Instruction_memory/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_bench_rx/rx" type="logic">
-      <obj_property name="ElementShortName">rx</obj_property>
-      <obj_property name="ObjectShortName">rx</obj_property>
+   <wvobject fp_name="/test_bench_Instruction_memory/wea" type="logic">
+      <obj_property name="ElementShortName">wea</obj_property>
+      <obj_property name="ObjectShortName">wea</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_bench_rx/tick" type="logic">
-      <obj_property name="ElementShortName">tick</obj_property>
-      <obj_property name="ObjectShortName">tick</obj_property>
+   <wvobject fp_name="/test_bench_Instruction_memory/instruction_memory_in" type="array">
+      <obj_property name="ElementShortName">instruction_memory_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction_memory_in[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_bench_rx/rx_done" type="logic">
-      <obj_property name="ElementShortName">rx_done</obj_property>
-      <obj_property name="ObjectShortName">rx_done</obj_property>
+   <wvobject fp_name="/test_bench_Instruction_memory/pc_addr" type="array">
+      <obj_property name="ElementShortName">pc_addr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">pc_addr[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_bench_rx/rx_out" type="array">
-      <obj_property name="ElementShortName">rx_out[7:0]</obj_property>
-      <obj_property name="ObjectShortName">rx_out[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_bench_rx/loader_inst_out" type="array">
-      <obj_property name="ElementShortName">loader_inst_out[31:0]</obj_property>
-      <obj_property name="ObjectShortName">loader_inst_out[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_bench_rx/loader_addr_out" type="array">
-      <obj_property name="ElementShortName">loader_addr_out[6:0]</obj_property>
-      <obj_property name="ObjectShortName">loader_addr_out[6:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_bench_rx/loader_wea" type="logic">
-      <obj_property name="ElementShortName">loader_wea</obj_property>
-      <obj_property name="ObjectShortName">loader_wea</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_bench_rx/rx_word_input" type="array">
-      <obj_property name="ElementShortName">rx_word_input[7:0]</obj_property>
-      <obj_property name="ObjectShortName">rx_word_input[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_bench_rx/STOP_BIT_COUNT" type="array">
-      <obj_property name="ElementShortName">STOP_BIT_COUNT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">STOP_BIT_COUNT[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_bench_rx/WORD_WIDTH" type="array">
-      <obj_property name="ElementShortName">WORD_WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WORD_WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_bench_rx/uut3/inst_buffer_next" type="array">
-      <obj_property name="ElementShortName">inst_buffer_next[31:0]</obj_property>
-      <obj_property name="ObjectShortName">inst_buffer_next[31:0]</obj_property>
+   <wvobject fp_name="/test_bench_Instruction_memory/instruction_memory_out" type="array">
+      <obj_property name="ElementShortName">instruction_memory_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction_memory_out[31:0]</obj_property>
    </wvobject>
 </wave_config>

@@ -23,8 +23,8 @@
 //Registros del procesador
 module Registers
 #(
-    parameter registers_width = 32,
-    parameter memory_depth = 32
+    parameter registers_width = `REGISTERS_WIDTH,
+    parameter memory_depth = `REGISTERS_DEPTH
  )
 (
     input clk,reset,
@@ -39,7 +39,16 @@ module Registers
  
  reg [memory_depth-1:0] registers [registers_width-1:0] ;
  
-	always @(posedge clk)
+    always @(posedge clk)
+	begin
+		if (control_write) 
+		begin
+			registers[write_register] <= write_data;				
+		end
+		
+	end
+ 
+	always @(negedge clk)
 	begin
 		if (reset)
 		begin
@@ -50,15 +59,6 @@ module Registers
 			read_data1 <= registers[read_register1];
 			read_data2 <= registers[read_register2];
 		end
-	end
- 
-    always @(negedge clk)
-	begin
-		if (control_write) 
-		begin
-			registers[write_register] <= write_data;				
-		end
-		
 	end
 	
 task reset_all;
