@@ -144,6 +144,18 @@ module Control
         AluOp = `LOAD_STORE_ADDI_ALUCODE ; 
     end
     
+   `SH_OPCODE  : 
+   begin
+        regDst = 0;
+        ALUSrc = 1;
+        MemtoReg = 0;
+        RegWrite = 0;
+        MemRead = 0;
+        MemWrite = 1;
+        Branch = 0;
+        AluOp = `LOAD_STORE_ADDI_ALUCODE ; 
+    end
+    
    `SW_OPCODE  : 
    begin
         regDst = 0;
