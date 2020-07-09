@@ -19,6 +19,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+`include "Parameters.vh"
 `define DATA_ADDRWIDTH $clog2(memory_depth)
 
 //Memoria de programa del procesador (posedge write then negedge read/reset)

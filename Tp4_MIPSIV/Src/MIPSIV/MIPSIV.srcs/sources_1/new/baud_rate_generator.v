@@ -34,7 +34,7 @@ parameter FREC_CLOCK_MHZ  = `FREC_CLOCK_MHZ
     );
 
 // Local Param
-localparam integer MODULO_CONTADOR = (FREC_CLOCK_MHZ * 1000000) / (BAUD_RATE * `BIT_RESOLUTION);
+localparam integer MODULO_CONTADOR = (FREC_CLOCK_MHZ * 1000000) / (BAUD_RATE * 2 * `BIT_RESOLUTION);
 
 // Registros.
 reg [ $clog2 (MODULO_CONTADOR) - 1 : 0 ] reg_contador;

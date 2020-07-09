@@ -30,7 +30,7 @@ parameter BIT_RESOLUTION = `BIT_RESOLUTION //Number of ticks per bit sample
 )
 ( 
 input  clk, reset, tick, tx_start,
-input  [WORD_WIDTH-1:0] tx_in, 
+input  [`WORD_WIDTH-1:0] tx_in, 
 output  reg  tx_done,               //Must be checked externally to load new value or disable tx_start
 output  reg  tx_out
 );

@@ -26,7 +26,7 @@
 module Instruction_loader
 #(
     parameter WORD_IN_WIDTH = `WORD_WIDTH ,//#Rx data input width
-    parameter INSTRUCTION_WIDTH = `INSTRUCTION_WIDTH,
+    parameter INSTRUCTION_WIDTH = `INST_WIDTH,
     parameter MEMORY_DEPTH = `INST_MEMORY_DEPTH
 )
 (
@@ -34,7 +34,8 @@ module Instruction_loader
     input rx_done,clk,reset,
     output reg [INSTRUCTION_WIDTH-1:0] loader_inst_out,         //to instruction memory instruction_in
     output reg [`MEMORY_ADDR_WIDTH-1:0] loader_addr_out,   //to instruction memory write_addr
-    output reg loader_wea                                       //to instruction memory wea
+    output reg loader_wea,     
+    output reg loader_rea                                  //to instruction memory wea/rea
     );
     
     localparam [2:0]
@@ -59,6 +60,7 @@ module Instruction_loader
         loader_inst_out = 0;
         loader_addr_out = 0;
         loader_wea = 0;
+        loader_rea=0;
         end
 	else 
 		begin 
@@ -128,25 +130,28 @@ case(state)
     loader_inst_out = loader_inst_out;
     loader_addr_out = loader_addr_out;
     loader_wea = 0;
+    loader_rea = 0;
     end
     LOADING :
     begin
     loader_inst_out = 0;
     loader_addr_out = loader_addr_out;
     loader_wea = 0;
+    loader_rea = 0;
     end
     DONE :
     begin
     loader_inst_out = inst_buffer;
     loader_addr_out = inst_addr_counter;
     loader_wea = 1'b1;
-
+    loader_rea = 0;
     end
     default :
     begin
     loader_inst_out = 0;
     loader_addr_out = 0;
     loader_wea = 0;
+    loader_rea = 0;
     end
 endcase
    

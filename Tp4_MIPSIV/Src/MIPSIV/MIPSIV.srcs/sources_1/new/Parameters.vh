@@ -1,20 +1,37 @@
 
 //Default Lengths in bits
-`define INSTRUCTION_WIDTH 32        //Instructions width
+//Instruction related
+`define INST_WIDTH 32        //Instructions width
 `define OPCODE_WIDTH 6              //Instruction opcode segment width
 `define FUNCTION_WIDTH 6            //Instruction function segment width
-
+`define RS_WIDTH 5
+`define RT_WIDTH 5
+`define RD_WIDTH 5
+`define OFFSET_WIDTH 16
+`define INST_INDEX_WIDTH 26
+`define SA_WIDTH 5
+//registers
 `define REGISTERS_WIDTH 32          //Registers memory width
 `define REGISTERS_DEPTH 32          //Registers memory depth
-
+//data memory
 `define DATA_MEMORY_WIDTH 32          //Registers memory width
 `define DATA_MEMORY_DEPTH 256          //Registers memory depth
-
+//instr memory
 `define INST_MEMORY_WIDTH 32          //Registers memory width
-`define INST_MEMORY_DEPTH 64          //Registers memory depth
-
+`define INST_MEMORY_DEPTH 64          //Registers memory depth (clog2(INST_MEMORY_DEPTH) = Pc width = instr_memory_Addr_width)
+//alu control
 `define ALU_CONTROL_WIDTH 3         //ALUCODE width
 `define ALUOP_WIDTH 4               //alu_control_opcode (alu operation code) width 
+
+//Instruction segments,start bits
+`define OPCODE_SBIT 26
+`define RS_SBIT 21
+`define RT_SBIT 16
+`define RD_SBIT 11
+`define OFFSET_SBIT 0
+`define INST_INDEX_SBIT 0
+`define FUNCTION_SBIT 0
+`define SA_SBIT 6
 
 //Default general values
 `define BAUD_RATE   19200          //Frequency of Uart transmition/reception (defined in Baud_rate generator module)
@@ -22,6 +39,7 @@
 `define WORD_WIDTH 8               //Word width for uart transmition/reception in bits
 `define STOP_BIT_COUNT  1          //Bit count for stop signal (0)
 `define BIT_RESOLUTION  16         //Used to generate correct baudrate and sample bits in 'BIT_RESOLUTION' ticks on tx/rx modules
+`define PC_ADDER_VALUE 'b1
 
 //Codes to select operation in Alu module (alu_control_opcode)
 `define SLL         'b0000         //Shift left logical (r2<<r1)

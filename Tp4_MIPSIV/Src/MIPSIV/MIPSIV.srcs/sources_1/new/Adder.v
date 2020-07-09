@@ -18,12 +18,13 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "Parameters.vh"
+`define INST_MEMORY_ADDR_WIDTH $clog2(`INST_MEMORY_DEPTH)
 
 module Adder
 #
 (
-    parameter Width_inout = 32
+    parameter Width_inout = `INST_MEMORY_ADDR_WIDTH
 )
 (
     input [Width_inout-1:0] adder_in_1,

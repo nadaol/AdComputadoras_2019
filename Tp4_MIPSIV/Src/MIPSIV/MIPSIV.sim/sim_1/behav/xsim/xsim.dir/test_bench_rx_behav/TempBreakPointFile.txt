@@ -1,1 +1,4 @@
 Breakpoint File Version 1.0
+83 true G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_rx.v
+60 true G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Memory.v
+55 true G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/IF_top.v

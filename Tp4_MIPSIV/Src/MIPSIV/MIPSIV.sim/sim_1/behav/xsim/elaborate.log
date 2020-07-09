@@ -4,14 +4,6 @@ Running: G:/Apps/Xilinix/Vivado/2020.1/bin/unwrapped/win64.o/xelab.exe -wto 14ea
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3091] actual bit length 2 differs from formal bit length 3 for port 'mux_control' [G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/IF_top.v:66]
 Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.Baud_rate_generator_default
-Compiling module xil_defaultlib.Rx_default
-Compiling module xil_defaultlib.Instruction_loader
-Compiling module xil_defaultlib.Memory(memory_depth=128)
-Compiling module xil_defaultlib.test_bench_rx
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot test_bench_rx_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
