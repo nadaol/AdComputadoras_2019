@@ -23,7 +23,7 @@ module Mux_4to1#(
     parameter Width_inout = 32
 )
 (
-    input [2:0] mux_control,
+    input [1:0] mux_control,
     input [(Width_inout) -1 :0] mux_in_1,
     input [(Width_inout) -1 :0] mux_in_2,
     input [(Width_inout) -1 :0] mux_in_3,

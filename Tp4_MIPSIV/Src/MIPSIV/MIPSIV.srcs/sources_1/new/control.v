@@ -21,7 +21,7 @@
 
 /*Control signals
     regDst          Selects the write address to registers memory : either 15-11 bits(rd) or 16-20 bits (rt) of instruction
-    ALUsrc          Selects second operand of alu : either read_data_2 from register or sign extended 0-15 bits (32 bit immediate) of instruction 
+    AluSrc          Selects second operand of alu : either read_data_2 from register or sign extended 0-15 bits (32 bit immediate) of instruction 
     RegWrite        Selects the write enable of registers memory
     MemtoReg        Selects the write data to registers memory : either data readed from data memory or alu result
     MemRead         Selects read enable of data memory
@@ -29,14 +29,17 @@
     Branch          Goes to an and gate along whith zero flag of alu to select the PC next value : either PC+1 (next instruction) or PC+1+(32bit immediate)(branch taken)
     AluOp[2:0]      Selects instruction type codes that goes to alu_control module which then takes care of select respective alu operation to alu module
 */
+`include "Parameters.vh"
 
 module Control
 (
        input [`OPCODE_WIDTH - 1 : 0] opcode,
+       input [`FUNCTION_WIDTH -1 :0] Function,
+       input branch_taken,//?
        output reg regDst,
        output reg Branch,
        output reg RegWrite,
-       output reg ALUSrc,
+       output reg [1:0]AluSrc,
        output reg [`ALU_CONTROL_WIDTH - 1 : 0] AluOp,
        output reg MemRead,
        output reg MemWrite,
@@ -51,7 +54,7 @@ module Control
     `R_TYPE_OPCODE : 
     begin
         regDst = 1;
-        ALUSrc = 0;
+        AluSrc = 0;
         RegWrite = 1;
         MemtoReg = 0;
         MemRead = 0;
@@ -63,7 +66,7 @@ module Control
    `LB_OPCODE  : 
    begin
         regDst =0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 1;
         RegWrite = 1;
         MemRead = 1;
@@ -75,7 +78,7 @@ module Control
    `LH_OPCODE  : 
    begin
         regDst =0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 1;
         RegWrite = 1;
         MemRead = 1;
@@ -87,7 +90,7 @@ module Control
    `LW_OPCODE  : 
    begin
         regDst =0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 1;
         RegWrite = 1;
         MemRead = 1;
@@ -99,7 +102,7 @@ module Control
    `LWU_OPCODE  : 
    begin
         regDst =0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 1;
         RegWrite = 1;
         MemRead = 1;
@@ -111,7 +114,7 @@ module Control
    `LBU_OPCODE  : 
    begin
         regDst =0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 1;
         RegWrite = 1;
         MemRead = 1;
@@ -123,7 +126,7 @@ module Control
    `LHU_OPCODE  : 
    begin
         regDst =0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 1;
         RegWrite = 1;
         MemRead = 1;
@@ -135,7 +138,7 @@ module Control
    `SB_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 0;
         MemRead = 0;
@@ -147,7 +150,7 @@ module Control
    `SH_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 0;
         MemRead = 0;
@@ -159,7 +162,7 @@ module Control
    `SW_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 0;
         MemRead = 0;
@@ -171,7 +174,7 @@ module Control
    `ADDI_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 1;
         MemRead = 0;
@@ -183,7 +186,7 @@ module Control
    `ANDI_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 1;
         MemRead = 0;
@@ -195,7 +198,7 @@ module Control
    `ORI_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 1;
         MemRead = 0;
@@ -207,7 +210,7 @@ module Control
    `XORI_OPCODE : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 1;
         MemRead = 0;
@@ -220,7 +223,7 @@ module Control
    `LUI_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 1;
         MemRead = 0;
@@ -232,7 +235,7 @@ module Control
    `SLTI_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 1;
         MemRead = 0;
@@ -244,7 +247,7 @@ module Control
    `BEQ_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 1;
         MemRead = 0;
@@ -256,7 +259,7 @@ module Control
    `BNE_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 1;
+        AluSrc = 1;
         MemtoReg = 0;
         RegWrite = 0;
         MemRead = 0;
@@ -268,7 +271,7 @@ module Control
    `J_OPCODE  : 
    begin
         regDst = 0;
-        ALUSrc = 0;
+        AluSrc = 0;
         MemtoReg = 0;
         RegWrite = 0;
         MemRead = 0;
@@ -279,7 +282,7 @@ module Control
    `JAL_OPCODE  : 
    begin
         regDst = 1;
-        ALUSrc = 0;
+        AluSrc = 0;
         MemtoReg = 0;
         RegWrite = 1;
         MemRead = 0;
@@ -290,7 +293,7 @@ module Control
     default :
     begin
         regDst = 0;
-        ALUSrc = 0;
+        AluSrc = 0;
         MemtoReg = 0;
         RegWrite = 0;
         MemRead = 0;

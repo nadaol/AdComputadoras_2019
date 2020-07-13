@@ -64,7 +64,7 @@ wire [`PC_WIDTH - 1 :0] pc_addr;    //pc output address readed,inst mem input
   mux_pc
  (
     .mux_control(pc_src),
-    .mux_in_1(pc_adder),
+    .mux_in_1(pc_adder_out),
     .mux_in_2(pc_offset),
     .mux_in_3(pc_inst_index),
     .mux_in_4({`PC_WIDTH{1'b0}}),

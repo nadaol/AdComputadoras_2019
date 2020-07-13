@@ -19,39 +19,70 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Uart_Tx
-#( parameter DBIT = 8, //#data bits
-						parameter SB_TICK = 16 //ticks for stop bits (16*Nbits_parada)
-					 )
-					 ( input wire clk, reset, 
-						input wire tx_start, s_tick , 
-						input wire [7:0] din, 
-						output reg tx_done_tick , 
-						output wire tx 
-					 );
- 
-//  symbolic  state  declaration 
-localparam  [1:0]
-	idle  =  2'b00, 
-	start =  2'b01, 
-	data  =  2'b10, 
-	stop  =  2'b11; 
+ `timescale 1ns / 1ps
 
-//  signal  declaration 
-reg  [1:0]  state_reg, state_next;
-reg  [3:0]  s_reg, s_next; 
-reg  [2:0]  n_reg, n_next; 
-reg  [7:0]  b_reg, b_next; 
-reg tx_reg , tx_next; 
+////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: Oliva Nahuel - Fede Bosack
+// 
+// Create Date: 11/02/2019 04:05:38 PM
+// Design Name: 
+// Module Name: rx
+// Project Name: BIPI
+// Target Devices: 
+// Tool Versions: 
+// Description:
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+`define BIT_RESOLUTION 16   //Number of ticks per bit sample
+`define BIT_COUNTER_WIDTH $clog2(WORD_WIDTH)
+`define TICK_COUNTER_WIDTH $clog2(STOP_TICK_COUNT)
 
-//  FSMD  state  &  data  registers 
+module Rx
+#(	
+parameter WORD_WIDTH = 8, //#Data Nbits
+parameter STOP_BIT_COUNT = 1 //ticks for STOP bits 
+)
+( 
+input  clk, reset, tick, tx_start,
+input  [WORD_WIDTH-1:0] tx_in, 
+output  reg  tx_done, 
+output  reg  tx_out
+);
+					 
+localparam STOP_TICK_COUNT = STOP_BIT_COUNT * `BIT_RESOLUTION;
+localparam NSTATES = 4;
+  
+// One hot  state  constants
+localparam  [NSTATES-1:0]
+	IDLE  =  4'b0001, 
+	START =  4'b0010, 
+	DATA  =  4'b0100, 
+	STOP  =  4'b1000; 
+
+// Signal  declarations 
+reg  [STATE_WIDTH-1:0]  state_reg, state_next;
+reg  [`TICK_COUNTER_WIDTH - 1:0]  s_reg, s_next; 
+reg  [`BIT_COUNTER_WIDTH:0]  n_reg, n_next; 
+reg  [WORD_WIDTH-1:0]  b_reg, b_next; 
+reg tx_done_reg;
+reg tx_reg, tx_next;
+
+//  FSMD memory ( states  &  DATA  registers )
 always  @(posedge clk) 
 	if (reset) 
 		begin 
-			state_reg  <=  idle; //comienzo en idle
+			state_reg  <=  IDLE; //comienzo en IDLE
 			s_reg  <=  0; //contador de ticks
 			n_reg  <=  0; //contador de bits
 			b_reg  <=  0;//byte a transmitir
-			tx_reg <=  1'b1; //bit en transmision
+			tx_reg <= 0;
 		end 
 	else 
 		begin 
@@ -59,76 +90,103 @@ always  @(posedge clk)
 			s_reg  <=  s_next; 
 			n_reg  <=  n_next; 
 			b_reg  <=  b_next; 
-			tx_reg <= tx_next; 
+			tx_reg <= tx_next;
 		end 
 
 //  FSMD  next-state  logic 
 always  @* 
 begin 
 	state_next  =  state_reg; 
-	tx_done_tick  =  1'b0; 
+	tx_done_reg  =  1'b0; 
 	s_next  =  s_reg; 
 	n_next  =  n_reg; 
-	b_next  =  b_reg;
+	b_next  =  b_reg; 
 	tx_next = tx_reg;
 
 	case (state_reg) 
-		idle : 
-			begin 
-				tx_next = 1'b1;//idle tx (1) 
-				if (tx_start) //si  el buffer esta lleno
+		IDLE:
+			begin
+				tx_next = 1'b1; //Genero bit de stop/idle , Idle transmision signal
+				if  (tx_start) //si el bit de start = 1 ,comienza la transmision
 					begin 
-						state_next = start ; //defino proximo estado en start
-						s_next = 0; 
-						b_next = din; //defino proximo dato a transferir
+						state_next  =  START; //siguiente estado START
+						s_next  =  0; //reseteo contador ticks
+						b_next = tx;
 					end 
-			end 
-		start:
-			begin 
-				tx_next=1'b0; //defino bit de start (0)
-				if (s_tick) 
-					if(s_reg == 15) //cuento 15 ticks
+			end
+		START:
+			begin
+				tx_next = 1'b0; //Genero señal de start , Start transmition
+				if  (tick) 
+					if  (s_reg==`BIT_RESOLUTION-1) //cuento ticks hasta el final del STOP bit
 						begin 
-							state_next = data; //defino siguiente estado en data
-							s_next = 0;
-							n_next = 0; 
+							state_next  =  DATA; //sampleo
+							s_next  =  0; //reseteo contador de ticks/bits
+							n_next  =  0; 
 						end 
 					else 
-						s_next = s_reg + 1; //contador de ticks del start + 1
-			end 
-		data:
-			begin //comienzo a transmitir el byte
-				tx_next = b_reg[0]; //transmito el bit menos significativo
-				if (s_tick) 
-					if (s_reg==15) //al contar 15 ticks
+						s_next  =  s_reg  +  1;//contador ticks +1
+			end
+		DATA:
+			begin
+				tx_next = b_reg[0]; //Transmito el bit menos significativo
+				if  (tick) 
+					if  (s_reg==15) //sampleo cada 16 ticks
 						begin 
-							s_next = 0; //reseteo contador de ticks
-							b_next = b_reg >> 1; //desplazo byte a la derecha
-							if (n_reg==(DBIT-1)) //si los bits transmitidos = DBIT-1(7)
-								state_next = stop; //defino siguiente estado en stop
+							s_next  =  0; //Reseteo contador de ticks
+							b_next  =  b_reg >> 1 ; //desplazo byte a la derecha
+							if  (n_reg==(WORD_WIDTH - 1)) //al transmitir DBIT's
+								state_next  =  STOP  ; //defino siguiente estado en STOP
 							else 
-								n_next = n_reg + 1; //contador de bits transmitidos
+								n_next  =  n_reg  +  1; //contador de bits + 1
 						end 
 					else 
-						s_next = s_reg + 1;  //contador de ticks en transmision + 1
-			end 
-		stop:
-			begin 
-				tx_next = 1'b1; //defino bit de stop (1)
-				if (s_tick) 
-					if (s_reg==(SB_TICK -1)) //si s_reg == N°Ticks de parada
+						s_next  =  s_reg  +  1; //contador de ticks + 1
+			end
+		STOP: 
+			begin
+				tx_next = 1'b1 ; // Genero bit de stop/idle
+				if  (tick) 
+					if  (s_reg == (STOP_TICK_COUNT - 1)) //Mantengo el bit de stop hasta 'stop_tick_count' ticks
 						begin 
-							state_next = idle; //vuelvo al ldle
-							tx_done_tick = 1'b1; //levanto bandera
+							state_next  =  IDLE;//vuelvo al IDLE
+							tx_done_reg  = 1'b1;//seteo la flag del buff para cargar nuevo dato
 						end 
-					else 
-						s_next = s_reg + 1; //contador de ticks de parada + 1
-			end 
+				else 
+					s_next  =  s_reg  +  1;//contador de ticks + 1
+			end
 	endcase
 
 end
 
-//  output 
-assign  tx  =  tx_reg; 
+//Output logic
+always@(*)
+case(state_reg)
+    IDLE :
+    begin
+    	tx_out =  tx_reg;//Mantain tx_out and done flag till start transmiting again
+    	tx_done = tx_done_reg;
+    end
+    START :
+    begin
+    	tx_out = tx_reg;
+    	tx_done = tx_done_reg;
+    end
+    DATA :
+    begin
+    	tx_out = tx_reg;
+    	tx_done = tx_done_reg;
+    end
+    STOP :
+    begin
+    	tx_out = tx_reg;//Set tx_out and done flag        
+    	tx_done = tx_done_reg;
+    end
+    default :
+	begin
+    	tx_out = 0;
+		tx_reg = 0;
+	end
+endcase
 
 endmodule

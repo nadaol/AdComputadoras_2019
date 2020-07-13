@@ -27,8 +27,8 @@ module Alu #(
     parameter alu_control_opcode_width = `ALU_CONTROL_WIDTH
 	)
 	(
-	input signed [registers_data_width-1 : 0] registers_data1,
-	input signed [registers_data_width-1 : 0] registers_data2,
+	input signed [registers_data_width-1 : 0] Alu_operand1,
+	input signed [registers_data_width-1 : 0] Alu_operand2,
 	input [alu_control_opcode_width-1 : 0] alu_control_opcode,
 
 	output reg [registers_data_width - 1 : 0] alu_result,
@@ -39,17 +39,17 @@ module Alu #(
 	always @(*)
 	begin : alu_operations
 		case (alu_control_opcode)
-			`SLL      : alu_result = registers_data2 << registers_data1; 
-			`SRL      : alu_result = registers_data2 >> registers_data1; 
-			`SRA      : alu_result = registers_data2 >>> registers_data1; 
-			`ADD      : alu_result = registers_data1 + registers_data2;
-			`SUB      : alu_result = registers_data1 - registers_data2;
-			`AND      : alu_result = registers_data1 & registers_data2;
-			`OR       : alu_result = registers_data1 | registers_data2;
-			`XOR      : alu_result = registers_data1 ^ registers_data2;
-			`NOR      : alu_result = ~(registers_data1 | registers_data2);
-			`SLT      : alu_result = registers_data1 < registers_data2;
-			`SLL16    : alu_result = registers_data2 << 16;
+			`SLL      : alu_result = Alu_operand2 << Alu_operand1; 
+			`SRL      : alu_result = Alu_operand2 >> Alu_operand1; 
+			`SRA      : alu_result = Alu_operand2 >>> Alu_operand1; 
+			`ADD      : alu_result = Alu_operand1 + Alu_operand2;
+			`SUB      : alu_result = Alu_operand1 - Alu_operand2;
+			`AND      : alu_result = Alu_operand1 & Alu_operand2;
+			`OR       : alu_result = Alu_operand1 | Alu_operand2;
+			`XOR      : alu_result = Alu_operand1 ^ Alu_operand2;
+			`NOR      : alu_result = ~(Alu_operand1 | Alu_operand2);
+			`SLT      : alu_result = Alu_operand1 < Alu_operand2;
+			`SLL16    : alu_result = Alu_operand2 << 16;
 			default  : alu_result = {registers_data_width{1'b0}};
 		endcase
 	end

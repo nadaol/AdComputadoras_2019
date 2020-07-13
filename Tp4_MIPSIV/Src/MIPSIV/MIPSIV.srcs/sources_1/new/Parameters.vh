@@ -10,6 +10,7 @@
 `define OFFSET_WIDTH 16
 `define INST_INDEX_WIDTH 26
 `define SA_WIDTH 5
+`define PC_WIDTH $clog2(`INST_MEMORY_DEPTH)
 //registers
 `define REGISTERS_WIDTH 32          //Registers memory width
 `define REGISTERS_DEPTH 32          //Registers memory depth
@@ -20,8 +21,8 @@
 `define INST_MEMORY_WIDTH 32          //Registers memory width
 `define INST_MEMORY_DEPTH 64          //Registers memory depth (clog2(INST_MEMORY_DEPTH) = Pc width = instr_memory_Addr_width)
 //alu control
-`define ALU_CONTROL_WIDTH 3         //ALUCODE width
-`define ALUOP_WIDTH 4               //alu_control_opcode (alu operation code) width 
+`define ALU_CONTROL_WIDTH 4         //ALUCODE width
+`define ALUOP_WIDTH 3               //alu_control_opcode (alu operation code) width 
 
 //Instruction segments,start bits
 `define OPCODE_SBIT 26
@@ -40,6 +41,7 @@
 `define STOP_BIT_COUNT  1          //Bit count for stop signal (0)
 `define BIT_RESOLUTION  16         //Used to generate correct baudrate and sample bits in 'BIT_RESOLUTION' ticks on tx/rx modules
 `define PC_ADDER_VALUE 'b1
+`define CLK_PERIOD      10      //Periodo generador de clk en unidad especificada en timescale (100Mhz) para testbenches
 
 //Codes to select operation in Alu module (alu_control_opcode)
 `define SLL         'b0000         //Shift left logical (r2<<r1)

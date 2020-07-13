@@ -18,8 +18,8 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+
 `include "Parameters.vh"
-`define CLK_PERIOD      10      //Periodo generador de clk en unidad especificada en timescale (100Mhz)
 
 module test_bench_IF_Uart();
     
