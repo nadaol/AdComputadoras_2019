@@ -10,16 +10,18 @@
 `define OFFSET_WIDTH 16
 `define INST_INDEX_WIDTH 26
 `define SA_WIDTH 5
-`define PC_WIDTH $clog2(`INST_MEMORY_DEPTH)
 //registers
 `define REGISTERS_WIDTH 32          //Registers memory width
 `define REGISTERS_DEPTH 32          //Registers memory depth
+`define REGISTERS_ADDR_WIDTH $clog2(`REGISTERS_DEPTH)
 //data memory
 `define DATA_MEMORY_WIDTH 32          //Registers memory width
 `define DATA_MEMORY_DEPTH 256          //Registers memory depth
+`define DATA_MEMORY_ADDR_WIDTH $clog2(`DATA_MEMORY_DEPTH)
 //instr memory
 `define INST_MEMORY_WIDTH 32          //Registers memory width
 `define INST_MEMORY_DEPTH 64          //Registers memory depth (clog2(INST_MEMORY_DEPTH) = Pc width = instr_memory_Addr_width)
+`define PC_WIDTH $clog2(`INST_MEMORY_DEPTH)
 //alu control
 `define ALU_CONTROL_WIDTH 4         //ALUCODE width
 `define ALUOP_WIDTH 3               //alu_control_opcode (alu operation code) width 
@@ -55,6 +57,9 @@
 `define NOR         'b1000      //Logical nor ~(r1|r2)
 `define SLT         'b1001      //Compare (r1<r2)
 `define SLL16       'b1010      //Shift left logical,2 bytes (r2<<16)
+`define SLLV        'b1011
+`define SRLV        'b1100
+`define SRAV        'b1101
 
 //Respective instruction type codes to map I-type & J-type Instructions to 'alu_control_opcode'(alu operation) in Alu_control module
 `define RTYPE_ALUCODE                   'b000//for RTYPE instructions ,map to ARITH operation ,specified in function segment of instruction
@@ -92,13 +97,15 @@
 `define SLL_FUNCTIONCODE   'b000000
 `define SRL_FUNCTIONCODE   'b000010
 `define SRA_FUNCTIONCODE   'b000011
-`define SRLV_FUNCTIONCODE  'b000100
-`define SRAV_FUNCTIONCODE  'b000110
-`define ADD_FUNCTIONCODE   'b000111
-`define SLLV_FUNCTIONCODE  'b100001
-`define SUB_FUNCTIONCODE   'b100011
+`define SRLV_FUNCTIONCODE  'b000110
+`define SRAV_FUNCTIONCODE  'b000111
+`define ADD_FUNCTIONCODE   'b100000
+`define SLLV_FUNCTIONCODE  'b000100
+`define SUB_FUNCTIONCODE   'b100010
 `define AND_FUNCTIONCODE   'b100100
 `define OR_FUNCTIONCODE    'b100101
 `define XOR_FUNCTIONCODE   'b100110
 `define NOR_FUNCTIONCODE   'b100111
 `define SLT_FUNCTIONCODE   'b101010
+`define JALR_FUNCTIONCODE  'b001001
+`define JR_FUNCTIONCODE    'b001000   

@@ -82,6 +82,18 @@ instruction_set supported_ins [NSUPORTED_INST] =
     .structure = R_TYPE,
     .code = 0x0000002A
 },
+{
+    .name = "JR",
+    .format = RS_FORMAT,
+    .structure = R_TYPE,
+    .code = 0X00000008
+},
+{
+    .name = "JALR",
+    .format = RDRS_FORMAT,
+    .structure = R_TYPE,
+    .code = 0X00000009
+},
 ///I-type supported Instructions (code = opcode)
 {
     .name = "LB",
@@ -185,6 +197,7 @@ instruction_set supported_ins [NSUPORTED_INST] =
     .structure = I_TYPE,
     .code = 0X14000000
 },
+///J-TYPE supported instructions (code = last 6 bits)
 {
     .name = "J",
     .format = TARGET_FORMAT,
@@ -196,19 +209,6 @@ instruction_set supported_ins [NSUPORTED_INST] =
     .format = TARGET_FORMAT,
     .structure = J_TYPE,
     .code = 0X0C000000
-},
-///J-TYPE supported instructions (code = last 6 bits)
-{
-    .name = "JR",
-    .format = RS_FORMAT,
-    .structure = R_TYPE,
-    .code = 0X00000008
-},
-{
-    .name = "JALR",
-    .format = RDRS_FORMAT,
-    .structure = R_TYPE,
-    .code = 0X00000009
 },
 };
 

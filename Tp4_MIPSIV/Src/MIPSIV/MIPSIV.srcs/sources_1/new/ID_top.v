@@ -28,67 +28,67 @@ module ID_top(
     input [`RD_WIDTH - 1 : 0] Write_addr,
     input [`REGISTERS_WIDTH - 1 :0] Write_data,
     //control signals in
-    input RegWrite,branch_taken,
+    input RegWrite_in,branch_taken,
     //Outputs
+    output reg [`PC_WIDTH - 1 :0] pc_adder,
     output reg [`REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2,
     output reg [`REGISTERS_WIDTH - 1 :0] offset,
     output reg [`RT_WIDTH - 1 :0] rt,
     output reg [`RD_WIDTH - 1 :0] rd,
-    output reg [`PC_WIDTH - 1 :0] pc_adder,
     //Control signals out
-    output reg Branch,MemRead,MemWrite,RegDst,
+    output reg Branch,MemRead,MemWrite,RegDst,RegWrite,
     output reg [2:0]Aluop,
     output reg [1:0]AluSrc,
     output reg [1:0] MemtoReg,
-    output reg [1:0]pc_src
+    output [1:0]pc_src
     );
     
     //Modules outputs (ID/EX register inputs)
     wire [`REGISTERS_WIDTH - 1 :0] Read_data1_out,Read_data2_out;
     wire [`REGISTERS_WIDTH - 1 :0] offset_out;
-    wire [`RT_WIDTH - 1 :0] rt_out;
-    wire [`RD_WIDTH - 1 :0] rd_out;
+    //Control signals output
     wire [2:0] Aluop_out;
-    wire [1:0] AluSrc_out,pc_src_out;
-    wire Branch_out,MemRead_out,MemWrite_out,RegDst_out;
+    wire [1:0] AluSrc_out,MemtoReg_out;
+    wire Branch_out,MemRead_out,MemWrite_out,RegDst_out,RegWrite_out;
     
     //ID/EX Memory register
     always@(negedge clk)
     begin
     if(reset)
         begin
-        //Reset register outputs
-        AluSrc <=0;
-        Branch <=0;
-        MemRead <= 0;
-        MemWrite <= 0;
-        RegDst <= 0;
-        MemtoReg <= 0;
-        Aluop <= 0;
-        pc_src <= 0;
+        //ID register outputs
         Read_data1 <= 0;
         Read_data2 <= 0;
+        offset <=0;
         rt <= 0;
         rd <= 0;
-        offset <=0;
+        //control outputs
+        RegWrite <= 0; //ID
+        AluSrc <=0;//EX
+        Aluop <= 0;
+        RegDst <= 0;
+        MemRead <= 0;//MEM
+        MemWrite <= 0;
+        Branch <=0;
+        MemtoReg <= 0;//WB
         end
      else
      begin
         //Register output <= Moldules outputs
-        AluSrc <= AluSrc_out;
-        Branch <= Branch_out;
-        MemRead <= MemRead_out;
-        MemWrite <= AluSrc_out;
-        RegDst <= AluSrc_out;
-        MemtoReg <= AluSrc_out;
-        Aluop <= AluSrc_out;
-        pc_src <= AluSrc_out;
         Read_data1 <= Read_data1_out;
         Read_data2 <= Read_data2_out;
-        rt <= rt_out;
-        rd <= rd_out;
-        pc_adder <= pc_adder_in;
         offset <= offset_out;
+        rt <= instruction[`RT_SBIT+`RT_WIDTH -1 :`RT_SBIT];
+        rd <= instruction[`RD_SBIT+`RD_WIDTH -1 :`RD_SBIT];
+        //control outputs
+        RegWrite <= RegWrite_out; //ID
+        AluSrc <= AluSrc_out;//EX
+        Aluop <= Aluop_out;
+        RegDst <= RegDst_out;
+        MemRead <= MemRead_out;//MEM
+        MemWrite <= MemWrite_out;
+        Branch <= Branch_out;
+        MemtoReg <= MemtoReg_out;//WB
      end
     end
     
@@ -98,7 +98,7 @@ module ID_top(
     (
         .clk(clk), 
 		.reset(reset),
-		.control_write(RegWrite),
+		.control_write(RegWrite_in),
 		.read_register1(instruction[`RS_SBIT+`RS_WIDTH -1 :`RS_SBIT]),
 		.read_register2(instruction[`RT_SBIT+`RT_WIDTH -1 :`RT_SBIT]),
 		.read_data1(Read_data1_out),
@@ -114,21 +114,20 @@ module ID_top(
     
     Control control
     (
+        //inputs
         .opcode(instruction[`OPCODE_SBIT+`OPCODE_WIDTH -1 :`OPCODE_SBIT]),
         .Function(instruction[`FUNCTION_SBIT+`FUNCTION_WIDTH -1 :`FUNCTION_SBIT]),
-        .regDst(reg_Dst_out),
-        .Branch(Branch_out),
         .branch_taken(branch_taken),//?
+        //ouputs
+        .pc_src(pc_src),
         .RegWrite(RegWrite_out),
         .AluSrc(AluSrc_out),
         .AluOp(Aluop_out),
+        .regDst(reg_Dst_out),
         .MemRead(MemRead_out),
         .MemWrite(MemWrite_out),
-        .MemtoReg(MemtoReg_out)
+        .Branch(Branch_out),
+        .MemtoReg(MemtoReg_out)        
     );
- 
-//non module outputs
-assign rt_out = instruction[`RT_SBIT+`RT_WIDTH -1 :`RT_SBIT];   
-assign rd_out = instruction[`RD_SBIT+`RD_WIDTH -1 :`RD_SBIT];
     
 endmodule

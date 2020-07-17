@@ -23,17 +23,11 @@
 
 //Control para el modulo Alu , segun la instruccion genera el codigo de operacion a realizar por la Alu
 module Alu_control
-#(
-    parameter alu_control_opcode_width = `OPCODE_WIDTH,
-    parameter control_aluop_width = `ALU_CONTROL_WIDTH
-)
 (
-    input [5:0] inst_function,   //6 bit instruction function code for R-Type instructions
-    input [control_aluop_width-1:0] control_aluop,  //Type of instruction indicator from main control unit(add(for load/stores),sub(for branch instructions) or determined by inst_function)
-    output reg [alu_control_opcode_width-1:0] alu_control_opcode //Final control signal to Alu
+    input [`FUNCTION_WIDTH - 1:0] inst_function,   //6 bit instruction function code for R-Type instructions
+    input [`ALUOP_WIDTH-1:0] control_aluop,  //Type of instruction indicator from main control unit(add(for load/stores),sub(for branch instructions) or determined by inst_function)
+    output reg [`ALU_CONTROL_WIDTH-1:0] alu_control_opcode //Final control signal to Alu
     );
-    
-
     
     always@(*)
     begin                   //Multi-level alu operation decoding
@@ -43,10 +37,10 @@ module Alu_control
                     `SLL_FUNCTIONCODE  : alu_control_opcode = `SLL; 
 					`SRL_FUNCTIONCODE  : alu_control_opcode = `SRL; 
 					`SRA_FUNCTIONCODE  : alu_control_opcode = `SRA; 
-					`SRLV_FUNCTIONCODE : alu_control_opcode = `SRL;
-					`SRAV_FUNCTIONCODE : alu_control_opcode = `SRA; 
+					`SRLV_FUNCTIONCODE : alu_control_opcode = `SRLV;
+					`SRAV_FUNCTIONCODE : alu_control_opcode = `SRAV; 
 					`ADD_FUNCTIONCODE  : alu_control_opcode = `ADD;
-					`SLLV_FUNCTIONCODE : alu_control_opcode = `SLL;
+					`SLLV_FUNCTIONCODE : alu_control_opcode = `SLLV;
 					`SUB_FUNCTIONCODE  : alu_control_opcode = `SUB;
 					`AND_FUNCTIONCODE  : alu_control_opcode = `AND;
 					`OR_FUNCTIONCODE   : alu_control_opcode = `OR;

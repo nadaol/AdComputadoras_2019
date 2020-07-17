@@ -19,6 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+`define INST_OPCODE offset[`OPCODE_SBIT + `OPCODE_WIDTH -1 : `OPCODE_SBIT]
+
 `include "Parameters.vh"
 
 module test_bench_ID();
@@ -30,7 +32,7 @@ reg [`INST_WIDTH - 1 :0] instruction;
 reg [`RD_WIDTH - 1 : 0] Write_addr;
 reg [`REGISTERS_WIDTH - 1 :0] Write_data;
 //Control signal inputs
-reg RegWrite,branch_taken;
+reg RegWrite_in,branch_taken;
 
 //Outputs
 wire [`REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2;
@@ -39,31 +41,38 @@ wire [`RT_WIDTH - 1 :0] rt;
 wire [`RD_WIDTH - 1 :0] rd;
 wire [`PC_WIDTH - 1 :0] pc_adder;
 //control signal outputs
-wire Branch,MemRead,MemWrite,RegDst;
+wire Branch,MemRead,MemWrite,RegDst,RegWrite;
 wire [2:0] Aluop;
 wire [1:0] AluSrc;
 wire [1:0] MemtoReg;
 wire [1:0] pc_src;
 
+//Test Variables
+reg [`INST_WIDTH-1:0] ram [`INST_MEMORY_DEPTH-1:0]  ;
+integer i;
+integer j;
+
 always #`CLK_PERIOD clk = !clk;
 	
 	initial
 	begin
+	$readmemh("out.coe",ram,0);
 	clk =          1'b0;
 	reset =        1'b1;
-	RegWrite = 1'b0;
+	pc_adder_in = 13;
+	i = 0;
+	RegWrite_in = 1'b0;
 	@(negedge clk) #1;   
-    reset =        1'b0;
+	reset = 1'b0;
+        while(ram[i] == ram[i])
+        begin
+               instruction = ram[i];
+	           @(negedge clk)#1;
+	           i = i + 1 ;
+	      end
+
     @(negedge clk) #1;  
-    pc_adder_in = 13;
-    instruction = 'h21290005;
-    @(negedge clk) #1; 
-    instruction = 'h2129000f;
-    @(negedge clk) #1;
-    instruction = 'hac090000; 
-    @(negedge clk) #1; 
-    instruction = 'h214a0003;
-    @(negedge clk) #1;
+    
     $finish;
 	end
 
@@ -77,7 +86,7 @@ ID_top id_top
     .Write_addr(Write_addr),
     .Write_data(Write_data),
     //control inputs
-    .RegWrite(RegWrite),
+    .RegWrite_in(RegWrite_in),
     .branch_taken(branch_taken),
     //outputs
     .Read_data1(Read_data1),
@@ -87,6 +96,7 @@ ID_top id_top
     .rd(rd),
     .pc_adder(pc_adder),
     //control signal outputs
+    .RegWrite(RegWrite),
     .Branch(Branch),
     .MemRead(MemRead),
     .MemWrite(MemWrite),

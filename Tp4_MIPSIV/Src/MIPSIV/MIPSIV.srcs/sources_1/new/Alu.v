@@ -39,9 +39,12 @@ module Alu #(
 	always @(*)
 	begin : alu_operations
 		case (alu_control_opcode)
-			`SLL      : alu_result = Alu_operand2 << Alu_operand1; 
-			`SRL      : alu_result = Alu_operand2 >> Alu_operand1; 
-			`SRA      : alu_result = Alu_operand2 >>> Alu_operand1; 
+			`SLL      : alu_result = Alu_operand1 << Alu_operand2[`SA_WIDTH + `SA_SBIT - 1 : `SA_SBIT]; 
+			`SRL      : alu_result = Alu_operand1 >> Alu_operand2[`SA_WIDTH + `SA_SBIT - 1 : `SA_SBIT]; 
+			`SRA      : alu_result = Alu_operand1 >>> Alu_operand2[`SA_WIDTH + `SA_SBIT - 1 : `SA_SBIT]; 
+			`SLLV      : alu_result = Alu_operand2 << Alu_operand1; 
+			`SRLV      : alu_result = Alu_operand2 >> Alu_operand1; 
+			`SRAV      : alu_result = Alu_operand2 >>> Alu_operand1; 
 			`ADD      : alu_result = Alu_operand1 + Alu_operand2;
 			`SUB      : alu_result = Alu_operand1 - Alu_operand2;
 			`AND      : alu_result = Alu_operand1 & Alu_operand2;
@@ -49,7 +52,7 @@ module Alu #(
 			`XOR      : alu_result = Alu_operand1 ^ Alu_operand2;
 			`NOR      : alu_result = ~(Alu_operand1 | Alu_operand2);
 			`SLT      : alu_result = Alu_operand1 < Alu_operand2;
-			`SLL16    : alu_result = Alu_operand2 << 16;
+			`SLL16    : alu_result = Alu_operand1 << 16;
 			default  : alu_result = {registers_data_width{1'b0}};
 		endcase
 	end

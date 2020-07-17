@@ -31,6 +31,6 @@ module Mux_2to1
     output [Width_inout - 1 :0] mux_out
     );
     
-   assign mux_out = mux_control ? mux_in_1 : mux_in_2;
+   assign mux_out = mux_control ? mux_in_2 : mux_in_1;
    
 endmodule
