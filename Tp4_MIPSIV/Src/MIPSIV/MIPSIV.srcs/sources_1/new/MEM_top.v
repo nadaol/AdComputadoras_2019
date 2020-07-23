@@ -18,7 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "Parameters.vh"
 
 module MEM_top(
     //inputs
@@ -26,6 +26,8 @@ module MEM_top(
     input [`DATA_MEMORY_ADDR_WIDTH - 1 : 0] Addr,
     input [`REGISTERS_WIDTH -1 : 0] Write_Data,
     input [`REGISTERS_ADDR_WIDTH -1 :0] Write_addr_in,
+    input [`PC_WIDTH - 1 :0] pc_adder_in,
+    input [`REGISTERS_WIDTH - 1 : 0] rd_in,
     //control signals in
     input MemWrite,MemRead,Zero,Branch,RegWrite_in,
     input [1:0] MemtoReg_in,
@@ -34,14 +36,15 @@ module MEM_top(
     output reg [`REGISTERS_WIDTH -1 : 0] Read_data,Alu_result,
     output reg [`REGISTERS_ADDR_WIDTH -1 :0] Write_addr,
     //control signals out
+    output reg [`PC_WIDTH - 1 :0] pc_adder,
     output reg [1:0] MemtoReg,
     output reg RegWrite,
-    output branch_taken
+    output branch_taken,
+    output reg [`REGISTERS_WIDTH - 1 : 0] rd
 );
 
 //modules ouputs ,MEM/WB register inputs
 wire [`REGISTERS_WIDTH -1 : 0] Read_data_out;
-wire [`REGISTERS_WIDTH -1 : 0] Alu_result_out;
 
   //MEM/WB Memory register
     always@(negedge clk)
@@ -57,7 +60,8 @@ wire [`REGISTERS_WIDTH -1 : 0] Alu_result_out;
     else
         begin
             Read_data <= Read_data_out;
-            Alu_result <= Alu_result_out;
+            pc_adder <= pc_adder_in ;
+            Alu_result <= Addr;
             Write_addr <= Write_addr_in;
             MemtoReg <= MemtoReg_in;
             RegWrite <= RegWrite_in;
@@ -71,7 +75,7 @@ Memory Data_memory
 		.reset(reset), 
 		.wea(MemWrite), 
 		.rea(MemRead),
-		.write_data(Write_data), 
+		.write_data(Write_Data), 
 		.read_data(Read_data_out), 
 		.read_addr(Addr),
 		.write_addr(Addr)

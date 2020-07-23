@@ -18,18 +18,17 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "Parameters.vh"
 
 module WB_top(
   //inputs
-    input clk,reset,
     input [`REGISTERS_WIDTH - 1 : 0] Read_data,Alu_result,
-    input [`PC_WIDTH - 1 : 0] Return_Addr,
+    input [`REGISTERS_WIDTH - 1 : 0] Return_Addr,
     //control signals in
     input [1:0] MemtoReg,
     
     //outputs
-    output reg [`REGISTERS_WIDTH -1 :0] Write_data
+    output [`REGISTERS_WIDTH -1 :0] Write_data
     );
     
  Mux_4to1
@@ -42,7 +41,7 @@ module WB_top(
     .mux_control(MemtoReg),
     .mux_in_1(Read_data),
     .mux_in_2(Alu_result),
-    .mux_in_3(Return_ADDR),
+    .mux_in_3(Return_Addr),
     .mux_in_4({`REGISTERS_WIDTH{1'b0}}),
     .mux_out(Write_data)
  );

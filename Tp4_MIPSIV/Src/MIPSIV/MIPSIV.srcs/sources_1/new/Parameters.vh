@@ -20,8 +20,8 @@
 `define DATA_MEMORY_ADDR_WIDTH $clog2(`DATA_MEMORY_DEPTH)
 //instr memory
 `define INST_MEMORY_WIDTH 32          //Registers memory width
-`define INST_MEMORY_DEPTH 64          //Registers memory depth (clog2(INST_MEMORY_DEPTH) = Pc width = instr_memory_Addr_width)
-`define PC_WIDTH $clog2(`INST_MEMORY_DEPTH)
+`define INST_MEMORY_DEPTH 64       //Registers memory depth (clog2(INST_MEMORY_DEPTH) = Pc width = instr_memory_Addr_width)
+`define PC_WIDTH 32
 //alu control
 `define ALU_CONTROL_WIDTH 4         //ALUCODE width
 `define ALUOP_WIDTH 3               //alu_control_opcode (alu operation code) width 

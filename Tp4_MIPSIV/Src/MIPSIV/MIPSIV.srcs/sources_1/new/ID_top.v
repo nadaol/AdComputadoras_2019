@@ -35,9 +35,10 @@ module ID_top(
     output reg [`REGISTERS_WIDTH - 1 :0] offset,
     output reg [`RT_WIDTH - 1 :0] rt,
     output reg [`RD_WIDTH - 1 :0] rd,
+    output reg [`RS_WIDTH - 1 :0] rs,
     //Control signals out
-    output reg Branch,MemRead,MemWrite,RegDst,RegWrite,
-    output reg [2:0]Aluop,
+    output reg Branch,MemRead,MemWrite,RegWrite,
+    output reg [2:0]Aluop,RegDst,
     output reg [1:0]AluSrc,
     output reg [1:0] MemtoReg,
     output [1:0]pc_src
@@ -80,6 +81,7 @@ module ID_top(
         offset <= offset_out;
         rt <= instruction[`RT_SBIT+`RT_WIDTH -1 :`RT_SBIT];
         rd <= instruction[`RD_SBIT+`RD_WIDTH -1 :`RD_SBIT];
+        rs <= instruction[`RS_SBIT+`RS_WIDTH -1 :`RS_SBIT];
         //control outputs
         RegWrite <= RegWrite_out; //ID
         AluSrc <= AluSrc_out;//EX

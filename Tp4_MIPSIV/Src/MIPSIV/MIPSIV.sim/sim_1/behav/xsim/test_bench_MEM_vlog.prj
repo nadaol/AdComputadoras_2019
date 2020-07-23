@@ -1,0 +1,11 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../MIPSIV.srcs/sources_1/new" \
+"../../../../MIPSIV.srcs/sources_1/new/MEM_top.v" \
+"../../../../MIPSIV.srcs/sources_1/new/Memory.v" \
+"../../../../MIPSIV.srcs/sim_1/new/test_bench_MEM.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

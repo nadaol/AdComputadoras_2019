@@ -34,7 +34,8 @@ module IF_top
     input wea,rea,enable, 
     //outputs
     output reg[`PC_WIDTH - 1 :0] pc_adder,                      //Next instruction address to be readed ,out to ID stage
-    output reg[`INST_WIDTH - 1 :0] instruction                      //Actual Instruction readed,to ID stage
+    output reg[`INST_WIDTH - 1 :0] instruction,                      //Actual Instruction readed,to ID stage
+    output wire [`INST_INDEX_WIDTH-1 : 0] instr_index
     );
 
 //modules out,IF/ID inputs
@@ -101,5 +102,7 @@ Memory Instruction_memory
 		.read_addr(pc_addr),
 		.write_addr(write_addr)
 );
+
+ assign instr_index = instruction [`INST_INDEX_SBIT+`INST_INDEX_WIDTH -1 :`INST_INDEX_SBIT];
     
 endmodule

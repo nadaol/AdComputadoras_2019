@@ -29,17 +29,20 @@ reg [`REGISTERS_WIDTH - 1 :0] offset;
 reg [`REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2_in;
 reg [`RD_WIDTH - 1 : 0]rd;
 reg [`RT_WIDTH - 1 : 0]rt;
+reg [`REGISTERS_WIDTH - 1 :0] MEM_WB_Alu_result;
+reg [1:0] operand1_hazard,operand2_hazard;
+
 
 //Control signal inputs
-reg RegDst;
+reg [1:0] RegDst;
 reg [1:0] AluSrc;
 reg [`ALUOP_WIDTH - 1 : 0] Aluop;
 
 //Outputs
 wire [`PC_WIDTH - 1 :0] pc_adder;
-wire [`REGISTERS_WIDTH - 1 :0] Alu_result;
 wire [`REGISTERS_WIDTH - 1 :0] Read_data2;
 wire [`REGISTERS_ADDR_WIDTH - 1 :0] Write_addr;
+wire [`REGISTERS_WIDTH - 1 :0] EX_MEM_Alu_result;
 //control signal outputs
 wire Branch,MemRead,MemWrite,Zero;
 wire [1:0] MemtoReg;
@@ -54,9 +57,12 @@ always #`CLK_PERIOD clk = !clk;
 	@(negedge clk) #1;   
     reset =        1'b0;
     @(negedge clk) #1;  
-    pc_adder_in = 100;
+    pc_adder_in = 15;
     Read_data1 = 1;
     Read_data2_in = 2;
+    MEM_WB_Alu_result = 5;
+    operand1_hazard = 'b00;
+    operand2_hazard = 'b00;
     offset = 0;
     rd = 5;
     rt = 6;
@@ -71,15 +77,19 @@ always #`CLK_PERIOD clk = !clk;
     @(negedge clk) #1;
     RegDst = 0;//write addr <- rt
     Aluop = `ORI_ALUCODE;//Itype instruction ,ori alu operation
-    offset = 10;
+    offset = 8;
     AluSrc[0] = 1'b0;//operand 1 <- Read_data1
     AluSrc[1] = 1'b1;//operand 2 <- offset
     @(negedge clk) #1;
-    reset = 1;
+    offset = 10;
+    @(negedge clk) #1;
+    offset = 12;
+    operand1_hazard = 'b01;//operand 1 <-EX/MEM Alu_result (b)
+    operand2_hazard = 'b10;//operand 2 <-MEM/WB Alu_result (5)
+    @(negedge clk) #1;
+    reset = 1;          //reset module
     @(negedge clk) #1;
     reset = 0;
-    @(negedge clk) #1;
-    @(negedge clk) #1;
     $finish;
 	end
 	
@@ -93,7 +103,10 @@ EX_top ex_top
     .Read_data1(Read_data1),
     .Read_data2_in(Read_data2_in),
     .rt(rt),
-    .rd(rd),
+    .rd_in(rd),
+    .operand1_hazard(operand1_hazard),
+    .operand2_hazard(operand2_hazard),
+    .MEM_WB_Alu_result(MEM_WB_Alu_result),
     //control signals in
     .RegDst(RegDst),
     .Aluop(Aluop),
@@ -104,9 +117,9 @@ EX_top ex_top
     .MemtoReg_in('b0),
     //Outputs
     .pc_adder(pc_adder),
-    .Alu_result(Alu_result),
     .Write_addr(Write_addr),
     .Read_data2(Read_data2),
+    .Alu_result(EX_MEM_Alu_result),
     //Control signals out
     .Branch(Branch),
     .MemRead(MemRead),

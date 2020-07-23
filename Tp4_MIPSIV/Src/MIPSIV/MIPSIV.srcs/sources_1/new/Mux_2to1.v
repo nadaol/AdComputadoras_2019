@@ -26,9 +26,9 @@ module Mux_2to1
 )
 (
     input  mux_control,
-    input [(Width_inout) -1 :0] mux_in_1,
-    input [(Width_inout) -1 :0] mux_in_2,
-    output [Width_inout - 1 :0] mux_out
+    input [Width_inout -1 :0] mux_in_1,
+    input [Width_inout -1 :0] mux_in_2,
+    output [Width_inout-1 :0] mux_out
     );
     
    assign mux_out = mux_control ? mux_in_2 : mux_in_1;

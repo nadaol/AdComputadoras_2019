@@ -40,7 +40,7 @@ module Control
        //input control signals
        input branch_taken,//?
        //output control signals
-       output reg regDst,
+       output reg [1:0] regDst,
        output reg Branch,
        output reg RegWrite,
        output reg [1:0]AluSrc,pc_src,
@@ -64,7 +64,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -76,7 +76,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -88,7 +88,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;           //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -100,7 +100,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;            //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -112,7 +112,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -124,7 +124,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -136,7 +136,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -148,7 +148,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -160,7 +160,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -172,7 +172,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -184,7 +184,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -196,7 +196,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -208,7 +208,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -220,7 +220,7 @@ module Control
                 RegWrite = 1'b1;            //ID
                 //AluSrc = 2'b11;           //EX
                 //AluOp = `RTYPE_ALUCODE ;
-                regDst = 1'b1;
+                regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -232,7 +232,7 @@ module Control
                 RegWrite = 1'b0;            //ID
                 //AluSrc = 2'b11;           //EX
                 //AluOp = `RTYPE_ALUCODE ;
-                //regDst = 1'b1;
+                //regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
                 MemWrite = 1'b0;
                 Branch = 1'b0;
@@ -247,7 +247,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b1;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -260,7 +260,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b1;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -273,7 +273,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b1;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -286,7 +286,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b1;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -299,7 +299,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b1;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -312,7 +312,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b1;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -325,7 +325,7 @@ module Control
         RegWrite = 1'b0;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        //regDst = 1'b0;
+        //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b1;
         Branch = 1'b0;
@@ -338,7 +338,7 @@ module Control
         RegWrite = 1'b0;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        //regDst = 1'b0;
+        //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b1;
         Branch = 1'b0;
@@ -351,7 +351,7 @@ module Control
         RegWrite = 1'b0;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        //regDst = 1'b0;
+        //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b1;
         Branch = 1'b0;
@@ -364,7 +364,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -377,7 +377,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `ANDI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -390,7 +390,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `ORI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -403,7 +403,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `XORI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -417,7 +417,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b10;             //EX
         AluOp = `LUI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -430,7 +430,7 @@ module Control
         RegWrite = 1'b1;            //ID
         AluSrc = 2'b01;             //EX
         AluOp = `SLTI_ALUCODE ;
-        regDst = 1'b0;
+        regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -443,7 +443,7 @@ module Control
         RegWrite = 1'b0;            //ID
         AluSrc = 2'b00;             //EX
         AluOp = `BRANCH_ALUCODE ;
-        //regDst = 1'b0;
+        //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b1;
@@ -456,7 +456,7 @@ module Control
         RegWrite = 1'b0;            //ID
         AluSrc = 2'b00;             //EX
         AluOp = `BRANCH_ALUCODE ;
-        //regDst = 1'b0;
+        //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b1;
@@ -469,7 +469,7 @@ module Control
         RegWrite = 1'b0;            //ID
         //AluSrc = 2'b11;             //EX
         //AluOp = `BRANCH_ALUCODE ;
-        //regDst = 1'b0;
+        //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
@@ -482,7 +482,7 @@ module Control
         RegWrite = 1'b1;            //ID
         //AluSrc = 2'b11;             //EX
         //AluOp = `BRANCH_ALUCODE ;
-        regDst = 1'b0;//register 31?
+        regDst = 2'b10;//register 31
         MemRead = 1'b0;            //MEM
         MemWrite = 1'b0;
         Branch = 1'b0;
