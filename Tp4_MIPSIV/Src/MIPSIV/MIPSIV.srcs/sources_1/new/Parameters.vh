@@ -44,6 +44,7 @@
 `define BIT_RESOLUTION  16         //Used to generate correct baudrate and sample bits in 'BIT_RESOLUTION' ticks on tx/rx modules
 `define PC_ADDER_VALUE 'b1
 `define CLK_PERIOD      10      //Periodo generador de clk en unidad especificada en timescale (100Mhz) para testbenches
+`define ASYNC_WAIT      10
 
 //Codes to select operation in Alu module (alu_control_opcode)
 `define SLL         'b0000         //Shift left logical (r2<<r1)

@@ -1,0 +1,10 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../MIPSIV.srcs/sources_1/new" \
+"../../../../MIPSIV.srcs/sources_1/new/Forwarding_unit.v" \
+"../../../../MIPSIV.srcs/sim_1/new/test_bench_Forwarding_unit.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
