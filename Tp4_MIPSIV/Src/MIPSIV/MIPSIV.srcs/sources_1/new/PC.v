@@ -30,7 +30,7 @@ module Pc
 (
   input clk,
   input reset,
-  input enable,
+  input pc_Write,
   input [PC_CANT_BITS-1:0] i_addr,
   output reg [PC_CANT_BITS-1:0] o_addr
 );
@@ -41,7 +41,7 @@ module Pc
       o_addr <= 0;
 
     end
-    else if (enable)
+    else if (pc_Write)
     begin
     o_addr <= i_addr;
     end

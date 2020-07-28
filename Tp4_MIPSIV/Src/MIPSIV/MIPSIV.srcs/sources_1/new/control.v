@@ -39,6 +39,7 @@ module Control
        input [`FUNCTION_WIDTH -1 :0] Function,
        //input control signals
        input branch_taken,//?
+       input control_enable,
        //output control signals
        output reg [1:0] regDst,
        output reg Branch,
@@ -52,6 +53,7 @@ module Control
     
 //Combinational output logic
     always@(*)
+    if(control_enable)
     begin
     case(opcode)
     //Register-type instructions
@@ -491,14 +493,29 @@ module Control
     
     default :
     begin
-        regDst = 0;
-        AluSrc = 0;
-        MemtoReg = 0;
-        RegWrite = 0;
-        MemRead = 0;
-        MemWrite = 0;
-        Branch = 0;
+        pc_src = 2'b00;             //IF
+        RegWrite = 1'b0;            //ID
+        AluSrc = 2'b00;             //EX
+        AluOp = 'b0 ;
+        regDst = 2'b00;
+        MemRead = 1'b0;            //MEM
+        MemWrite = 1'b0;
+        Branch = 1'b0;
+        MemtoReg = 2'b00;           //WB
     end        
     endcase
     end
+    //If control_enable = 0 , all control signals 0's
+   else
+   begin
+        pc_src = 2'b00;             //IF
+        RegWrite = 1'b0;            //ID
+        AluSrc = 2'b00;             //EX
+        AluOp = 'b0 ;
+        regDst = 2'b00;
+        MemRead = 1'b0;            //MEM
+        MemWrite = 1'b0;
+        Branch = 1'b0;
+        MemtoReg = 2'b00;           //WB
+    end        
 endmodule

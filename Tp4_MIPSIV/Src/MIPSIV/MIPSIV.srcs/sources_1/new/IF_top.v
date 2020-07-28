@@ -31,7 +31,7 @@ module IF_top
     input [`REGISTERS_WIDTH - 1 :0] pc_register,                 //PC <- rs (JR,JALR)
     //input control signals
     input [1:0] pc_src,                                          //next pc value control
-    input wea,rea,enable, 
+    input wea,rea,enable,IF_ID_write,
     //outputs
     output reg[`PC_WIDTH - 1 :0] pc_adder,                      //Next instruction address to be readed ,out to ID stage
     output reg[`INST_WIDTH - 1 :0] instruction,                      //Actual Instruction readed,to ID stage
@@ -46,6 +46,8 @@ wire [`INST_WIDTH - 1 :0] instruction_out;   //instr memory output
 wire [`PC_WIDTH - 1 :0] next_pc;    //pc_mux output,next pc address input
 wire [`PC_WIDTH - 1 :0] pc_addr;    //pc output address readed,inst mem input
     
+    
+ //ID register
     always@(negedge clk)
     begin
     if(reset)
@@ -53,11 +55,14 @@ wire [`PC_WIDTH - 1 :0] pc_addr;    //pc output address readed,inst mem input
         pc_adder <=0;
         instruction <=0;
         end
-     else
+     else if (IF_IDWrite)
      begin
         pc_adder <= pc_adder_out;
         instruction <= instruction_out;
      end
+     else
+      pc_adder <= pc_adder;
+      instruction <= instruction;
     end
     
  Mux_4to1
