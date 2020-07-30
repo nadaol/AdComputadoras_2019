@@ -1,0 +1,33 @@
+Vivado Simulator 2020.1
+Time resolution is 1 ps
+Stopped at time : 21 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 71
+Stopped at time : 41 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 71
+Stopped at time : 61 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 71
+Stopped at time : 81 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 71
+Stopped at time : 101 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 71
+Stopped at time : 121 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 71
+Stopped at time : 141 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 71
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 71
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 72
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 62
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 64
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 65
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 66
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 67
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 68
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 69
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 70
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 71
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 72
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 73
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 74
+Stopped at time : 161 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Control.v" Line 59
+Stopped at time : 170 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 55
+Stopped at time : 170 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 55
+Stopped at time : 170 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Registers.v" Line 44
+Stopped at time : 170 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Registers.v" Line 42
+Stopped at time : 180 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 55
+Stopped at time : 180 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 55
+Stopped at time : 180 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_ID.v" Line 72
+Stopped at time : 180 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/ID_top.v" Line 61
+Stopped at time : 180 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/ID_top.v" Line 82

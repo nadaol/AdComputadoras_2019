@@ -32,7 +32,7 @@ reg [`INST_WIDTH - 1 :0] instruction;
 reg [`RD_WIDTH - 1 : 0] Write_addr;
 reg [`REGISTERS_WIDTH - 1 :0] Write_data;
 //Control signal inputs
-reg RegWrite_in,branch_taken;
+reg RegWrite_in,Branch_in,Zero_in;
 
 //Outputs
 wire [`REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2;
@@ -41,7 +41,7 @@ wire [`RT_WIDTH - 1 :0] rt;
 wire [`RD_WIDTH - 1 :0] rd;
 wire [`PC_WIDTH - 1 :0] pc_adder;
 //control signal outputs
-wire Branch,MemRead,MemWrite,RegDst,RegWrite;
+wire Branch,Zero,MemRead,MemWrite,RegDst,RegWrite;
 wire [2:0] Aluop;
 wire [1:0] AluSrc;
 wire [1:0] MemtoReg;
@@ -62,6 +62,8 @@ always #`CLK_PERIOD clk = !clk;
 	pc_adder_in = 13;
 	i = 0;
 	RegWrite_in = 1'b0;
+	Branch_in = 1'b1;
+	Zero_in = 1'b1;
 	@(negedge clk) #1;   
 	reset = 1'b0;
         while(ram[i] == ram[i])
@@ -70,9 +72,7 @@ always #`CLK_PERIOD clk = !clk;
 	           @(negedge clk)#1;
 	           i = i + 1 ;
 	      end
-
-    @(negedge clk) #1;  
-    
+    @(negedge clk) #1; 
     $finish;
 	end
 
@@ -87,7 +87,8 @@ ID_top id_top
     .Write_data(Write_data),
     //control inputs
     .RegWrite_in(RegWrite_in),
-    .branch_taken(branch_taken),
+    .Zero_in(Zero_in),
+    .Branch_in(Branch_in),
     //outputs
     .Read_data1(Read_data1),
     .Read_data2(Read_data2),
@@ -98,6 +99,7 @@ ID_top id_top
     //control signal outputs
     .RegWrite(RegWrite),
     .Branch(Branch),
+    .Zero(Zero),
     .MemRead(MemRead),
     .MemWrite(MemWrite),
     .RegDst(RegDst),

@@ -38,7 +38,8 @@ module Control
        input [`OPCODE_WIDTH - 1 : 0] opcode,
        input [`FUNCTION_WIDTH -1 :0] Function,
        //input control signals
-       input branch_taken,//?
+       input [`REGISTERS_WIDTH -1 : 0] Alu_result,
+       input Zero_in,Branch_in,
        input control_enable,
        //output control signals
        output reg [1:0] regDst,
@@ -48,12 +49,32 @@ module Control
        output reg [`ALUOP_WIDTH - 1 : 0] AluOp,
        output reg MemRead,
        output reg MemWrite,
-       output reg [1:0] MemtoReg   
+       output reg [1:0] MemtoReg,
+       //To flush ID,EX instructions when branch is taken
+       output reg IF_ID_reset,
+       output reg ID_EX_reset
     );
     
 //Combinational output logic
     always@(*)
-    if(control_enable)
+    
+    //If branch is taken flush  previus ID,EX instructions
+    if(Branch_in && Zero_in)
+    begin
+    IF_ID_reset = 1 ;
+    ID_EX_reset = 1 ;
+    pc_src = 2'b10;             //IF (PC <= PC + offset + 1)
+    RegWrite = 1'b0;            //ID
+    AluSrc = 2'b00;             //EX
+    AluOp = `RTYPE_ALUCODE ;
+    regDst = 2'b00;
+    MemRead = 1'b0;             //MEM
+    MemWrite = 1'b0;
+    Branch = 1'b0;
+    MemtoReg = 2'b00;           //WB
+    end
+   
+    else if(control_enable)
     begin
     case(opcode)
     //Register-type instructions
@@ -505,6 +526,7 @@ module Control
     end        
     endcase
     end
+    //Insert stall
     //If control_enable = 0 , all control signals 0's
    else
    begin

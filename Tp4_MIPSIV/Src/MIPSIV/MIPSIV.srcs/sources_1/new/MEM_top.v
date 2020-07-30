@@ -29,7 +29,7 @@ module MEM_top(
     input [`PC_WIDTH - 1 :0] pc_adder_in,
     input [`REGISTERS_WIDTH - 1 : 0] rd_in,
     //control signals in
-    input MemWrite,MemRead,Zero,Branch,RegWrite_in,
+    input MemWrite,MemRead,RegWrite_in,
     input [1:0] MemtoReg_in,
     
     //outputs
@@ -39,7 +39,6 @@ module MEM_top(
     output reg [`PC_WIDTH - 1 :0] pc_adder,
     output reg [1:0] MemtoReg,
     output reg RegWrite,
-    output branch_taken,
     output reg [`REGISTERS_WIDTH - 1 : 0] rd
 );
 
@@ -80,7 +79,5 @@ Memory Data_memory
 		.read_addr(Addr),
 		.write_addr(Addr)
 );
-
-assign branch_taken = Zero & Branch;
 
 endmodule
