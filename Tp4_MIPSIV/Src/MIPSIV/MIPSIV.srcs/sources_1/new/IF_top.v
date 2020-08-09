@@ -47,7 +47,7 @@ wire [`PC_WIDTH - 1 :0] next_pc;    //pc_mux output,next pc address input
 wire [`PC_WIDTH - 1 :0] pc_addr;    //pc output address readed,inst mem input
     
     
- //ID register
+ //IF register
     always@(negedge clk)
     begin
     if(reset)
@@ -55,14 +55,16 @@ wire [`PC_WIDTH - 1 :0] pc_addr;    //pc output address readed,inst mem input
         pc_adder <=0;
         instruction <=0;
         end
-     else if (IF_IDWrite)
+     else if (IF_ID_write)
      begin
         pc_adder <= pc_adder_out;
         instruction <= instruction_out;
      end
      else
-      pc_adder <= pc_adder;
-      instruction <= instruction;
+      begin
+        pc_adder <= pc_adder;
+        instruction <= instruction;
+      end
     end
     
  Mux_4to1
@@ -76,7 +78,7 @@ wire [`PC_WIDTH - 1 :0] pc_addr;    //pc output address readed,inst mem input
     .mux_in_1(pc_adder_out),
     .mux_in_2(pc_offset),
     .mux_in_3(pc_inst_index),
-    .mux_in_4({`PC_WIDTH{1'b0}}),
+    .mux_in_4(pc_register),
     .mux_out(next_pc)
  );
  

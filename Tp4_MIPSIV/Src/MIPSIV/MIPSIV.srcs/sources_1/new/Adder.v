@@ -24,7 +24,7 @@
 module Adder
 #
 (
-    parameter Width_inout = `INST_MEMORY_ADDR_WIDTH
+    parameter Width_inout = `PC_WIDTH
 )
 (
     input [Width_inout-1:0] adder_in_1,

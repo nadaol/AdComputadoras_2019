@@ -1,16 +1,12 @@
-addi 9, 9, 5
-addi 9, 9, 15 
-sw 9, 0(0)
-addi 10, 10, 3
-sw 10, 4(0)
-lw 1, 0(0)
-lw 2, 4(0)
-add 11, 1, 2
-sub 12, 1, 2
-sw 11, 8(0)
-sw 12, 12(0)
-beq 1,1,3 
-lw 3, 8(0)
-lw 4, 12(0)
-addi 8, 8, 4
-lw 5, 0(8)
+addi 0,1,5 ; reg[0] = reg[1] + 5 
+sw 0,10(0) ; memory[reg[10] + 0] = reg[0] 
+addi 0,0,5 ; reg[0] = reg[0] + 5
+lw 2,10(0); reg[2] = memory[reg[10]+0]
+sub 3,0,2 ; reg[3] = reg[0] - reg[2]
+srl 4,3,2 ; reg[4] = reg[3] >> 2
+beq 4,3,2 ; if(reg[3]==reg[4])jump pc+2
+j 6 ; jump 6
+slt 5,3,4 ; reg[5]=(reg[3]<reg[4])
+jalr 6,2 ; reg[6] = return address  ; jump reg[2]
+srav 7,3,0 ; reg[3] >> reg[0]
+xori 8,6,7 ; reg[8] = reg[6] xori reg[7]

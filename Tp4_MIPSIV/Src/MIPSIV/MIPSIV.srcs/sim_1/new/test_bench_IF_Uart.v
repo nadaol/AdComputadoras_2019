@@ -24,12 +24,11 @@
 module test_bench_IF_Uart();
     
 //IF_top inputs
-	reg clk,reset,enable,tx_start,tx_out,rea;
-	reg [`PC_WIDTH - 1 :0] pc_offset;
+	reg clk,reset,enable,tx_start,rea;
+	reg [`PC_WIDTH - 1 :0] pc_offset,pc_inst_index,pc_register;
 	reg [`WORD_WIDTH-1:0] tx_in;
-    reg [`PC_WIDTH - 1 :0] pc_inst_index;
-    reg [`REGISTERS_WIDTH - 1 :0] pc_register;
     reg [1:0] pc_src;
+    reg IF_ID_write;
     wire wea;
     wire [`PC_WIDTH - 1 :0] write_addr;
     wire [`INST_WIDTH - 1 :0]instruction_data_write;
@@ -54,6 +53,11 @@ module test_bench_IF_Uart();
 	   enable = 1'b0;
 	   tx_start = 1'b0;
 	   clk =           1'b0;
+	   // Pc multiplexor input
+	   pc_offset = 'haa;
+	   pc_src = 2'b00;
+	   pc_inst_index = 'hbb;
+	   pc_register = 'hcc;
 	   tx_in = {`WORD_WIDTH{1'b0}};
 	   @(posedge clk) #1;   
 	   reset =         1'b1;
@@ -81,9 +85,18 @@ module test_bench_IF_Uart();
         pc_src = 2'b00;  
         @(posedge clk) #1;  
         enable = 1'b1;  
-	   
-	   repeat(10)                  //Lectura primeras 10 instrucciones
+	    IF_ID_write = 1'b1;
+	   repeat(5)                  //Lectura primeras 10 instrucciones
 	   @(posedge clk) #1;
+	   @(negedge clk) #1;
+	   IF_ID_write = 1'b0;
+	   pc_src = 2'b01;
+	   @(negedge clk) #1;
+	   reset = 1'b1;
+	   pc_src = 2'b10;
+	   @(negedge clk) #1;
+	   pc_src = 2'b11;
+	   @(negedge clk) #1;
 	   $finish;
 	   
 	end
@@ -110,6 +123,7 @@ IF_top if_top
     .clk(clk),
     .reset(reset),
     .enable(enable),
+    .IF_ID_write(IF_ID_write),
     .pc_offset(pc_offset),
     .pc_inst_index(pc_inst_index),
     .pc_register(pc_register),

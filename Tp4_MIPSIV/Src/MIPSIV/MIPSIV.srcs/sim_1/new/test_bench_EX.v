@@ -65,7 +65,7 @@ always #`CLK_PERIOD clk = !clk;
     operand2_hazard = 'b00;
     offset = 0;
     rd = 5;
-    rt = 6;
+    rt = 6;                 // 1 ADD 2 = 3
     //control signals
     RegDst = 0;//write addr <- rt
     Aluop = `RTYPE_ALUCODE;//Rtype instruction ,add alu operation
@@ -74,15 +74,15 @@ always #`CLK_PERIOD clk = !clk;
     AluSrc[1] = 1'b0;//operand 2 <- Read_data2
     @(negedge clk) #1;
 
-    @(negedge clk) #1;
+    @(negedge clk) #1;      // 1 ORI 8 = 9 
     RegDst = 0;//write addr <- rt
     Aluop = `ORI_ALUCODE;//Itype instruction ,ori alu operation
     offset = 8;
-    AluSrc[0] = 1'b0;//operand 1 <- Read_data1
-    AluSrc[1] = 1'b1;//operand 2 <- offset
-    @(negedge clk) #1;
+    AluSrc[0] = 1'b0;//operand 1 <- Read_data1 (1)
+    AluSrc[1] = 1'b1;//operand 2 <- offset (8) 
+    @(negedge clk) #1;   // 1 ORI 10 = 11
     offset = 10;
-    @(negedge clk) #1;
+    @(negedge clk) #1; // b ORI 5 = 15
     offset = 12;
     operand1_hazard = 'b01;//operand 1 <-EX/MEM Alu_result (b)
     operand2_hazard = 'b10;//operand 2 <-MEM/WB Alu_result (5)

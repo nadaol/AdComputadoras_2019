@@ -28,7 +28,7 @@ reg [`DATA_MEMORY_ADDR_WIDTH - 1 : 0] Addr;
 reg [`REGISTERS_WIDTH -1 : 0] Write_Data;
 reg [`REGISTERS_ADDR_WIDTH -1 :0] Write_addr_in;
 //Control signal inputs
-reg MemWrite,MemRead,Zero,Branch,RegWrite_in;
+reg MemWrite,MemRead,RegWrite_in;
 reg [1:0] MemtoReg_in;
 
 //outputs
@@ -37,7 +37,6 @@ wire [`REGISTERS_ADDR_WIDTH -1 :0] Write_addr;
     //control signals out
 wire[1:0] MemtoReg;
 wire RegWrite;
-wire branch_taken;
 
 //Testbench variables
 integer i;
@@ -54,12 +53,9 @@ always #`CLK_PERIOD clk = !clk;
 	Write_addr_in = 9;
 	MemWrite = 1'b1;
 	MemRead = 1'b1;
-	Zero = 1'b1;
-	Branch = 1'b1;
 	RegWrite_in = 1'b1;
 	MemtoReg_in = 1'b1;
 	@(negedge clk) #1;
-	Branch = 1'b0;
 	while(i<`DATA_MEMORY_DEPTH)
         begin   
 	           Addr = i;
@@ -84,8 +80,6 @@ always #`CLK_PERIOD clk = !clk;
     //control signals in
     .MemWrite(MemWrite),
     .MemRead(MemRead),
-    .Zero(Zero),
-    .Branch(Branch),
     .RegWrite_in(RegWrite_in),
     .MemtoReg_in(MemtoReg_in),
     //outputs
@@ -94,8 +88,7 @@ always #`CLK_PERIOD clk = !clk;
     .Write_addr(Write_addr),
     //control signals out
     .MemtoReg(MemtoReg),
-    .RegWrite(RegWrite),
-    .branch_taken(branch_taken)
+    .RegWrite(RegWrite)
 );
 
 endmodule

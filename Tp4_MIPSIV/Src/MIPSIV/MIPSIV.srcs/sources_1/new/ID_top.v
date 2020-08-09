@@ -31,7 +31,7 @@ module ID_top(
     input [`RD_WIDTH - 1 : 0] Write_addr,
     input [`REGISTERS_WIDTH - 1 :0] Write_data,
     //control signals in
-    input RegWrite_in,Branch_in,Zero_in,
+    input RegWrite_in,Branch_in,Zero_in,control_enable,
     //Outputs
     output reg [`PC_WIDTH - 1 :0] pc_adder,
     output reg [`REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2,
@@ -40,9 +40,9 @@ module ID_top(
     output reg [`RD_WIDTH - 1 :0] rd,
     output reg [`RS_WIDTH - 1 :0] rs,
     //Control signals out
-    output reg Branch,Zero,MemRead,MemWrite,RegWrite,
-    output reg [2:0]Aluop,RegDst,
-    output reg [1:0]AluSrc,
+    output reg Branch,MemRead,MemWrite,RegWrite,
+    output reg [2:0]Aluop,
+    output reg [1:0]AluSrc,regDst,
     output reg [1:0] MemtoReg,
     output [1:0]pc_src
     );
@@ -52,8 +52,8 @@ module ID_top(
     wire [`REGISTERS_WIDTH - 1 :0] offset_out;
     //Control signals output
     wire [2:0] Aluop_out;
-    wire [1:0] AluSrc_out,MemtoReg_out;
-    wire Branch_out,MemRead_out,MemWrite_out,RegDst_out,RegWrite_out;
+    wire [1:0] AluSrc_out,MemtoReg_out,regDst_out;
+    wire Branch_out,MemRead_out,MemWrite_out,RegWrite_out;
     
     //ID/EX Memory register
     always@(negedge clk)
@@ -70,7 +70,7 @@ module ID_top(
         RegWrite <= 0; //ID
         AluSrc <=0;//EX
         Aluop <= 0;
-        RegDst <= 0;
+        regDst <= 0;
         MemRead <= 0;//MEM
         MemWrite <= 0;
         Branch <=0;
@@ -85,11 +85,12 @@ module ID_top(
         rt <= instruction[`RT_SBIT+`RT_WIDTH -1 :`RT_SBIT];
         rd <= instruction[`RD_SBIT+`RD_WIDTH -1 :`RD_SBIT];
         rs <= instruction[`RS_SBIT+`RS_WIDTH -1 :`RS_SBIT];
+        pc_adder <= pc_adder_in;
         //control outputs
         RegWrite <= RegWrite_out; //ID
         AluSrc <= AluSrc_out;//EX
         Aluop <= Aluop_out;
-        RegDst <= RegDst_out;
+        regDst <= regDst_out;
         MemRead <= MemRead_out;//MEM
         MemWrite <= MemWrite_out;
         Branch <= Branch_out;
@@ -97,7 +98,7 @@ module ID_top(
      end
     end
     
-
+//Top Submodules instances
     
     Registers registers
     (
@@ -124,12 +125,13 @@ module ID_top(
         .Function(instruction[`FUNCTION_SBIT+`FUNCTION_WIDTH -1 :`FUNCTION_SBIT]),
         .Zero_in(Zero_in),//?
         .Branch_in(Branch_in),
+        .control_enable(control_enable),
         //ouputs
         .pc_src(pc_src),
         .RegWrite(RegWrite_out),
         .AluSrc(AluSrc_out),
         .AluOp(Aluop_out),
-        .regDst(reg_Dst_out),
+        .regDst(regDst_out),
         .MemRead(MemRead_out),
         .MemWrite(MemWrite_out),
         .Branch(Branch_out),

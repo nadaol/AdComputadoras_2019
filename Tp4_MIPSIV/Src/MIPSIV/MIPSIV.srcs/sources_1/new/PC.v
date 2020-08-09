@@ -24,13 +24,13 @@
 
 module Pc
 #(
-  parameter PC_CANT_BITS = `INST_MEMORY_ADDR_WIDTH  // Cantidad de bits del PC (Instruction memory addr width)
+  parameter PC_CANT_BITS = `PC_WIDTH  // Cantidad de bits del PC (Instruction memory addr width)
 )
 
 (
   input clk,
   input reset,
-  input pc_Write,
+  input enable,
   input [PC_CANT_BITS-1:0] i_addr,
   output reg [PC_CANT_BITS-1:0] o_addr
 );
@@ -41,7 +41,7 @@ module Pc
       o_addr <= 0;
 
     end
-    else if (pc_Write)
+    else if (enable)
     begin
     o_addr <= i_addr;
     end

@@ -59,6 +59,8 @@ begin                   //No data hazard
     ID_EX_rs = 20;
     MEM_WB_rd = 20;
     EX_MEM_rd = 40;
+    MEM_WB_RegWrite = 1;
+    EX_MEM_RegWrite = 0;
     
     #`ASYNC_WAIT        //2b. MEM/WB.RegisterRd = ID/EX.RegisterRt
     ID_EX_rt = 10;
