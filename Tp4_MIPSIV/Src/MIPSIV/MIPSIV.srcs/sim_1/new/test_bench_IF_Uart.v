@@ -38,6 +38,7 @@ module test_bench_IF_Uart();
 //IF_top outputs
     wire [`PC_WIDTH - 1 :0] pc_adder;
     wire [`INST_WIDTH - 1 :0] instruction;
+    wire [`INST_INDEX_WIDTH-1 : 0] instr_index;
         wire tick;
 
 //Test Variables
@@ -104,36 +105,42 @@ module test_bench_IF_Uart();
 //Module under test Instantiation
 Uart_top uart
 (
+    //inputs
     .clk(clk),
-    .tx_start(tx_start),
-    .tx_in(tx_in),
-    .tx_out(rx_in),//connect tx_out rx_in
-    .tx_done(tx_done),
     .reset(reset),
     .rx_in(rx_in),
+    .tx_start(tx_start),
+    .tx_in(tx_in),
+    //outputs
+    .tx_out(rx_in),//connect tx_out rx_in
+    .tx_done(tx_done),
     .wea(wea),
     .tick(tick),
     .instruction_data_write(instruction_data_write),
     .write_addr(write_addr)
 );
-	
+
 //Module under test Instantiation
 IF_top if_top
 (
+    //Inputs
     .clk(clk),
     .reset(reset),
-    .enable(enable),
-    .IF_ID_write(IF_ID_write),
+    .write_addr(write_addr),
+    .instruction_data_write(instruction_data_write),
     .pc_offset(pc_offset),
     .pc_inst_index(pc_inst_index),
     .pc_register(pc_register),
+    //Input control signals
+    .enable(enable),
+    .IF_ID_write(IF_ID_write),
     .pc_src(pc_src),
     .wea(wea),
     .rea(rea),
-    .instruction_data_write(instruction_data_write),
-    .write_addr(write_addr),
+    //outputs
     .pc_adder(pc_adder),
-    .instruction(instruction)
+    .instruction(instruction),
+    .instr_index(instr_index)
 );  
      
 endmodule   	

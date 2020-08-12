@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1596830929">
   <File Type="PA-TCL" Name="IF_top.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="IF_top_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="IF_top_reports.tcl"/>
   <File Type="RDS-RDS" Name="IF_top.vds"/>
   <File Type="RDS-UTIL" Name="IF_top_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="IF_top_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="IF_top.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="IF_top_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="IF_top_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/Parameters.vh">

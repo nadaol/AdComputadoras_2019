@@ -35,14 +35,14 @@ output reg IF_ID_write
 always @ *
 begin
     if(reset)
-    begin
+    begin           //Valor inicial de arranque
 			pc_Write <= 1;
 			control_enable <= 1;
 			IF_ID_write <= 1;
 		end
-		
+		//Condición de dependencia de registros con una instrucción load
 	else if( ID_EX_MemRead && ((ID_EX_rt == IF_ID_rs) ||(ID_EX_rt == IF_ID_rt)))
-		begin
+		begin                 //Introducción del retardo
 			pc_Write <= 0;
 			control_enable <= 0;
 			IF_ID_write <= 0;
