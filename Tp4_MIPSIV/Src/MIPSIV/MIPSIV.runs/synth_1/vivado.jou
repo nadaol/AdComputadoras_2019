@@ -2,11 +2,11 @@
 # Vivado v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Fri Aug  7 17:08:52 2020
-# Process ID: 12868
+# Start of session at: Tue Aug 18 21:24:01 2020
+# Process ID: 8728
 # Current directory: G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.runs/synth_1
-# Command line: vivado.exe -log IF_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source IF_top.tcl
-# Log file: G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.runs/synth_1/IF_top.vds
+# Command line: vivado.exe -log TOP.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source TOP.tcl
+# Log file: G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.runs/synth_1/TOP.vds
 # Journal file: G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
-source IF_top.tcl -notrace
+source TOP.tcl -notrace

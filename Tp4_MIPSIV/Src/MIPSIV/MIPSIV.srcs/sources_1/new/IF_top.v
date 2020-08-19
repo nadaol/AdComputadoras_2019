@@ -48,7 +48,7 @@ wire [`PC_WIDTH - 1 :0] pc_addr;    //pc output address readed,inst mem input
     
     
  //IF register
-    always@(negedge clk)
+    always@(posedge clk)
     begin
     if(reset)
         begin

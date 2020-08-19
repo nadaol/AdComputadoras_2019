@@ -19,10 +19,9 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module TOP(
 // Inputs
-input clk,reset,
+input clk,reset,start,tx_start,
 input [`WORD_WIDTH-1:0] tx_in,//Instruccion in to uart to load to instruction memory
 //Output
 output tx_done      //Flag to know when to load next instruction
@@ -35,7 +34,6 @@ wire [`PC_WIDTH - 1:0] write_addr;
 wire [`INST_WIDTH - 1 :0] instruction_data_write;
 // Uart input
 wire rx_in;
-wire tx_start;
 
 //--------- Forwarding unit outputs to EX input
 wire [1:0] operand1_hazard;
@@ -87,7 +85,7 @@ wire [`PC_WIDTH - 1 :0] EX_pc_adder1;
 wire [`REGISTERS_WIDTH - 1 :0] EX_Alu_result;
 wire [`REGISTERS_ADDR_WIDTH - 1 :0] EX_Write_addr;
 wire [`REGISTERS_WIDTH - 1 :0] EX_Read_data2;
-wire [`RD_WIDTH - 1 :0] EX_rd;
+wire [`RD_WIDTH - 1 :0] EX_rd;// To forwarding unit
 
 //Control signals
 wire EX_MemWrite;
@@ -97,6 +95,10 @@ wire EX_MemRead;        //used in forwarding unit input too
 
 //EX outputs to IF stage input
 wire [`PC_WIDTH - 1 :0] EX_pc_adder;
+
+//EX outputs to ID stage input
+wire EX_Zero;
+wire EX_Branch;
 
 // ------------- MEM stage connections ------------- 
 
@@ -130,6 +132,7 @@ Uart_top top_uart
     .tx_out(rx_in),//connect tx_out rx_in
     .tx_done(tx_done),
     .wea(wea),
+    .rea(rea),
     .instruction_data_write(instruction_data_write),
     .write_addr(write_addr)
 );
@@ -161,60 +164,59 @@ IF_top top_if
 Stall_unit top_stall_unit
     (
         //inputs
-        .reset (reset),
+        .start (start),
         .ID_EX_MemRead (ID_MemRead),
         .IF_ID_rs (IF_instruction[`RS_SBIT + `RS_WIDTH - 1:`RS_SBIT]),
         .IF_ID_rt (IF_instruction[`RT_SBIT + `RT_WIDTH - 1:`RT_SBIT]),
         .ID_EX_rt(ID_rt),
         //outputs
-        .pc_Write(enable),
+        .enable(enable),
         .control_enable(control_enable),
         .IF_ID_write(IF_ID_write) 
     );
-    
-    // 11/08 -----------------------------
-    
+
+
    ID_top id_top
 (
     //inputs
     .clk(clk),
     .reset(reset),
-    .pc_adder_in(pc_adder_in),
-    .instruction(instruction),
-    .Write_addr(Write_addr),
-    .Write_data(Write_data),
+    .pc_adder_in(IF_pc_adder),
+    .instruction(IF_instruction),
+    .Write_addr(MEM_Write_addr),
+    .Write_data(WB_Write_data),
     //control inputs
-    .RegWrite_in(RegWrite_in),
-    .Zero_in(Zero_in),
+    .RegWrite_in(MEM_WB_RegWrite),
+    .Zero_in(EX_Zero),
     .control_enable(control_enable),
-    .Branch_in(Branch_in),
+    .Branch_in(EX_Branch),
     //outputs
-    .Read_data1(Read_data1),
-    .Read_data2(Read_data2),
-    .offset(offset),
-    .rt(rt),
-    .rd(rd),
-    .rs(rs),
-    .pc_adder(pc_adder),
+    .Read_data1(ID_Read_data1),
+    .Read_data2(ID_Read_data2),
+    .offset(ID_offset),
+    .rt(ID_rt),
+    .rd(ID_rd),
+    .rs(ID_rs),
+    .pc_adder(ID_pc_adder),
     //control signal outputs
-    .RegWrite(RegWrite),
-    .Branch(Branch),
-    .MemRead(MemRead),
-    .MemWrite(MemWrite),
-    .regDst(regDst),
-    .Aluop(Aluop),
-    .AluSrc(AluSrc),
-    .MemtoReg(MemtoReg),
-    .pc_src(pc_src)
+    .RegWrite(ID_RegWrite),
+    .Branch(ID_Branch),
+    .MemRead(ID_MemRead),
+    .MemWrite(ID_MemWrite),
+    .regDst(ID_regDst),
+    .Aluop(ID_Aluop),
+    .AluSrc(ID_AluSrc),
+    .MemtoReg(ID_MemtoReg),
+    .pc_src(ID_pc_src)
 );
 
 Forwarding_unit uut
 (
     //input
-    .ID_EX_rt(ID_EX_rt),
-    .ID_EX_rs(ID_EX_rs),
-    .MEM_WB_rd(MEM_WB_rd),
-    .EX_MEM_rd(EX_MEM_rd),
+    .ID_EX_rt(ID_rt),
+    .ID_EX_rs(ID_rs),
+    .MEM_WB_rd(MEM_rd),
+    .EX_MEM_rd(EX_rd),
     .MEM_WB_RegWrite(MEM_WB_RegWrite),
     .EX_MEM_RegWrite(EX_MEM_RegWrite),
     //outputs
@@ -222,39 +224,44 @@ Forwarding_unit uut
     .operand2_hazard(operand2_hazard)
 );
 
+
 EX_top ex_top
 (
     //inputs
     .clk(clk),
     .reset(reset),
-    .pc_adder_in(pc_adder_in),
-    .offset(offset),
-    .Read_data1(Read_data1),
-    .Read_data2_in(Read_data2_in),
-    .rt(rt),
-    .rd_in(rd),
+    .pc_adder_in(ID_pc_adder),
+    .offset(ID_offset),
+    .Read_data1(ID_Read_data1),
+    .Read_data2_in(ID_Read_data2),
+    .rt(ID_rt),
+    .rd_in(ID_rd),
     .operand1_hazard(operand1_hazard),
     .operand2_hazard(operand2_hazard),
-    .MEM_WB_Alu_result(MEM_WB_Alu_result),
+    .MEM_WB_Alu_result(MEM_Alu_result),
     //control signals in
-    .RegDst(RegDst),
-    .Aluop(Aluop),
-    .AluSrc(AluSrc),
-    .MemRead_in('b0),//control signals not used in this stage
-    .MemWrite_in('b0),
-    .Branch_in('b0),
-    .MemtoReg_in('b0),
+    .RegDst(ID_regDst),
+    .Aluop(ID_Aluop),
+    .AluSrc(ID_AluSrc),
+    .MemRead_in(ID_MemRead),//control signals not used in this stage
+    .MemWrite_in(ID_MemWrite),
+    .Branch_in(ID_Branch),
+    .MemtoReg_in(ID_MemtoReg),
+    .RegWrite_in(ID_RegWrite),
     //Outputs
-    .pc_adder(pc_adder),
-    .Write_addr(Write_addr),
-    .Read_data2(Read_data2),
-    .Alu_result(EX_MEM_Alu_result),
+    .pc_adder(EX_pc_adder),
+    .pc_adder1(EX_pc_adder1),
+    .Write_addr(EX_Write_addr),
+    .Read_data2(EX_Read_data2),
+    .Alu_result(EX_Alu_result),
     //Control signals out
-    .Branch(Branch),
-    .MemRead(MemRead),
-    .MemWrite(MemWrite),
-    .Zero(Zero),
-    .MemtoReg(MemtoReg)
+    .Branch(EX_Branch),
+    .MemRead(EX_MemRead),
+    .MemWrite(EX_MemWrite),
+    .Zero(EX_Zero),
+    .MemtoReg(EX_MemtoReg),
+    .rd(EX_rd),
+    .RegWrite(EX_MEM_RegWrite)
 );
 
 MEM_top mem_top
@@ -262,32 +269,37 @@ MEM_top mem_top
     //inputs
     .clk(clk),
     .reset(reset),
-    .Addr(Addr),
-    .Write_Data(Write_Data),
-    .Write_addr_in(Write_addr_in),
+    .Addr(EX_Alu_result),
+    .Write_Data(EX_Read_data2),
+    .Write_addr_in(EX_Write_addr),
+    .pc_adder_in(EX_pc_adder1),
+    .rd_in(EX_rd),
     //control signals in
-    .MemWrite(MemWrite),
-    .MemRead(MemRead),
-    .RegWrite_in(RegWrite_in),
-    .MemtoReg_in(MemtoReg_in),
+    .MemWrite_in(EX_MemWrite),
+    .MemRead_in(EX_MemRead),
+    .RegWrite_in(EX_MEM_RegWrite),
+    .MemtoReg_in(EX_MemtoReg),
     //outputs
-    .Read_data(Read_data),
-    .Alu_result(Alu_result),
-    .Write_addr(Write_addr),
+    .Read_data(MEM_Read_data),
+    .Alu_result(MEM_Alu_result),
+    .Write_addr(MEM_Write_addr),
+    .rd(MEM_rd),
+    .pc_adder(MEM_pc_adder),
     //control signals out
-    .MemtoReg(MemtoReg),
-    .RegWrite(RegWrite)
+    .MemtoReg(MEM_MemtoReg),
+    .RegWrite(MEM_WB_RegWrite)
 );
+
 
 WB_top wb_top(
 //inputs
-    .Read_data(Read_data),
-    .Alu_result(Alu_result),
-    .Return_Addr(Return_Addr),
+    .Read_data(MEM_Read_data),
+    .Alu_result(MEM_Alu_result),
+    .Return_Addr(MEM_pc_adder),
     //control signals in
-    .MemtoReg(MemtoReg),
+    .MemtoReg(MEM_MemtoReg),
     //outputs
-    .Write_data(Write_data)
+    .Write_data(WB_Write_data)
     );
 
 endmodule

@@ -17,7 +17,7 @@
 //data memory
 `define DATA_MEMORY_WIDTH 32          //Registers memory width
 `define DATA_MEMORY_DEPTH 256          //Registers memory depth
-`define DATA_MEMORY_ADDR_WIDTH $clog2(`DATA_MEMORY_DEPTH)
+`define DATA_MEMORY_ADDR_WIDTH 32
 //instr memory
 `define INST_MEMORY_WIDTH 32          //Registers memory width
 `define INST_MEMORY_DEPTH 64       //Registers memory depth (clog2(INST_MEMORY_DEPTH) = Pc width = instr_memory_Addr_width)

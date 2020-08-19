@@ -1,3 +1,5 @@
 Vivado Simulator 2020.1
 Time resolution is 1 ps
-$finish called at time : 40 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_Stall_unit.v" Line 55
+Stopped at time : 38025030 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_TOP.v" Line 101
+Stopped at time : 38025050 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_TOP.v" Line 102
+$finish called at time : 38025130 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_TOP.v" Line 106

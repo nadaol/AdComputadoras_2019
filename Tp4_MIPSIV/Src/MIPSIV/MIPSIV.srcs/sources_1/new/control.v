@@ -85,7 +85,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -97,7 +97,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -145,7 +145,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -157,7 +157,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -169,7 +169,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -181,7 +181,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -193,7 +193,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -205,7 +205,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -217,7 +217,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -229,7 +229,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b11;             //EX
+                AluSrc = 2'b00;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -268,7 +268,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b1;             //MEM
@@ -281,7 +281,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b1;             //MEM
@@ -294,7 +294,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b1;             //MEM
@@ -307,7 +307,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b1;             //MEM
@@ -320,7 +320,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b1;             //MEM
@@ -333,7 +333,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b1;             //MEM
@@ -346,7 +346,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b0;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
@@ -359,7 +359,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b0;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
@@ -372,7 +372,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b0;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
@@ -385,7 +385,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `LOAD_STORE_ADDI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b0;             //MEM
@@ -398,7 +398,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `ANDI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b0;             //MEM
@@ -411,7 +411,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `ORI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b0;             //MEM
@@ -424,7 +424,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `XORI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b0;             //MEM
@@ -451,7 +451,7 @@ module Control
    begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b1;            //ID
-        AluSrc = 2'b01;             //EX
+        AluSrc = 2'b10;             //EX
         AluOp = `SLTI_ALUCODE ;
         regDst = 2'b00;
         MemRead = 1'b0;             //MEM

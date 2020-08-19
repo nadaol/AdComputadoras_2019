@@ -130,28 +130,28 @@ case(state)
     loader_inst_out = loader_inst_out;
     loader_addr_out = loader_addr_out;
     loader_wea = 0;
-    loader_rea = 0;
+    loader_rea = 1;
     end
     LOADING :
     begin
     loader_inst_out = 0;
     loader_addr_out = loader_addr_out;
     loader_wea = 0;
-    loader_rea = 0;
+    loader_rea = 1;
     end
     DONE :
     begin
     loader_inst_out = inst_buffer;
     loader_addr_out = inst_addr_counter;
     loader_wea = 1'b1;
-    loader_rea = 0;
+    loader_rea = 1;
     end
     default :
     begin
     loader_inst_out = 0;
     loader_addr_out = 0;
     loader_wea = 0;
-    loader_rea = 0;
+    loader_rea = 1;
     end
 endcase
    

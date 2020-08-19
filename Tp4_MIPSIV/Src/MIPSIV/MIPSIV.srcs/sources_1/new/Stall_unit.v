@@ -22,36 +22,36 @@
 `include "Parameters.vh"
 
 module Stall_unit(
-input reset,
+input start,
 input ID_EX_MemRead,
 input [`RS_WIDTH - 1 :0] IF_ID_rs,
 input [`RT_WIDTH - 1 :0] IF_ID_rt,
 input [`RT_WIDTH - 1 :0] ID_EX_rt,
-output reg pc_Write,
+output reg enable,
 output reg control_enable,
 output reg IF_ID_write
 );
 
 always @ *
 begin
-    if(reset)
+    if(start)
     begin           //Valor inicial de arranque
-			pc_Write <= 1;
+			enable <= 1;
 			control_enable <= 1;
 			IF_ID_write <= 1;
 		end
 		//Condición de dependencia de registros con una instrucción load
-	else if( ID_EX_MemRead && ((ID_EX_rt == IF_ID_rs) ||(ID_EX_rt == IF_ID_rt)))
+	else if(start == 0 || ( ID_EX_MemRead && ((ID_EX_rt == IF_ID_rs) ||(ID_EX_rt == IF_ID_rt))))
 		begin                 //Introducción del retardo
-			pc_Write <= 0;
+			enable <= 0;
 			control_enable <= 0;
 			IF_ID_write <= 0;
 		end
 	else
 		begin
-			pc_Write <= 1;
-			control_enable <= 1;
-			IF_ID_write <= 1;
+			enable <= 0;
+			control_enable <= 0;
+			IF_ID_write <= 0;
 		end
 end
 

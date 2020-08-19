@@ -56,7 +56,7 @@ module ID_top(
     wire Branch_out,MemRead_out,MemWrite_out,RegWrite_out;
     
     //ID/EX Memory register
-    always@(negedge clk)
+    always@(posedge clk)
     begin
     if(reset)
         begin
@@ -109,7 +109,8 @@ module ID_top(
 		.read_register2(instruction[`RT_SBIT+`RT_WIDTH -1 :`RT_SBIT]),
 		.read_data1(Read_data1_out),
 		.read_data2(Read_data2_out),
-		.write_data(Write_data)
+		.write_data(Write_data),
+		.write_register(Write_addr)
     );
     
     Sign_extend sign_extend

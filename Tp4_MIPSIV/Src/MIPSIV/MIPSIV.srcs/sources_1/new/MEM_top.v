@@ -29,7 +29,7 @@ module MEM_top(
     input [`PC_WIDTH - 1 :0] pc_adder_in,
     input [`REGISTERS_WIDTH - 1 : 0] rd_in,
     //control signals in
-    input MemWrite,MemRead,RegWrite_in,
+    input MemWrite_in,MemRead_in,RegWrite_in,
     input [1:0] MemtoReg_in,
     
     //outputs
@@ -45,8 +45,11 @@ module MEM_top(
 //modules ouputs ,MEM/WB register inputs
 wire [`REGISTERS_WIDTH -1 : 0] Read_data_out;
 
+reg MemWrite;
+reg MemRead;
+
   //MEM/WB Memory register
-    always@(negedge clk)
+    always@(posedge clk)
     begin
     if(reset)
         begin
@@ -64,6 +67,8 @@ wire [`REGISTERS_WIDTH -1 : 0] Read_data_out;
             Write_addr <= Write_addr_in;
             MemtoReg <= MemtoReg_in;
             RegWrite <= RegWrite_in;
+            MemWrite <= MemWrite_in;
+            MemRead <= MemRead_in;
         end
         
     end

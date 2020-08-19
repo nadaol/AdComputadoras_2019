@@ -36,7 +36,7 @@ module EX_top(
     input [1:0] RegDst,
     input [2:0]Aluop,
     input [1:0] AluSrc,
-    input MemRead_in,MemWrite_in,Branch_in,//control signals not used in this stage
+    input MemRead_in,MemWrite_in,Branch_in,RegWrite_in,//control signals not used in this stage
     input [1:0] MemtoReg_in,
     
     //Outputs
@@ -63,7 +63,7 @@ module EX_top(
     wire [`REGISTERS_ADDR_WIDTH -1 :0] Write_addr_out;
 
  //ID/EX Memory register
-    always@(negedge clk)
+    always@(posedge clk)
     begin
     if(reset)
         begin
@@ -77,6 +77,7 @@ module EX_top(
         MemRead <= 0;
         MemWrite <= 0;
         MemtoReg <= 0;  
+        RegWrite <= 0;
         end
      else
      begin
@@ -91,6 +92,7 @@ module EX_top(
        MemRead <= MemRead_in;
        MemWrite <= MemWrite_in;
        MemtoReg <= MemtoReg_in;
+       RegWrite <= RegWrite_in;
        rd <= rd_in;
      end
     end
@@ -128,7 +130,7 @@ module EX_top(
    ) mx_ex3
     (
         .mux_in_1(rt),
-        .mux_in_2(rd),
+        .mux_in_2(rd_in),
         .mux_in_3('b11111),//31 for JAL instruction
         .mux_in_4('b0),//not used
         .mux_control(RegDst),

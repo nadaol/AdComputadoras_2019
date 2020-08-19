@@ -68,7 +68,7 @@ output reg[1:0] operand2_hazard
     
     if (EX_MEM_rd == ID_EX_rt && EX_MEM_RegWrite)
     begin
-        operand2_hazard = 'b1;
+       operand2_hazard = 'b0;   // Para probar , cambiar a 1 -----------------
     end
     else if (MEM_WB_rd == ID_EX_rt && MEM_WB_RegWrite) 
     begin
