@@ -63,7 +63,7 @@ wire [`RT_WIDTH - 1 :0] ID_rt;  //to forwarding unit too
 wire [`RD_WIDTH - 1 :0] ID_rd;
 //Control signals Used in Ex stage
 wire [1:0]ID_AluSrc,ID_regDst;
-wire [2:0]ID_Aluop;
+wire [`ALUOP_WIDTH -1:0]ID_Aluop;
 
 //Control signals
 // To IF stage
@@ -270,7 +270,7 @@ MEM_top mem_top
     .clk(clk),
     .reset(reset),
     .Addr(EX_Alu_result),
-    .Write_Data(EX_Read_data2),
+    .Write_Data_in(EX_Read_data2),
     .Write_addr_in(EX_Write_addr),
     .pc_adder_in(EX_pc_adder1),
     .rd_in(EX_rd),

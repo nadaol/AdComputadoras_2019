@@ -53,6 +53,7 @@ module Alu #(
 			`NOR      : alu_result = ~(Alu_operand1 | Alu_operand2);
 			`SLT      : alu_result = Alu_operand1 < Alu_operand2;
 			`SLL16    : alu_result = Alu_operand1 << 16;
+			`NEQ      : alu_result = (Alu_operand1==Alu_operand2);
 			default  : alu_result = {registers_data_width{1'b0}};
 		endcase
 	end

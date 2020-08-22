@@ -55,9 +55,10 @@ module Alu_control
             `XORI_ALUCODE :              alu_control_opcode = `XOR;
             `LUI_ALUCODE :               alu_control_opcode = `SLL16;
             `SLTI_ALUCODE :              alu_control_opcode = `SLT;
-            `BRANCH_ALUCODE :            alu_control_opcode = `SUB;
+            `BEQ_ALUCODE :               alu_control_opcode = `SUB;
+            `BNE_ALUCODE :               alu_control_opcode = `NEQ;
             `ORI_ALUCODE :               alu_control_opcode = `OR ;
-            default:            alu_control_opcode = alu_control_opcode;
+            default:                        alu_control_opcode = alu_control_opcode;
     endcase
     end
     

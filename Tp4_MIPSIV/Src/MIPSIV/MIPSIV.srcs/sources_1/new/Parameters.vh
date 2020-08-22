@@ -24,7 +24,7 @@
 `define PC_WIDTH 32
 //alu control
 `define ALU_CONTROL_WIDTH 4         //ALUCODE width
-`define ALUOP_WIDTH 3               //alu_control_opcode (alu operation code) width 
+`define ALUOP_WIDTH 4               //alu_control_opcode (alu operation code) width 
 
 //Instruction segments,start bits
 `define OPCODE_SBIT 26
@@ -61,16 +61,18 @@
 `define SLLV        'b1011
 `define SRLV        'b1100
 `define SRAV        'b1101
+`define NEQ         'b1110
 
 //Respective instruction type codes to map I-type & J-type Instructions to 'alu_control_opcode'(alu operation) in Alu_control module
-`define RTYPE_ALUCODE                   'b000//for RTYPE instructions ,map to ARITH operation ,specified in function segment of instruction
-`define LOAD_STORE_ADDI_ALUCODE         'b001//for load/store and ADDI ,instructions map to ADD operation
-`define ANDI_ALUCODE                    'b010//for ANDI instruction ,map to AND operation
-`define ORI_ALUCODE                     'b011//for ORI instruction ,map to OR operation
-`define XORI_ALUCODE                    'b100//for XORI instruction ,map to XOR operation
-`define LUI_ALUCODE                     'b101//for LUI instruction ,map to SLL16 operation
-`define SLTI_ALUCODE                    'b110//for SLTI instruction ,map to SLT operation (comparation)
-`define BRANCH_ALUCODE                  'b111//for BRANCH instructions ,map to SUB operation
+`define RTYPE_ALUCODE                   'b0000//for RTYPE instructions ,map to ARITH operation ,specified in function segment of instruction
+`define LOAD_STORE_ADDI_ALUCODE         'b0001//for load/store and ADDI ,instructions map to ADD operation
+`define ANDI_ALUCODE                    'b0010//for ANDI instruction ,map to AND operation
+`define ORI_ALUCODE                     'b0011//for ORI instruction ,map to OR operation
+`define XORI_ALUCODE                    'b0100//for XORI instruction ,map to XOR operation
+`define LUI_ALUCODE                     'b0101//for LUI instruction ,map to SLL16 operation
+`define SLTI_ALUCODE                    'b0110//for SLTI instruction ,map to SLT operation (comparation)
+`define BEQ_ALUCODE                  'b0111//for BRANCH instructions ,map to SUB operation
+`define BNE_ALUCODE                    'b1000
 
 // Respective opCode of instructions to manage control signals in Control module
 `define R_TYPE_OPCODE   'b000000   //R-type instructions operations maps to RTYPE_ALUCODE

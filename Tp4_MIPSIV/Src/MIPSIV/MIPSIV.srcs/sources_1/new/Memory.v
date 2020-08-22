@@ -20,17 +20,18 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 `include "Parameters.vh"
-`define DATA_ADDRWIDTH $clog2(memory_depth)
+`define ADDRWIDTH $clog2(memory_depth)
 
 //Memoria de programa del procesador (posedge write then negedge read/reset)
 module Memory
 #(
   parameter memory_width = `INST_MEMORY_WIDTH,                       //Ancho de entradas,(instruction_width)
-  parameter memory_depth = `INST_MEMORY_DEPTH                     //Numero de entradas de la memoria
+  parameter memory_depth = `INST_MEMORY_DEPTH,                     //Numero de entradas de la memoria
+  parameter init_value  = 'b0
 )
 (
-  input [`DATA_ADDRWIDTH - 1 : 0] write_addr,                  //Bus de direccion para escritura
-  input [`DATA_ADDRWIDTH - 1 : 0] read_addr,                       //Bus de direccion para lectura
+  input [`ADDRWIDTH - 1 : 0] write_addr,                  //Bus de direccion para escritura
+  input [`ADDRWIDTH - 1 : 0] read_addr,                       //Bus de direccion para lectura
   input [memory_width - 1 : 0] write_data,           //Input para la escritura
   input clk,reset,wea,rea,                                         // Clock,reset,write/read enable
   output reg [memory_width - 1 : 0] read_data    //Output para la lectura
@@ -67,8 +68,8 @@ task reset_all;
     begin : resetall
     integer row ;
         for (row = 0 ; row < memory_depth ; row = row + 1)
-            ram_data[row] <= {memory_width{1'b0}} ;
-    read_data <= {memory_width{1'b0}};
+            ram_data[row] <= {init_value} ;
+    read_data <= {init_value};
     end
 endtask
 

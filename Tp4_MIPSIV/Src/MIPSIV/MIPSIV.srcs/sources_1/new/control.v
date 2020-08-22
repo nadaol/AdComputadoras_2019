@@ -63,7 +63,7 @@ module Control
     begin
     IF_ID_reset = 1 ;
     ID_EX_reset = 1 ;
-    pc_src = 2'b10;             //IF (PC <= PC + offset + 1)
+    pc_src = 2'b01;             //IF (PC <= PC + offset + 1)
     RegWrite = 1'b0;            //ID
     AluSrc = 2'b00;             //EX
     AluOp = `RTYPE_ALUCODE ;
@@ -85,7 +85,7 @@ module Control
              begin
                 pc_src = 2'b00;             //IF
                 RegWrite = 1'b1;            //ID
-                AluSrc = 2'b00;             //EX
+                AluSrc = 2'b11;             //EX
                 AluOp = `RTYPE_ALUCODE ;
                 regDst = 2'b01;
                 MemRead = 1'b0;             //MEM
@@ -462,10 +462,10 @@ module Control
     
    `BEQ_OPCODE  : 
    begin
-        pc_src = 2'b01;             //IF
+        //pc_src = 2'b00;            //IF 
         RegWrite = 1'b0;            //ID
         AluSrc = 2'b00;             //EX
-        AluOp = `BRANCH_ALUCODE ;
+        AluOp = `BEQ_ALUCODE ;
         //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;
@@ -475,10 +475,10 @@ module Control
     
    `BNE_OPCODE  : 
    begin
-        pc_src = 2'b01;             //IF
+        //pc_src = 2'b00;             //IF
         RegWrite = 1'b0;            //ID
         AluSrc = 2'b00;             //EX
-        AluOp = `BRANCH_ALUCODE ;
+        AluOp = `BNE_ALUCODE ;
         //regDst = 2'b00;
         MemRead = 1'b0;             //MEM
         MemWrite = 1'b0;

@@ -19,25 +19,29 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+//Dependencia en primer instrucción, EX_MEM_RegWrite= 1 , 1b. EX/MEM.RegisterRd = ID/EX.RegisterRt.
 /*
 addi 0,1,5 ; reg[0] = reg[1] + 5 
-nor 1,1,1 ; reg[1] = reg[1] nor reg[1] (0000 00000 nor 0000 0000 = 1111 1111)
-addi 2,2,10 ; reg[2] = reg[2] + 10 
-sw 0,10(0) ; memory[reg[0] + 10] = reg[0] 
-addi 0,0,5 ; reg[0] = reg[0] + 5
-lw 2,10(0); reg[2] = memory[reg[10]+0]
-sub 3,0,2 ; reg[3] = reg[0] - reg[2]
-srl 4,3,2 ; reg[4] = reg[3] >> 2
-sw  0,11(1) ;memory[reg[11] + 1] = reg[0] 
-sw  1,12(2) ;memory[reg[12] + 2] = reg[1]
-beq 4,3,2 ; if(reg[3]==reg[4])jump pc+2
-j 6 ; jump 6
-slt 5,3,4 ; reg[5]=(reg[3]<reg[4])
-jalr 6,2 ; reg[6] = return address  ; jump reg[2]
-srav 7,3,0 ; reg[3] >> reg[0]
-xori 8,6,7 ; reg[8] = reg[6] xori reg[7]
-sw  2,12(3) ;memory[reg[12] + 3] = reg[2] 
-sw  3,12(4) ;memory[reg[12] + 4] = reg[3] 
+addi 1,2,4 ; reg[1] = reg[2] + 4
+addi 2,3,3 ; reg[2] = reg[3] + 3
+addi 3,4,2 ; reg[3] = reg[4] + 2
+addi 4,5,1 ; reg[4] = reg[5] + 1
+nop
+nop
+nop
+nop
+nop  (i= 10)
+add 0,0,1; add rd,rs,rt ; rd = rs + rt = reg[0] = reg[0] + reg[1] = 9
+add 1,0,1; add rd,rs,rt ; rd = rs + rt = reg[1] = reg[0] + reg[1] = 9 + 4 = 13      (caso 1a)
+add 2,0,2; add rd,rs,rt ; rd = rs + rt = reg[2] = reg[0] + reg[2] = 9 + 3 = 12      (caso 2a) (i = 13)
+add 3,3,2; add rd,rs,rt ; rd = rs + rt = reg[3] = reg[3] + reg[2] = 2 + 12 = 14     (caso 1b)
+add 4,4,2; add rd,rs,rt ; rd = rs + rt = reg[4] = reg[4] + reg[2] = 1 + 12 = 13     (caso 2b)
+nop
+nop         (i = 17)
+nop
+nop
+nop
+nop
 */
 
 `include "Parameters.vh"
@@ -92,17 +96,13 @@ tx_start = 1'b0;
 start = 1'b1;
 @(posedge clk);
 @(posedge clk);
-@(posedge clk);//In IF
-@(posedge clk);//In ID
-@(posedge clk);//In EX
-@(posedge clk);//In MEM 
-@(posedge clk);//In WB (Write register)
-@(posedge clk)
-@(posedge clk)//In MEM sw
-@(posedge clk)
-@(posedge clk)
-@(posedge clk)
-@(posedge clk)
+i=1;
+while(i<24)
+    begin
+        @(posedge clk);
+        i = i+1 ;
+    end
+    
 $finish;
 end
 

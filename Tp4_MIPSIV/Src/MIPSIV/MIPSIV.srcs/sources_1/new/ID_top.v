@@ -41,7 +41,7 @@ module ID_top(
     output reg [`RS_WIDTH - 1 :0] rs,
     //Control signals out
     output reg Branch,MemRead,MemWrite,RegWrite,
-    output reg [2:0]Aluop,
+    output reg [`ALUOP_WIDTH -1:0]Aluop,
     output reg [1:0]AluSrc,regDst,
     output reg [1:0] MemtoReg,
     output [1:0]pc_src
@@ -51,7 +51,7 @@ module ID_top(
     wire [`REGISTERS_WIDTH - 1 :0] Read_data1_out,Read_data2_out;
     wire [`REGISTERS_WIDTH - 1 :0] offset_out;
     //Control signals output
-    wire [2:0] Aluop_out;
+    wire [`ALUOP_WIDTH -1:0] Aluop_out;
     wire [1:0] AluSrc_out,MemtoReg_out,regDst_out;
     wire Branch_out,MemRead_out,MemWrite_out,RegWrite_out;
     

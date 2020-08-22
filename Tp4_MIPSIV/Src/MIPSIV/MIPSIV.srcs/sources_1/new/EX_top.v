@@ -34,7 +34,7 @@ module EX_top(
     input [1:0] operand2_hazard,
     //control signals in
     input [1:0] RegDst,
-    input [2:0]Aluop,
+    input [`ALUOP_WIDTH - 1:0]Aluop,
     input [1:0] AluSrc,
     input MemRead_in,MemWrite_in,Branch_in,RegWrite_in,//control signals not used in this stage
     input [1:0] MemtoReg_in,
