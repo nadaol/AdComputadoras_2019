@@ -8,7 +8,7 @@
 #include <ctype.h>
 
 ///Number of supported instructions
-#define NSUPORTED_INST 34
+#define NSUPORTED_INST 35
 
 ///Register's offset from rigth to left
 #define RS_OFFSET 21
@@ -29,6 +29,7 @@
 #define RTIMM sscanf(instruction,"%*s %u , %u ",&inst->rt,&inst->immediate)
 ///J-type instructions
 #define TARGET sscanf(instruction,"%*s %u",&inst->instr_index)
+#define NONE sscanf(instruction,"%*s",&inst->instr_index)
 
 //.coe output line format
 #define OUT_FORMAT "%08x,\n"
@@ -56,7 +57,8 @@ enum format_code
     RSRTOFF_FORMAT = 6,
     TARGET_FORMAT = 7,
     RDRS_FORMAT = 8,
-    RS_FORMAT = 9
+    RS_FORMAT = 9,
+    NONE_FORMAT=10
 };
 
 ///Supported instruction structure

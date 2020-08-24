@@ -60,7 +60,7 @@ reg [`DATA_MEMORY_WIDTH -1 : 0] Write_data;
             Write_addr <= 0;
             RegWrite <= 0;
             Write_data <= 0;
-            rd <= 0;
+            //rd <= 0;
         end
     else
         begin

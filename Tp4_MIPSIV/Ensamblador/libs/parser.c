@@ -82,18 +82,6 @@ instruction_set supported_ins [NSUPORTED_INST] =
     .structure = R_TYPE,
     .code = 0x0000002A
 },
-{
-    .name = "JR",
-    .format = RS_FORMAT,
-    .structure = R_TYPE,
-    .code = 0X00000008
-},
-{
-    .name = "JALR",
-    .format = RDRS_FORMAT,
-    .structure = R_TYPE,
-    .code = 0X00000009
-},
 ///I-type supported Instructions (code = opcode)
 {
     .name = "LB",
@@ -210,6 +198,26 @@ instruction_set supported_ins [NSUPORTED_INST] =
     .structure = J_TYPE,
     .code = 0X0C000000
 },
+{
+    .name = "NOP",
+    .format = NONE_FORMAT,
+    .structure = J_TYPE,
+    .code = 0XAAAAAAAA
+},  
+///R-TYPE supported instructions (code = last 6 bits)
+{
+    .name = "JR",
+    .format = RS_FORMAT,
+    .structure = R_TYPE,
+    .code = 0X00000008
+},
+{
+    .name = "JALR",
+    .format = RDRS_FORMAT,
+    .structure = R_TYPE,
+    .code = 0X00000009
+},
+
 };
 
 ///Buffer sizes for file reading
@@ -294,15 +302,18 @@ void write_inst(char* instruction , FILE* fp_out ,int line_num)
         case J_TYPE :
         {
             J_instruction* inst = calloc(1,sizeof(R_instruction));
-            int ret,narg = 0;
+            int ret = 0;
+            int narg = 0;
             if(format == TARGET_FORMAT){ret=TARGET;narg=1;}
-            else  ret = -1;
+            else if(format != NONE_FORMAT)  ret = -1;
             if(ret<narg || inst->instr_index > 0x3FFFFFF)
             {
                 fprintf(stderr,"Error Invalid instruction at line %d\n",line_num);
                 exit(EXIT_FAILURE);
             }
-            unsigned int instruction = supported_ins[inst_index].code + (inst->instr_index);
+            unsigned int instruction;
+            if(format == TARGET_FORMAT) instruction = supported_ins[inst_index].code + (inst->instr_index);
+            else instruction = supported_ins[inst_index].code;
             char instruction_hex [WORD_LENGTH] ;
             sprintf(instruction_hex,OUT_FORMAT,instruction);
             //printf("instruction : %s , rd : %d rt : %d rs : %d sa : %d code : %s\n",instruction_name,inst->rd,inst->rt,inst->rs,inst->sa,instruction_hex);

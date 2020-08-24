@@ -64,8 +64,9 @@ module ID_top(
         Read_data1 <= 0;
         Read_data2 <= 0;
         offset <=0;
-        rt <= 0;
-        rd <= 0;
+        //rt <= 0;
+        //rd <= 0;
+        //rs <= 0;
         //control outputs
         RegWrite <= 0; //ID
         AluSrc <=0;//EX

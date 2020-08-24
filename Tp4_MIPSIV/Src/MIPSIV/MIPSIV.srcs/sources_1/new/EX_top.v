@@ -78,6 +78,7 @@ module EX_top(
         MemWrite <= 0;
         MemtoReg <= 0;  
         RegWrite <= 0;
+        //rd <= 0;
         end
      else
      begin

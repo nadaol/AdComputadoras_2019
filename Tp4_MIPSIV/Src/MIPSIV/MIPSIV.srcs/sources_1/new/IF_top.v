@@ -53,7 +53,7 @@ wire [`PC_WIDTH - 1 :0] pc_addr;    //pc output address readed,inst mem input
     if(reset)
         begin
         pc_adder <=0;
-        instruction <=0;
+        instruction <= 'haaaaaaaa;
         end
      else if (IF_ID_write)
      begin
