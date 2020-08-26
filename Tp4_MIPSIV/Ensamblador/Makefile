@@ -2,13 +2,13 @@ BINARY_DIR=bin
 LIBRARIES_DIR=libs
 SOURCE_DIR=src
 
-DEP = libs/instruction_set.h libs/parser.
+DEP = libs/instruction_set.h libs/parser.c
 
 #Binarios
 BINAME=ensamblador
 
 CC=gcc
-CFLAGS=-std=gnu11  -Wall -Werror -pedantic -Wextra -Wconversion  -O3 -
+CFLAGS=-std=gnu11  -Wall -pedantic -Wextra -O3
 
 all : ensablador
 

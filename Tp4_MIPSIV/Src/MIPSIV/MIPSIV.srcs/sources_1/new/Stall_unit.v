@@ -40,15 +40,17 @@ begin
 			control_enable <= 1;
 			IF_ID_write <= 1;
 		end
+	
+    else
+    begin
+        enable <= 0;
+        control_enable <= 0;
+        IF_ID_write <= 0;
+    end
+
 		//Condición de dependencia de registros con una instrucción load
-	else if(start == 0 || ( ID_EX_MemRead && ((ID_EX_rt == IF_ID_rs) ||(ID_EX_rt == IF_ID_rt))))
+	 if( ID_EX_MemRead && ((ID_EX_rt == IF_ID_rs) ||(ID_EX_rt == IF_ID_rt)))
 		begin                 //Introducción del retardo
-			enable <= 0;
-			control_enable <= 0;
-			IF_ID_write <= 0;
-		end
-	else
-		begin
 			enable <= 0;
 			control_enable <= 0;
 			IF_ID_write <= 0;

@@ -146,7 +146,6 @@ IF_top top_if
     .write_addr(write_addr),
     .instruction_data_write(instruction_data_write),
     .pc_offset(EX_pc_adder),
-    .pc_inst_index(IF_pc_instr_index),
     .pc_register(ID_Read_data1),
     //Input control signals
     .enable(enable),
@@ -156,8 +155,7 @@ IF_top top_if
     .rea(rea),
     //outputs
     .pc_adder(IF_pc_adder),
-    .instruction(IF_instruction),
-    .instr_index(IF_pc_instr_index)
+    .instruction(IF_instruction)
 );  
 
 
@@ -215,7 +213,7 @@ Forwarding_unit uut
     //input
     .ID_EX_rt(ID_rt),
     .ID_EX_rs(ID_rs),
-    .MEM_WB_rd(MEM_rd),
+    .MEM_WB_Write_Addr(MEM_Write_addr),
     .EX_MEM_rd(EX_rd),
     .MEM_WB_RegWrite(MEM_WB_RegWrite),
     .EX_MEM_RegWrite(EX_MEM_RegWrite),
@@ -238,7 +236,7 @@ EX_top ex_top
     .rd_in(ID_rd),
     .operand1_hazard(operand1_hazard),
     .operand2_hazard(operand2_hazard),
-    .MEM_WB_Alu_result(MEM_Alu_result),
+    .MEM_WB_Write_Data(WB_Write_data),
     //control signals in
     .RegDst(ID_regDst),
     .Aluop(ID_Aluop),

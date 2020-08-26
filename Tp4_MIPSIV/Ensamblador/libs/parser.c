@@ -313,7 +313,7 @@ void write_inst(char* instruction , FILE* fp_out ,int line_num)
             }
             unsigned int instruction;
             if(format == TARGET_FORMAT) instruction = supported_ins[inst_index].code + (inst->instr_index);
-            else instruction = supported_ins[inst_index].code;
+            else  instruction = supported_ins[inst_index].code;
             char instruction_hex [WORD_LENGTH] ;
             sprintf(instruction_hex,OUT_FORMAT,instruction);
             //printf("instruction : %s , rd : %d rt : %d rs : %d sa : %d code : %s\n",instruction_name,inst->rd,inst->rt,inst->rs,inst->sa,instruction_hex);

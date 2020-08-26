@@ -28,7 +28,7 @@
 #define RSRTOFF sscanf(instruction,"%*s %u , %u , %u",&inst->rs,&inst->rt,&inst->immediate)
 #define RTIMM sscanf(instruction,"%*s %u , %u ",&inst->rt,&inst->immediate)
 ///J-type instructions
-#define TARGET sscanf(instruction,"%*s %u",&inst->instr_index)
+#define TARGET sscanf(instruction,"%*s %d",&inst->instr_index)
 #define NONE sscanf(instruction,"%*s",&inst->instr_index)
 
 //.coe output line format
@@ -115,7 +115,7 @@ typedef struct _J_instruction
     ///6-bit primary operation code
     unsigned int opcode ;
     ///26-bit insdex shifted left two bits to supply the low-order 28 bits of the jump target address
-    unsigned int instr_index ;
+    signed int instr_index ;
 }J_instruction;
 
 #endif

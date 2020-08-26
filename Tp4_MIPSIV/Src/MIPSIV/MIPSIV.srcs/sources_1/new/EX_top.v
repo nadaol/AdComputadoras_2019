@@ -29,7 +29,7 @@ module EX_top(
     input [`REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2_in,
     input [`RT_WIDTH - 1 :0] rt,
     input [`RD_WIDTH - 1 :0] rd_in,
-    input [`REGISTERS_WIDTH - 1 :0] MEM_WB_Alu_result,
+    input [`REGISTERS_WIDTH - 1 :0] MEM_WB_Write_Data,
     input [1:0] operand1_hazard,
     input [1:0] operand2_hazard,
     //control signals in
@@ -145,7 +145,7 @@ module EX_top(
     (
         .mux_in_1(mx1_out),
         .mux_in_2(Alu_result),
-        .mux_in_3(MEM_WB_Alu_result),
+        .mux_in_3(MEM_WB_Write_Data),
         .mux_in_4('b0),//not used
         .mux_control(operand1_hazard),
         .mux_out(Alu_operand1)
@@ -158,7 +158,7 @@ module EX_top(
     (
         .mux_in_1(mx2_out),
         .mux_in_2(Alu_result),
-        .mux_in_3(MEM_WB_Alu_result),
+        .mux_in_3(MEM_WB_Write_Data),
         .mux_in_4('b0),//not used
         .mux_control(operand2_hazard),
         .mux_out(Alu_operand2)
