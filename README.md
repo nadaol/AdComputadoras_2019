@@ -7,6 +7,8 @@
 ##### Federico Bosack   
 ##### Oliva Nahuel
 
+[Informe](https://docs.google.com/document/d/1IRyDrCQDN5RZARy3KFcP-NA6cmOaZvuiryczqAdSvoA/edit?usp=sharing)
+
 [Enunciado](https://github.com/nadaol/AdComputadoras_2019/blob/master/Tp4_MIPSIV/docs/Enunciado.pdf)
 
 [DiagramaMIPSIV](https://app.lucidchart.com/invitations/accept/aff651d0-c9ca-48b1-9532-879cb81024bf)
