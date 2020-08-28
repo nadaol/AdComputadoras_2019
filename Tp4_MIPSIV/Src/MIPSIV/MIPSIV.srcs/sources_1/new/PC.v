@@ -31,6 +31,7 @@ module Pc
   input clk,
   input reset,
   input enable,
+  input [`INST_MEMORY_WIDTH- 1 : 0] instruction,
   input [PC_CANT_BITS-1:0] i_addr,
   output reg [PC_CANT_BITS-1:0] o_addr
 );
@@ -39,9 +40,8 @@ module Pc
   begin
     if (reset) begin
       o_addr <= 0;
-
     end
-    else if (enable)
+    else if (enable && (instruction != `HALT_OPCODE))
     begin
     o_addr <= i_addr;
     end

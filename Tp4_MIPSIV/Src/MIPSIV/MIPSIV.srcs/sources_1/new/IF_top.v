@@ -86,6 +86,7 @@ wire [`PC_WIDTH-1 : 0] instr_index ;                  //PC <- inst_index (J,JAL)
 		.clk(clk), 
 		.reset(reset),
 		.enable(enable),
+		.instruction(instruction_out),
 		.i_addr(next_pc),
 		.o_addr(pc_addr)
 );
@@ -97,7 +98,12 @@ wire [`PC_WIDTH-1 : 0] instr_index ;                  //PC <- inst_index (J,JAL)
     .adder_out(pc_adder_out)
  );
     
-Memory Instruction_memory
+Memory 
+#
+(
+    .init_value(`HALT_OPCODE)
+)
+Instruction_memory
 (
 		.clk(clk), 
 		.reset(reset), 

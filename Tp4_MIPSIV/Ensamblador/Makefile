@@ -8,7 +8,7 @@ DEP = libs/instruction_set.h libs/parser.c
 BINAME=ensamblador
 
 CC=gcc
-CFLAGS=-std=gnu11  -Wall -pedantic -Wextra -O3
+CFLAGS=-std=gnu11  -Wall -Werror -pedantic -Wextra -Wconversion  -O3 -g
 
 all : ensablador
 

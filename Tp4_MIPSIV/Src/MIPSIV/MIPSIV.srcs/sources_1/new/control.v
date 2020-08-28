@@ -511,9 +511,9 @@ module Control
         Branch = 1'b0;
         MemtoReg = 2'b10;           //WB
     end
-    
+
     default :
-    begin
+   begin
         pc_src = 2'b00;             //IF
         RegWrite = 1'b0;            //ID
         AluSrc = 2'b00;             //EX
@@ -523,7 +523,7 @@ module Control
         MemWrite = 1'b0;
         Branch = 1'b0;
         MemtoReg = 2'b00;           //WB
-    end        
+    end  
     endcase
     end
     //Insert stall

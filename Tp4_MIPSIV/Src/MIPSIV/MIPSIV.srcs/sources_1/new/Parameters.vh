@@ -95,6 +95,7 @@
 `define BNE_OPCODE      'b000101
 `define J_OPCODE        'b000010   //J-type instructions opcodes, do not map to any alu operation since alu module is not used
 `define JAL_OPCODE      'b000011   
+`define HALT_OPCODE     'hffffffff
 
  //Function codes to map R-type instructions to 'alu_control_opcode'(alu operation) in Alu_control module
 `define SLL_FUNCTIONCODE   'b000000
