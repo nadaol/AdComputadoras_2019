@@ -97,6 +97,9 @@
 `define JAL_OPCODE      'b000011   
 `define HALT_OPCODE     'hffffffff
 
+`define STEP_BY_STEP_CODE 'b10111011
+`define CONTINOUS_CODE 'b10111011
+
  //Function codes to map R-type instructions to 'alu_control_opcode'(alu operation) in Alu_control module
 `define SLL_FUNCTIONCODE   'b000000
 `define SRL_FUNCTIONCODE   'b000010

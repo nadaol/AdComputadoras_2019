@@ -1,12 +1,18 @@
-addi 0,0,1 ; f1 = reg[0] = reg[0] + 0 = 1
-addi 1,2,1 ; f2 = reg[1] = reg[2] + 1 = 1
-addi 2,0,0;  n = reg[0] + 0 = 0
-addi 3,0,8 ; Niter = reg[3] = reg[0] + 8 = 9
-beq 2,3,7 ;  if(n==Niter)jump pc+1+7 ()
-add 4,0,1 ; reg[4] = reg[0] + reg[1]
-add 0,0,1 ; f1 = f1 + f2
-sub 1,0,1 ; f2 = f1 - f2
-addi 2,2,1 ; n = n+1
-j 4 ; pc = pc - 5         reg[2]= 0(0),2(10), 3(17), 5(24),8(31),13(38),21(45),34(52),55(59),89(66)
-nop ; f1 = 55 ; f2 = 	
+addi 0,1,5 ; reg[0] = reg[1] + 5 
+addi 1,2,4 ; reg[1] = reg[2] + 4
+addi 2,3,3 ; reg[2] = reg[3] + 3
+addi 3,4,2 ; reg[3] = reg[4] + 2
+addi 4,5,1 ; reg[4] = reg[5] + 1	(reg[0]=5)
+nop
+nop
 nop	
+nop	
+nop
+sw 1,3(5);SW rt, offset(base) ; memory[base+offset] ← rt ; memory[3] =  reg[1] = 4
+nop
+nop
+nop
+nop	
+nop
+lw 6,3(5);LW rt, offset(base) ; rt ← memory[base+offset] ; reg[6] = memory[3] = 4
+add 7,6,2 ; reg[7] = reg[6] + reg[2] = 7

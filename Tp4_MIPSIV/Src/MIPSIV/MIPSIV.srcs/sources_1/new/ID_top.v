@@ -44,7 +44,9 @@ module ID_top(
     output reg [`ALUOP_WIDTH -1:0]Aluop,
     output reg [1:0]AluSrc,regDst,
     output reg [1:0] MemtoReg,
-    output [1:0]pc_src
+    output [1:0]pc_src,
+    output IF_ID_reset ,// -----------------------------------------------
+    output EX_MEM_reset // ---------------------------------------------
     );
     
     //Modules outputs (ID/EX register inputs)
@@ -130,6 +132,8 @@ module ID_top(
         .control_enable(control_enable),
         //ouputs
         .pc_src(pc_src),
+        .IF_ID_reset(IF_ID_reset), // ------------------------------------------
+        .EX_MEM_reset(EX_MEM_reset), // ------------------------------------------
         .RegWrite(RegWrite_out),
         .AluSrc(AluSrc_out),
         .AluOp(Aluop_out),

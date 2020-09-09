@@ -38,6 +38,7 @@ module EX_top(
     input [1:0] AluSrc,
     input MemRead_in,MemWrite_in,Branch_in,RegWrite_in,//control signals not used in this stage
     input [1:0] MemtoReg_in,
+    input EX_MEM_reset,
     
     //Outputs
     output reg [`PC_WIDTH - 1 :0] pc_adder,pc_adder1,
@@ -65,7 +66,20 @@ module EX_top(
  //ID/EX Memory register
     always@(posedge clk)
     begin
-    if(reset)
+    if(EX_MEM_reset)
+    begin
+         pc_adder <=pc_adder;
+        Alu_result <= Alu_result;
+        Zero <= Zero;
+        Write_addr <=Write_addr;
+        Read_data2 <= Read_data2;
+        Branch <= Branch;
+        MemRead <= MemRead;
+        MemWrite <= MemWrite;
+        MemtoReg <= MemtoReg;  
+        RegWrite <= RegWrite;
+    end
+    else if(reset)
         begin
         //Reset register outputs
         pc_adder <=0;

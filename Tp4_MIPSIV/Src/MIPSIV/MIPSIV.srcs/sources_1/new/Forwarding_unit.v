@@ -26,7 +26,7 @@ module Forwarding_unit(
 input [`RT_WIDTH - 1 :0] ID_EX_rt,
 input [`RS_WIDTH - 1 :0] ID_EX_rs,
 input [`RD_WIDTH - 1 :0] MEM_WB_Write_Addr,
-input [`RD_WIDTH - 1 :0] EX_MEM_rd,
+input [`RD_WIDTH - 1 :0] EX_MEM_Write_Addr, //rd por Write_Addr
 input MEM_WB_RegWrite,EX_MEM_RegWrite,
 //outputs
 output reg[1:0] operand1_hazard,
@@ -48,7 +48,7 @@ output reg[1:0] operand2_hazard
     2a. MEM/WB.RegisterRd = ID/EX.RegisterRs
 */
 
-    if (EX_MEM_rd == ID_EX_rs && EX_MEM_RegWrite)
+    if (EX_MEM_Write_Addr == ID_EX_rs && EX_MEM_RegWrite)
     begin
         operand1_hazard = 'b1;
     end
@@ -66,7 +66,7 @@ output reg[1:0] operand2_hazard
     2b. MEM/WB.RegisterRd = ID/EX.RegisterRt
 */
     
-    if (EX_MEM_rd == ID_EX_rt && EX_MEM_RegWrite)
+    if (EX_MEM_Write_Addr == ID_EX_rt && EX_MEM_RegWrite)
     begin
        operand2_hazard = 'b1; 
     end

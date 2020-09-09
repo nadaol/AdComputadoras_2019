@@ -32,7 +32,7 @@
 #define NONE sscanf(instruction,"%*s",&inst->instr_index)
 
 //.coe output line format
-#define OUT_FORMAT "%08x,\n"
+#define OUT_FORMAT "%08x\n"
 
 //parsea del archivo .asm en 'in_file' al archivo .coe en 'out_file'
 void parse_asm(const char* in_file,const char* out_file);

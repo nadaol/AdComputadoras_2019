@@ -34,6 +34,8 @@ module test_bench_IF_Uart();
     wire [`INST_WIDTH - 1 :0]instruction_data_write;
  //Uart_top inputs   
     wire rx_in,tx_done;
+ //Uart output
+    wire clk_out;
     
 //IF_top outputs
     wire [`PC_WIDTH - 1 :0] pc_adder;
@@ -117,14 +119,15 @@ Uart_top uart
     .wea(wea),
     .tick(tick),
     .instruction_data_write(instruction_data_write),
-    .write_addr(write_addr)
+    .write_addr(write_addr),
+    .clk_out(clk_out)
 );
 
 //Module under test Instantiation
 IF_top if_top
 (
     //Inputs
-    .clk(clk),
+    .clk(clk_out),
     .reset(reset),
     .write_addr(write_addr),
     .instruction_data_write(instruction_data_write),

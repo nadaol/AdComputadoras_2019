@@ -34,7 +34,7 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "G:/git/AdComputadoras_2019/Tp4_MIPS
 INFO: [VRFC 10-311] analyzing module Stall_unit
 INFO: [VRFC 10-2263] Analyzing Verilog file "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/TOP.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module TOP
-INFO: [VRFC 10-2458] undeclared symbol EX_MEM_RegWrite, assumed default net type wire [G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/TOP.v:219]
+INFO: [VRFC 10-2458] undeclared symbol EX_MEM_RegWrite, assumed default net type wire [G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/TOP.v:228]
 INFO: [VRFC 10-2263] Analyzing Verilog file "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Tx.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module Tx
 INFO: [VRFC 10-2263] Analyzing Verilog file "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/Uart_top.v" into library xil_defaultlib

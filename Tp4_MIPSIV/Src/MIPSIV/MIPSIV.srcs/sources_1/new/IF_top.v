@@ -31,6 +31,7 @@ module IF_top
     //input control signals
     input [1:0] pc_src,                                          //next pc value control
     input wea,rea,enable,IF_ID_write,
+    input IF_ID_reset, // ------------------------------------------------------------------------------
     //outputs
     output reg[`PC_WIDTH - 1 :0] pc_adder,                      //Next instruction address to be readed ,out to ID stage
     output reg[`INST_WIDTH - 1 :0] instruction                      //Actual Instruction readed,to ID stage
@@ -49,7 +50,7 @@ wire [`PC_WIDTH-1 : 0] instr_index ;                  //PC <- inst_index (J,JAL)
  //IF register
     always@(posedge clk)
     begin
-    if(reset)
+    if(reset || IF_ID_reset)
         begin
         pc_adder <=0;
         instruction <= 'haaaaaaaa;

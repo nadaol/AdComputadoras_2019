@@ -32,6 +32,8 @@ output tx_done      //Flag to know when to load next instruction
 wire wea,rea;
 wire [`PC_WIDTH - 1:0] write_addr;
 wire [`INST_WIDTH - 1 :0] instruction_data_write;
+//Uart clock output to every stage
+wire clk_out;
 // Uart input
 wire rx_in;
 
@@ -68,8 +70,10 @@ wire [`ALUOP_WIDTH -1:0]ID_Aluop;
 //Control signals
 // To IF stage
 wire [1:0]ID_pc_src;
+wire IF_ID_reset;           // -------------------------------------------------
 //used in later stages
 wire ID_Branch,ID_MemWrite,ID_RegWrite;
+wire EX_MEM_reset;  // ---------------------------------------------------------
 wire [1:0] ID_MemtoReg;
 wire ID_MemRead; // used in forwarding unit too
 
@@ -134,14 +138,15 @@ Uart_top top_uart
     .wea(wea),
     .rea(rea),
     .instruction_data_write(instruction_data_write),
-    .write_addr(write_addr)
+    .write_addr(write_addr),
+    .clk_out(clk_out)
 );
 
 //Module under test Instantiation
 IF_top top_if
 (   
     //Inputs
-    .clk(clk),
+    .clk(clk_out),
     .reset(reset),
     .write_addr(write_addr),
     .instruction_data_write(instruction_data_write),
@@ -150,6 +155,7 @@ IF_top top_if
     //Input control signals
     .enable(enable),
     .IF_ID_write(IF_ID_write),
+    .IF_ID_reset(IF_ID_reset), // -----------------------------------------------
     .pc_src(ID_pc_src),
     .wea(wea),
     .rea(rea),
@@ -177,7 +183,7 @@ Stall_unit top_stall_unit
    ID_top id_top
 (
     //inputs
-    .clk(clk),
+    .clk(clk_out),
     .reset(reset),
     .pc_adder_in(IF_pc_adder),
     .instruction(IF_instruction),
@@ -205,7 +211,10 @@ Stall_unit top_stall_unit
     .Aluop(ID_Aluop),
     .AluSrc(ID_AluSrc),
     .MemtoReg(ID_MemtoReg),
-    .pc_src(ID_pc_src)
+    .pc_src(ID_pc_src),
+    .IF_ID_reset(IF_ID_reset),// -------------------------------------------
+    .EX_MEM_reset(EX_MEM_reset)
+    
 );
 
 Forwarding_unit uut
@@ -214,7 +223,7 @@ Forwarding_unit uut
     .ID_EX_rt(ID_rt),
     .ID_EX_rs(ID_rs),
     .MEM_WB_Write_Addr(MEM_Write_addr),
-    .EX_MEM_rd(EX_rd),
+    .EX_MEM_Write_Addr(EX_Write_addr),
     .MEM_WB_RegWrite(MEM_WB_RegWrite),
     .EX_MEM_RegWrite(EX_MEM_RegWrite),
     //outputs
@@ -226,7 +235,7 @@ Forwarding_unit uut
 EX_top ex_top
 (
     //inputs
-    .clk(clk),
+    .clk(clk_out),
     .reset(reset),
     .pc_adder_in(ID_pc_adder),
     .offset(ID_offset),
@@ -246,6 +255,7 @@ EX_top ex_top
     .Branch_in(ID_Branch),
     .MemtoReg_in(ID_MemtoReg),
     .RegWrite_in(ID_RegWrite),
+    .EX_MEM_reset(EX_MEM_reset), // -------------------------
     //Outputs
     .pc_adder(EX_pc_adder),
     .pc_adder1(EX_pc_adder1),
@@ -265,7 +275,7 @@ EX_top ex_top
 MEM_top mem_top
 (
     //inputs
-    .clk(clk),
+    .clk(clk_out),
     .reset(reset),
     .Addr(EX_Alu_result),
     .Write_Data_in(EX_Read_data2),

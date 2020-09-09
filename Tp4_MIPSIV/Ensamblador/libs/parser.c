@@ -275,7 +275,7 @@ void write_inst(char* instruction , FILE* fp_out ,int line_num)
             char instruction_hex [WORD_LENGTH] ;
             sprintf(instruction_hex,OUT_FORMAT,instruction);
             //printf("instruction : %s , rd : %d rt : %d rs : %d sa : %d code : %s\n",instruction_name,inst->rd,inst->rt,inst->rs,inst->sa,instruction_hex);
-            fwrite(&instruction_hex,sizeof(char),10,fp_out);
+            fwrite(&instruction_hex,sizeof(char),9,fp_out);
             break;
         }
         case I_TYPE :
@@ -296,7 +296,7 @@ void write_inst(char* instruction , FILE* fp_out ,int line_num)
             char instruction_hex [WORD_LENGTH] ;
             sprintf(instruction_hex,OUT_FORMAT,instruction);
             //printf("instruction : %s , rd : %d rt : %d rs : %d sa : %d code : %s\n",instruction_name,inst->rd,inst->rt,inst->rs,inst->sa,instruction_hex);
-            fwrite(&instruction_hex,sizeof(char),10,fp_out);
+            fwrite(&instruction_hex,sizeof(char),9,fp_out);
             break;
         }
         case J_TYPE :
@@ -317,7 +317,7 @@ void write_inst(char* instruction , FILE* fp_out ,int line_num)
             char instruction_hex [WORD_LENGTH] ;
             sprintf(instruction_hex,OUT_FORMAT,instruction);
             //printf("instruction : %s , rd : %d rt : %d rs : %d sa : %d code : %s\n",instruction_name,inst->rd,inst->rt,inst->rs,inst->sa,instruction_hex);
-            fwrite(&instruction_hex,sizeof(char),10,fp_out);
+            fwrite(&instruction_hex,sizeof(char),9,fp_out);
             break;
         }
         default:

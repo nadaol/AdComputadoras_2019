@@ -27,7 +27,8 @@ module Uart_top
     output rea,tx_done,
     output wea,tick,tx_out,
     output [`PC_WIDTH - 1:0] write_addr,
-    output [`INST_WIDTH - 1 :0] instruction_data_write
+    output [`INST_WIDTH - 1 :0] instruction_data_write,
+    output clk_out
     );
     
     wire rx_done; 
@@ -63,14 +64,15 @@ module Uart_top
     
     Instruction_loader Loader
 	(
-		.clk(clk), 
+		.clk_in(clk), 
 		.reset(reset), 
 		.rx_out(rx_out),
 		.rx_done(rx_done),
 		.loader_inst_out(instruction_data_write),
 		.loader_addr_out(write_addr),
 		.loader_wea(wea),
-		.loader_rea(rea)
+		.loader_rea(rea),
+		.clk(clk_out)
     );   
     
 endmodule

@@ -58,7 +58,7 @@ module Memory
 	    else if (rea)
 		begin
             if((read_addr == read_addr) && (ram_data[read_addr] == ram_data[read_addr]))//check z , x inputs
-            read_data <= ram_data[read_addr];//read data
+                read_data <= ram_data[read_addr];//read data
         end
         else
             read_data <= read_data;

@@ -38,9 +38,12 @@ module Pc
 
   always @(posedge clk) 
   begin
-    if (reset) begin
+  
+    if (reset) 
+    begin
       o_addr <= 0;
     end
+    
     else if (enable && (instruction != `HALT_OPCODE))
     begin
     o_addr <= i_addr;

@@ -31,18 +31,23 @@ module Instruction_loader
 )
 (
     input [WORD_IN_WIDTH -1:0] rx_out,
-    input rx_done,clk,reset,
+    input rx_done,clk_in,reset,step,                                        
     output reg [INSTRUCTION_WIDTH-1:0] loader_inst_out,         //to instruction memory instruction_in
     output reg [`MEMORY_ADDR_WIDTH-1:0] loader_addr_out,   //to instruction memory write_addr
     output reg loader_wea,     
-    output reg loader_rea                                  //to instruction memory wea/rea
+    output reg loader_rea,                                //to instruction memory wea/rea
+    output reg clk              //Clock signal (continous or step-by-step)                                      
     );
     
-    localparam [2:0]
-        IDLE = 3'b001,
-        LOADING = 3'b010,
-        DONE =  3'b100;
+    localparam [3:0]
+        IDLE = 'b0001,     // Waiting for instruction
+        LOADING = 'b0010,  // Loading instruction (4 bytes)
+        DONE =  'b0100,    //Instruction loaded
+        CLOCK_STEP =  'b1000 ;// Set the mode of clk signal (step-by-step or continous)
         
+    reg [INSTRUCTION_WIDTH-1:0] loader_inst_next;
+    reg [`MEMORY_ADDR_WIDTH-1:0] loader_addr_next ;
+    reg loader_wea_next,loader_rea_next ;
     reg  [2:0]  state, state_next;
     reg [INSTRUCTION_WIDTH-1:0] inst_buffer,inst_buffer_next;
     reg [$clog2(INSTRUCTION_WIDTH/WORD_IN_WIDTH):0] word_counter,word_counter_next;
@@ -53,14 +58,14 @@ module Instruction_loader
     begin
     if(reset)
         begin
-        state = IDLE;
-        inst_buffer = 0;
-        word_counter = 0;
-        inst_addr_counter=0;
-        loader_inst_out = 0;
-        loader_addr_out = 0;
-        loader_wea = 0;
-        loader_rea=0;
+        state <= IDLE;
+        inst_buffer <= 0;
+        word_counter <= 0;
+        inst_addr_counter <= 0;
+        loader_inst_out <= 0;
+        loader_addr_out <= 0;
+        loader_wea <= 0;
+        loader_rea <= 0;
         end
 	else 
 		begin 
@@ -68,6 +73,10 @@ module Instruction_loader
 		inst_buffer  <= inst_buffer_next; 
 		word_counter  <=  word_counter_next; 
 		inst_addr_counter <= inst_addr_counter_next;
+		loader_inst_out <= loader_inst_next;
+        loader_addr_out <= loader_addr_next;
+        loader_wea <= loader_wea_next;
+        loader_rea <= loader_rea_next;
 		end 
     end
     
@@ -82,12 +91,20 @@ module Instruction_loader
             IDLE :
                 begin
                 if(rx_done)
+                    if(rx_out == (`STEP_BY_STEP_CODE))
                     begin
-                    state_next = LOADING;
-                    inst_buffer_next = {rx_out,inst_buffer[INSTRUCTION_WIDTH-1:WORD_IN_WIDTH]};
-                    inst_addr_counter_next = inst_addr_counter;
-                    word_counter_next = word_counter + 1;
+                        state_next = CLOCK_STEP;
+                        inst_buffer_next = inst_buffer_next;
+                        inst_addr_counter_next = inst_addr_counter_next;
+                        word_counter_next = word_counter_next;
                     end
+                    else
+                        begin
+                            state_next = LOADING;
+                            inst_buffer_next = {rx_out,inst_buffer[INSTRUCTION_WIDTH-1:WORD_IN_WIDTH]};
+                            inst_addr_counter_next = inst_addr_counter;
+                            word_counter_next = word_counter + 1;
+                        end
                 else
                     begin
                     inst_buffer_next = 0;
@@ -118,11 +135,22 @@ module Instruction_loader
                 inst_addr_counter_next = inst_addr_counter + 1;
                 word_counter_next = 0;
                 end
+                
+             CLOCK_STEP: //Step-by-Step mode
+                begin
+                        state_next = IDLE;
+                        inst_buffer_next = inst_buffer_next;
+                        inst_addr_counter_next = inst_addr_counter_next;
+                        word_counter_next = word_counter_next;       
+                end
+                
+                //Continous mode state
+                
         
             endcase
         end
         
-  //Output logic
+ //Output logic
 always@(*)
 case(state)
     IDLE :
@@ -131,6 +159,7 @@ case(state)
     loader_addr_out = loader_addr_out;
     loader_wea = 0;
     loader_rea = 1;
+    clk = clk_in;
     end
     LOADING :
     begin
@@ -138,6 +167,7 @@ case(state)
     loader_addr_out = loader_addr_out;
     loader_wea = 0;
     loader_rea = 1;
+    clk = clk_in;
     end
     DONE :
     begin
@@ -145,6 +175,15 @@ case(state)
     loader_addr_out = inst_addr_counter;
     loader_wea = 1'b1;
     loader_rea = 1;
+    clk = clk_in;
+    end
+    CLOCK_STEP :
+    begin
+        loader_inst_out = loader_inst_out;
+        loader_addr_out = loader_addr_out;
+        loader_wea = loader_wea;
+        loader_rea = loader_rea;  
+        //Ejecutar un ciclo
     end
     default :
     begin
@@ -152,6 +191,7 @@ case(state)
     loader_addr_out = 0;
     loader_wea = 0;
     loader_rea = 1;
+    clk = clk_in;
     end
 endcase
    

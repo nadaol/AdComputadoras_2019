@@ -37,28 +37,33 @@ module Registers
     output reg [registers_width-1:0] read_data2
  );
  
- reg [memory_depth-1:0] registers [registers_width-1:0] ;
+ reg [memory_depth-1:0] registers [registers_width-1:0] ;          
  
-    always @(posedge clk)
-	begin
-		if (control_write) 
-		begin
-			registers[write_register] <= write_data;				
-		end
-		
-	end
- 
-	always @(negedge clk)
+	always @(negedge clk)  //First write then read to avoid 3rd instruction dependencies
 	begin
 		if (reset)
 		begin
             reset_all();
 		end
-
-		else begin
-			read_data1 <= registers[read_register1];
-			read_data2 <= registers[read_register2];
-		end
+        else if (control_write) 
+		  begin
+			registers[write_register] <= write_data;
+		  end
+		if(write_register == read_register1)
+		  begin
+		      read_data1=write_data;
+		      read_data2 <= registers[read_register2];
+		  end
+		else if(write_register == read_register2)
+		  begin
+		      read_data1 <= registers[read_register1];
+		      read_data2=write_data;
+		  end
+		else
+		  begin
+		      read_data1 <= registers[read_register1];
+		      read_data2 <= registers[read_register2];
+		  end
 	end
 	
 task reset_all;

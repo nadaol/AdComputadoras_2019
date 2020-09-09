@@ -52,7 +52,7 @@ module Control
        output reg [1:0] MemtoReg,
        //To flush ID,EX instructions when branch is taken
        output reg IF_ID_reset,
-       output reg ID_EX_reset
+       output reg EX_MEM_reset
     );
     
 //Combinational output logic
@@ -61,8 +61,8 @@ module Control
     //If branch is taken flush  previus ID,EX instructions
     if(Branch_in && Zero_in)
     begin
-    IF_ID_reset = 1 ;
-    ID_EX_reset = 1 ;
+    IF_ID_reset = 1'b1 ;
+    EX_MEM_reset = 1'b1;
     pc_src = 2'b01;             //IF (PC <= PC + offset + 1)
     RegWrite = 1'b0;            //ID
     AluSrc = 2'b00;             //EX
@@ -73,9 +73,11 @@ module Control
     Branch = 1'b0;
     MemtoReg = 2'b00;           //WB
     end
-   
+    
     else if(control_enable)
     begin
+    IF_ID_reset = 1'b0;
+    EX_MEM_reset = 1'b0;
     case(opcode)
     //Register-type instructions
     `R_TYPE_OPCODE : 
