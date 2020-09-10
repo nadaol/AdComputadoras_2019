@@ -51,13 +51,13 @@ module Registers
 		  end
 		if(write_register == read_register1)
 		  begin
-		      read_data1=write_data;
+		      read_data1<=write_data;
 		      read_data2 <= registers[read_register2];
 		  end
 		else if(write_register == read_register2)
 		  begin
 		      read_data1 <= registers[read_register1];
-		      read_data2=write_data;
+		      read_data2<=write_data;
 		  end
 		else
 		  begin

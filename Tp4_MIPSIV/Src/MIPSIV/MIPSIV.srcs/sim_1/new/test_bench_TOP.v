@@ -81,17 +81,20 @@ while(ram[i] == ram[i])                 //Load out.coe instructions to instructi
               i = i + 1 ;
               j = 0;
           end
-
+//
+ 
 //Start processor, end of instruction loader
+clk_exec();
 tx_start = 1'b0;
 start = 1'b1;
 @(posedge clk);
 @(posedge clk);
 i=1;
-while(i<200)
+while(i<120)
     begin
-        @(posedge clk);
-        i = i+1 ;
+        clk_exec();
+        //@(posedge clk);
+        i = i + 1;
     end
     
 $finish;
@@ -106,6 +109,20 @@ TOP top_top
     .tx_in(tx_in),
     .tx_done(tx_done)
 );
+
+//Sends a step_code by uart for a clk execution
+task clk_exec;
+    begin : clk_exec
+        tx_in = `STEP_BY_STEP_CODE;
+         tx_start = 1'b1;
+         @(negedge tx_done)tx_start = 1'b0;
+         #10000;
+         tx_in = 'h00;
+         tx_start = 1'b1;
+         @(negedge tx_done)tx_start = 1'b0;
+         #10000;
+    end
+endtask
 
 
 endmodule

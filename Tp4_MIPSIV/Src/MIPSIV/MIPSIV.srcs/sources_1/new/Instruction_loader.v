@@ -48,7 +48,7 @@ module Instruction_loader
     reg [INSTRUCTION_WIDTH-1:0] loader_inst_next;
     reg [`MEMORY_ADDR_WIDTH-1:0] loader_addr_next ;
     reg loader_wea_next,loader_rea_next ;
-    reg  [2:0]  state, state_next;
+    reg  [3:0]  state, state_next;
     reg [INSTRUCTION_WIDTH-1:0] inst_buffer,inst_buffer_next;
     reg [$clog2(INSTRUCTION_WIDTH/WORD_IN_WIDTH):0] word_counter,word_counter_next;
     reg [`INSTRUCTION_ADDR_WIDTH-1:0] inst_addr_counter,inst_addr_counter_next;
@@ -192,8 +192,8 @@ case(state)
     begin
         loader_inst_out = loader_inst_out;
         loader_addr_out = loader_addr_out;
-        loader_wea = loader_wea;
-        loader_rea = loader_rea; 
+        loader_wea = 0;
+        loader_rea = 1; 
         if(rx_out == (`STEP_BY_STEP_CODE))clk = 1;
         else clk = 0;
         //Ejecutar un ciclo
