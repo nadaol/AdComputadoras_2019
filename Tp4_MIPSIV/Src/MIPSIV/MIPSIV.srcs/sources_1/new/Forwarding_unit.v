@@ -54,7 +54,7 @@ output reg[1:0] operand2_hazard
     end
     else if (MEM_WB_Write_Addr == ID_EX_rs && MEM_WB_RegWrite)
     begin
-        operand1_hazard = 'b10;    
+        operand1_hazard = 'b10;   
     end
     else
     begin

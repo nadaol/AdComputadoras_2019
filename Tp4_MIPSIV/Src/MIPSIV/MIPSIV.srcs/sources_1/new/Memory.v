@@ -39,8 +39,8 @@ module Memory
 //
 
   reg [memory_width - 1 : 0] ram_data [memory_depth - 1 : 0] ;//Memoria
-  
- always @(posedge clk)
+ /* 
+ always @(posedge clk) // posedge
     begin
          if (wea && !reset)
          begin
@@ -50,15 +50,33 @@ module Memory
          else
             read_data <= read_data;
     end
+  */
   
   always @(negedge clk)
   begin
+  
+    begin 
+        if (wea && !reset)
+            begin
+                if((write_addr == write_addr) && write_data == write_data)//check z, x inputs
+                    ram_data [write_addr] <= write_data;//write data
+            end
+        else
+            read_data <= read_data;
+    end
+  
 		if (reset)
 		  reset_all();
 	    else if (rea)
 		begin
             if((read_addr == read_addr) && (ram_data[read_addr] == ram_data[read_addr]))//check z , x inputs
-                read_data <= ram_data[read_addr];//read data
+                begin
+                    if(wea && ((write_addr == write_addr) && write_data == write_data))
+                        read_data <= write_data;//read data
+                    else
+                        read_data <= ram_data[read_addr];//read data
+                end
+                
         end
         else
             read_data <= read_data;
