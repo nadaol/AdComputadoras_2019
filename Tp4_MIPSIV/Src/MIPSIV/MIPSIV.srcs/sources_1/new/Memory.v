@@ -22,7 +22,7 @@
 `include "Parameters.vh"
 `define ADDRWIDTH $clog2(memory_depth)
 
-//Memoria de programa del procesador (posedge write then negedge read/reset)
+//Memoria de programa del procesador (first write at negedge then read/reset)
 module Memory
 #(
   parameter memory_width = `INST_MEMORY_WIDTH,                       //Ancho de entradas,(instruction_width)
