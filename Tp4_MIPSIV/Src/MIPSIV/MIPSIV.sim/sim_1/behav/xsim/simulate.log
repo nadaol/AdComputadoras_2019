@@ -1,0 +1,5 @@
+Vivado Simulator 2020.1
+Time resolution is 1 ps
+Stopped at time : 25350050 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_TOP.v" Line 99
+Stopped at time : 25350070 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_TOP.v" Line 99
+Stopped at time : 25351810 ns : File "G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sim_1/new/test_bench_TOP.v" Line 102

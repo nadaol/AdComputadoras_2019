@@ -59,7 +59,7 @@ module Memory
         if (wea && !reset)
             begin
                 if((write_addr == write_addr) && write_data == write_data)//check z, x inputs
-                    ram_data [write_addr] <= write_data;//write data
+                    ram_data [write_addr] <= write_data;//write previous instruction (Wb instruction) data
             end
         else
             read_data <= read_data;
@@ -72,7 +72,7 @@ module Memory
             if((read_addr == read_addr) && (ram_data[read_addr] == ram_data[read_addr]))//check z , x inputs
                 begin
                     if(wea && ((write_addr == write_addr) && write_data == write_data))
-                        read_data <= write_data;//read data
+                        read_data <= write_data;//read data (Mem stage instruction)
                     else
                         read_data <= ram_data[read_addr];//read data
                 end

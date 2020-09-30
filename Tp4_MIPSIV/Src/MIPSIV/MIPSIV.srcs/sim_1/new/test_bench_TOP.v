@@ -21,15 +21,22 @@
 
 //Dependencia en primer instrucción, EX_MEM_RegWrite= 1 , 1b. EX/MEM.RegisterRd = ID/EX.RegisterRt.
 /*
-addi 0,1,2 ; reg[0] = reg[1] + 2 = 2
-addi 1,0,2 ; reg[1] = reg[0] + 2 = 4
-addi 2,1,3 ; reg[2] = reg[1] + 3 = 7
-addi 5,2,2 ; reg[5] = reg[2] + 2 = 9
-sw 0,2(5) ; SW rt, offset(base) ; memory[reg[5] + 2] ? rt ; memory[11]  = reg[0] = 2 
-lw 3,2(5) ; reg[3] = memory[reg[5] + 2] = 2
-add 4,3,5 ; reg[4] = reg[3] + reg[5] = 11
+
+addi 0,0,1 ; f1 = reg[0] = reg[0] + 1 = 1
+addi 1,2,1 ; f2 = reg[1] = reg[2] + 1 = 1
+addi 2,0,0;  n = reg[0] + 0 = 1
+addi 3,0,8 ; Niter = reg[3] = reg[0] + 8 = 9
+beq 2,3,7 ;  if(n==Niter)jump pc+1+7 (i= 62 )
+addi 2,2,1 ; n = n+1
+add 4,0,1 ; reg[4] = reg[0] + reg[1]
+add 0,0,1 ; f1 = f1 + f2
+sub 1,0,1 ; f2 = f1 - f2
+j 4 ; pc = pc - 5         reg[2]= 2(10), 3(17), 5(24),8(31),13(38),21(45),34(52),55(59)
+nop ; f1 = 55 ; f2
+nop
+
 */
-//
+
 `include "Parameters.vh"
 
 module test_bench_TOP();
@@ -79,16 +86,16 @@ while(ram[i] == ram[i])                 //Load out.coe instructions to instructi
 //
  
 //Start processor, end of instruction loader
-//clk_exec();
+//send_step(); // Entro al modo paso a paso
 tx_start = 1'b0;
 start = 1'b1;
 @(posedge clk);
 @(posedge clk);
 i=1;
-while(i<120)
+while(i<90)
     begin
-        //clk_exec();
-        @(posedge clk);
+        //send_step();
+       @(posedge clk);
         i = i + 1;
     end
     
@@ -106,12 +113,14 @@ TOP top_top
 );
 
 //Sends a step_code by uart for a clk execution
-task clk_exec;
-    begin : clk_exec
+task send_step;
+    begin : send_step
+        //sends step by step code to execute a posedge clock (si es el primero,ademas entra al modo paso a paso)
         tx_in = `STEP_BY_STEP_CODE;
          tx_start = 1'b1;
          @(negedge tx_done)tx_start = 1'b0;
          #10000;
+         //sends 0 signal to execute a negedge clock
          tx_in = 'h00;
          tx_start = 1'b1;
          @(negedge tx_done)tx_start = 1'b0;

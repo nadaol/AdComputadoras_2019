@@ -31,6 +31,7 @@ module MEM_top(
     //control signals in
     input MemWrite_in,MemRead_in,RegWrite_in,
     input [1:0] MemtoReg_in,
+    input MEM_write,
     
     //outputs
     output reg [`DATA_MEMORY_WIDTH -1 : 0] Read_data,Alu_result,
@@ -62,7 +63,7 @@ reg [`DATA_MEMORY_WIDTH -1 : 0] Write_data;
             Write_data <= 0;
             //rd <= 0;
         end
-    else
+    else if(MEM_write)
         begin
             Read_data <= Read_data_out;
             pc_adder <= pc_adder_in ;
@@ -73,6 +74,19 @@ reg [`DATA_MEMORY_WIDTH -1 : 0] Write_data;
             MemWrite <= MemWrite_in;
             Write_data <= Write_Data_in;
             rd <= rd_in;
+        end
+        
+      else
+        begin
+            Read_data <= Read_data;
+            pc_adder <= pc_adder ;
+            Alu_result <=Alu_result;
+            Write_addr <= Write_addr;
+            MemtoReg <=MemtoReg;
+            RegWrite <= RegWrite;
+            MemWrite <= MemWrite;
+            Write_data <= Write_data;
+            rd <= rd;
         end
         
     end

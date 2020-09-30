@@ -2,8 +2,8 @@
 # Webtalk v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Tue Sep 15 22:28:50 2020
-# Process ID: 11332
+# Start of session at: Tue Sep 29 19:14:02 2020
+# Process ID: 2288
 # Current directory: G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.sim/sim_1/behav/xsim
 # Command line: wbtcv.exe -mode batch -source G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.sim/sim_1/behav/xsim/xsim.dir/test_bench_TOP_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.sim/sim_1/behav/xsim/webtalk.log

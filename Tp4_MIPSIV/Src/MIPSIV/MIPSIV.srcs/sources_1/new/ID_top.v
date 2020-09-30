@@ -31,7 +31,7 @@ module ID_top(
     input [`RD_WIDTH - 1 : 0] Write_addr,
     input [`REGISTERS_WIDTH - 1 :0] Write_data,
     //control signals in
-    input RegWrite_in,Branch_in,Zero_in,control_enable,
+    input RegWrite_in,Branch_in,Zero_in,control_enable,ID_write,
     //Outputs
     output reg [`PC_WIDTH - 1 :0] pc_adder,
     output reg [`REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2,
@@ -79,8 +79,8 @@ module ID_top(
         Branch <=0;
         MemtoReg <= 0;//WB
         end
-     else
-     begin
+     else if(ID_write)
+        begin
         //Register output <= Moldules outputs
         Read_data1 <= Read_data1_out;
         Read_data2 <= Read_data2_out;
@@ -98,7 +98,28 @@ module ID_top(
         MemWrite <= MemWrite_out;
         Branch <= Branch_out;
         MemtoReg <= MemtoReg_out;//WB
-     end
+        end
+     
+     else
+        begin
+        //Register output <= Moldules outputs
+        Read_data1 <= Read_data1;
+        Read_data2 <= Read_data2;
+        offset <= offset;
+        rt <= rt;
+        rd <= rd;
+        rs <= rs;
+        pc_adder <=pc_adder;
+        //control outputs
+        RegWrite <= RegWrite; //ID
+        AluSrc <= AluSrc;//EX
+        Aluop <= Aluop;
+        regDst <= regDst;
+        MemRead <= MemRead;//MEM
+        MemWrite <= MemWrite;
+        Branch <= Branch;
+        MemtoReg <= MemtoReg;//WB
+        end
     end
     
 //Top Submodules instances

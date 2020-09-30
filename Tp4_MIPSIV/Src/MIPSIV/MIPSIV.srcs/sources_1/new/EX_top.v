@@ -39,6 +39,7 @@ module EX_top(
     input MemRead_in,MemWrite_in,Branch_in,RegWrite_in,//control signals not used in this stage
     input [1:0] MemtoReg_in,
     input EX_MEM_reset,
+    input EX_write,
     
     //Outputs
     output reg [`PC_WIDTH - 1 :0] pc_adder,pc_adder1,

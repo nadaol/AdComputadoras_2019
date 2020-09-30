@@ -29,11 +29,9 @@ output tx_done      //Flag to know when to load next instruction
 
 
 //-------- Uart output to IF input
-wire wea,rea;
+wire wea,rea,enable2;
 wire [`PC_WIDTH - 1:0] write_addr;
 wire [`INST_WIDTH - 1 :0] instruction_data_write;
-//Uart clock output to every stage
-wire clk_out;
 // Uart input
 wire rx_in;
 
@@ -139,22 +137,22 @@ Uart_top top_uart
     .rea(rea),
     .instruction_data_write(instruction_data_write),
     .write_addr(write_addr),
-    .clk_out(clk_out)
+    .enable(enable2)
 );
 
 //Module under test Instantiation
 IF_top top_if
 (   
     //Inputs
-    .clk(clk_out),
+    .clk(clk),
     .reset(reset),
     .write_addr(write_addr),
     .instruction_data_write(instruction_data_write),
     .pc_offset(EX_pc_adder),
     .pc_register(ID_Read_data1),
     //Input control signals
-    .enable(enable),
-    .IF_ID_write(IF_ID_write),
+    .enable(enable && enable2),
+    .IF_ID_write(IF_ID_write && enable2),
     .IF_ID_reset(IF_ID_reset), // -----------------------------------------------
     .pc_src(ID_pc_src),
     .wea(wea),
@@ -183,7 +181,7 @@ Stall_unit top_stall_unit
    ID_top id_top
 (
     //inputs
-    .clk(clk_out),
+    .clk(clk),
     .reset(reset),
     .pc_adder_in(IF_pc_adder),
     .instruction(IF_instruction),
@@ -194,6 +192,7 @@ Stall_unit top_stall_unit
     .Zero_in(EX_Zero),
     .control_enable(control_enable),
     .Branch_in(EX_Branch),
+    .ID_write(enable2),
     //outputs
     .Read_data1(ID_Read_data1),
     .Read_data2(ID_Read_data2),
@@ -235,7 +234,7 @@ Forwarding_unit uut
 EX_top ex_top
 (
     //inputs
-    .clk(clk_out),
+    .clk(clk),
     .reset(reset),
     .pc_adder_in(ID_pc_adder),
     .offset(ID_offset),
@@ -255,7 +254,7 @@ EX_top ex_top
     .Branch_in(ID_Branch),
     .MemtoReg_in(ID_MemtoReg),
     .RegWrite_in(ID_RegWrite),
-    .EX_MEM_reset(EX_MEM_reset), // -------------------------
+    .EX_MEM_reset(EX_MEM_reset && enable2), // ---------------- reset?
     //Outputs
     .pc_adder(EX_pc_adder),
     .pc_adder1(EX_pc_adder1),
@@ -275,7 +274,7 @@ EX_top ex_top
 MEM_top mem_top
 (
     //inputs
-    .clk(clk_out),
+    .clk(clk),
     .reset(reset),
     .Addr(EX_Alu_result),
     .Write_Data_in(EX_Read_data2),
@@ -287,6 +286,7 @@ MEM_top mem_top
     .MemRead_in(EX_MemRead),
     .RegWrite_in(EX_MEM_RegWrite),
     .MemtoReg_in(EX_MemtoReg),
+    .MEM_write(enable2),
     //outputs
     .Read_data(MEM_Read_data),
     .Alu_result(MEM_Alu_result),
