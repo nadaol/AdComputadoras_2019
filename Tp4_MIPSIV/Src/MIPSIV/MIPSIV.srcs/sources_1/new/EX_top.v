@@ -33,6 +33,7 @@ module EX_top(
     input [1:0] operand1_hazard,
     input [1:0] operand2_hazard,
     //control signals in
+    input enable,
     input [1:0] RegDst,
     input [`ALUOP_WIDTH - 1:0]Aluop,
     input [1:0] AluSrc,
@@ -66,21 +67,9 @@ module EX_top(
 
  //ID/EX Memory register
     always@(posedge clk)
-    begin
-    if(EX_MEM_reset)
-    begin
-         pc_adder <=pc_adder;
-        Alu_result <= Alu_result;
-        Zero <= Zero;
-        Write_addr <=Write_addr;
-        Read_data2 <= Read_data2;
-        Branch <= Branch;
-        MemRead <= MemRead;
-        MemWrite <= MemWrite;
-        MemtoReg <= MemtoReg;  
-        RegWrite <= RegWrite;
-    end
-    else if(reset)
+  begin
+   
+    if(reset)
         begin
         //Reset register outputs
         pc_adder <=0;
@@ -95,9 +84,24 @@ module EX_top(
         RegWrite <= 0;
         //rd <= 0;
         end
-     else
-     begin
-        //Register output <= Moldules outputs
+        
+    else if(EX_MEM_reset && enable)// insert nop for one cycle stall
+    begin
+        pc_adder <=pc_adder;
+        Alu_result <= Alu_result;
+        Zero <= Zero;
+        Write_addr <=Write_addr;
+        Read_data2 <= Read_data2;
+        Branch <= Branch;
+        MemRead <= MemRead;
+        MemWrite <= MemWrite;
+        MemtoReg <= MemtoReg;  
+        RegWrite <= RegWrite;
+    end
+        
+    else if(enable)
+    begin
+       //Register output <= Moldules outputs
        pc_adder <= pc_adder_out;
        pc_adder1 <=  pc_adder_in;
        Zero <= Zero_out;
@@ -110,7 +114,7 @@ module EX_top(
        MemtoReg <= MemtoReg_in;
        RegWrite <= RegWrite_in;
        rd <= rd_in;
-     end
+    end
     end
     
     Adder

@@ -1,0 +1,89 @@
+// Ex
+    if(reset)
+        begin
+        //Reset register outputs
+        pc_adder <=0;
+        Alu_result <= 0;
+        Zero <= 0;
+        Write_addr <=0;
+        Read_data2 <= 0;
+        Branch <= 0;
+        MemRead <= 0;
+        MemWrite <= 0;
+        MemtoReg <= 0;  
+        RegWrite <= 0;
+        //rd <= 0;
+        end
+        
+    else if(EX_MEM_reset && enable)// insert nop for one cycle stall
+    begin
+        pc_adder <=pc_adder;
+        Alu_result <= Alu_result;
+        Zero <= Zero;
+        Write_addr <=Write_addr;
+        Read_data2 <= Read_data2;
+        Branch <= Branch;
+        MemRead <= MemRead;
+        MemWrite <= MemWrite;
+        MemtoReg <= MemtoReg;  
+        RegWrite <= RegWrite;
+    end
+        
+    else if(enable)
+    begin
+       //Register output <= Moldules outputs
+       pc_adder <= pc_adder_out;
+       pc_adder1 <=  pc_adder_in;
+       Zero <= Zero_out;
+       Alu_result <= Alu_result_out;
+       Read_data2 <= Read_data2_in;
+       Write_addr <= Write_addr_out;
+       Branch <= Branch_in;
+       MemRead <= MemRead_in;
+       MemWrite <= MemWrite_in;
+       MemtoReg <= MemtoReg_in;
+       RegWrite <= RegWrite_in;
+       rd <= rd_in;
+    end
+
+
+//  Memory
+
+      always @(negedge clk)
+begin
+  
+if (reset)
+  reset_all();
+		  
+if(enable)
+begin
+
+    if (wea && !reset)  // escritura
+    begin
+        if((write_addr == write_addr) && write_data == write_data)//check z, x inputs
+            ram_data [write_addr] <= write_data;//write previous instruction (Wb instruction) data
+        else
+            read_data <= read_data;
+     end
+                 
+    else if (rea)   // lectura
+    begin
+        if((read_addr == read_addr) && (ram_data[read_addr] == ram_data[read_addr]))//check z , x inputs
+            begin
+                if(wea && ((write_addr == write_addr) && write_data == write_data))
+                    read_data <= write_data;//read data (Mem stage instruction)
+                else
+                    read_data <= ram_data[read_addr];//read data
+            end
+            
+    end
+    
+    else
+        read_data <= read_data;
+        
+end
+        
+else
+    read_data <= read_data;
+
+end

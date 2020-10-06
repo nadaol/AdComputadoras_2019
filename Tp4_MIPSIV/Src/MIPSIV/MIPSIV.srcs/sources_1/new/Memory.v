@@ -33,7 +33,7 @@ module Memory
   input [`ADDRWIDTH - 1 : 0] write_addr,                  //Bus de direccion para escritura
   input [`ADDRWIDTH - 1 : 0] read_addr,                       //Bus de direccion para lectura
   input [memory_width - 1 : 0] write_data,           //Input para la escritura
-  input clk,reset,wea,rea,                                         // Clock,reset,write/read enable
+  input clk,reset,wea,rea,enable ,                                        // Clock,reset,write/read enable
   output reg [memory_width - 1 : 0] read_data    //Output para la lectura
 );
 //
@@ -55,19 +55,23 @@ module Memory
   always @(negedge clk)
   begin
   
-    begin 
-        if (wea && !reset)
+        //Reset memory
+		if (reset)
+		  reset_all();
+  
+        else
+        
+        begin
+         if (wea && enable)
             begin
                 if((write_addr == write_addr) && write_data == write_data)//check z, x inputs
                     ram_data [write_addr] <= write_data;//write previous instruction (Wb instruction) data
             end
         else
             read_data <= read_data;
-    end
-  
-		if (reset)
-		  reset_all();
-	    else if (rea)
+		  
+		 
+	    if (rea && enable)
 		begin
             if((read_addr == read_addr) && (ram_data[read_addr] == ram_data[read_addr]))//check z , x inputs
                 begin
@@ -80,6 +84,7 @@ module Memory
         end
         else
             read_data <= read_data;
+  end
   end
 
 task reset_all;

@@ -113,6 +113,7 @@ module Instruction_loader
 
                     else
                         begin
+                            enable_next = 1;
                             state_next = LOADING;
                             inst_buffer_next = {rx_out,inst_buffer[INSTRUCTION_WIDTH-1:WORD_IN_WIDTH]};
                             inst_addr_counter_next = inst_addr_counter;

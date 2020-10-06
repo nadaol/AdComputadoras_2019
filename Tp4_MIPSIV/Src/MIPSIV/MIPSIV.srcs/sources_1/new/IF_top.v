@@ -30,7 +30,7 @@ module IF_top
     input [`REGISTERS_WIDTH - 1 :0] pc_register,                 //PC <- rs (JR,JALR)
     //input control signals
     input [1:0] pc_src,                                          //next pc value control
-    input wea,rea,enable,IF_ID_write,
+    input wea,rea,enable,IF_ID_write,enable_load,
     input IF_ID_reset, // ------------------------------------------------------------------------------
     //outputs
     output reg[`PC_WIDTH - 1 :0] pc_adder,                      //Next instruction address to be readed ,out to ID stage
@@ -113,7 +113,8 @@ Instruction_memory
 		.write_data(instruction_data_write), 
 		.read_data(instruction_out), 
 		.read_addr(pc_addr),
-		.write_addr(write_addr)
+		.write_addr(write_addr),
+		.enable(enable_load)
 );
 
  assign instr_index = instruction [`INST_INDEX_SBIT+`INST_INDEX_WIDTH -1 :`INST_INDEX_SBIT];

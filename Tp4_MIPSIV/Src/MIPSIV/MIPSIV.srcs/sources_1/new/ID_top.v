@@ -134,7 +134,8 @@ module ID_top(
 		.read_data1(Read_data1_out),
 		.read_data2(Read_data2_out),
 		.write_data(Write_data),
-		.write_register(Write_addr)
+		.write_register(Write_addr),
+		.enable(ID_write)
     );
     
     Sign_extend sign_extend

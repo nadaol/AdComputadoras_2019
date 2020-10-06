@@ -105,7 +105,8 @@ Memory
 		.write_data(Write_data), 
 		.read_data(Read_data_out), 
 		.read_addr(Addr),
-		.write_addr(Alu_result)
+		.write_addr(Alu_result),
+		.enable(MEM_write)
 );
 
 endmodule

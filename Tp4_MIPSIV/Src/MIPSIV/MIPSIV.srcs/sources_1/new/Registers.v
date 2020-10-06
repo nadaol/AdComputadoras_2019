@@ -28,7 +28,7 @@ module Registers
  )
 (
     input clk,reset,
-    input control_write,
+    input control_write,enable,
     input [`REGISTERS_ADDRWIDTH-1:0] read_register1,
     input [`REGISTERS_ADDRWIDTH-1:0] read_register2,
     input [`REGISTERS_ADDRWIDTH-1:0] write_register,
@@ -41,29 +41,41 @@ module Registers
  
 	always @(negedge clk)  //First write then read to avoid 3rd instruction dependencies
 	begin
+	
 		if (reset)
 		begin
             reset_all();
 		end
-        else if (control_write) 
-		  begin
-			registers[write_register] <= write_data;
+		
+		if(enable)
+	    begin
+                if (control_write) 
+		          begin
+			         registers[write_register] <= write_data;
+		          end
+		      if(write_register == read_register1)
+		          begin
+		              read_data1<=write_data;
+		              read_data2 <= registers[read_register2];
+		          end
+		      else if(write_register == read_register2)
+		          begin
+		              read_data1 <= registers[read_register1];
+		              read_data2<=write_data;
+		          end
+		          else
+		               begin
+		                  read_data1 <= registers[read_register1];
+		                  read_data2 <= registers[read_register2];
+		               end
 		  end
-		if(write_register == read_register1)
-		  begin
-		      read_data1<=write_data;
-		      read_data2 <= registers[read_register2];
-		  end
-		else if(write_register == read_register2)
-		  begin
-		      read_data1 <= registers[read_register1];
-		      read_data2<=write_data;
-		  end
-		else
-		  begin
-		      read_data1 <= registers[read_register1];
-		      read_data2 <= registers[read_register2];
-		  end
+		  
+	   else // if not enable
+	   begin
+	       read_data1 <= read_data1;
+		   read_data2<=read_data2;
+	   end
+	   
 	end
 	
 task reset_all;

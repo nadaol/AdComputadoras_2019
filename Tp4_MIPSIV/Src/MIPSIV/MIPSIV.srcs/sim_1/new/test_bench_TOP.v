@@ -24,7 +24,7 @@
 
 addi 0,0,1 ; f1 = reg[0] = reg[0] + 1 = 1
 addi 1,2,1 ; f2 = reg[1] = reg[2] + 1 = 1
-addi 2,0,0;  n = reg[0] + 0 = 1
+addi 2,0,0;  n = reg[2] = reg[0] + 0 = 1
 addi 3,0,8 ; Niter = reg[3] = reg[0] + 8 = 9
 beq 2,3,7 ;  if(n==Niter)jump pc+1+7 (i= 62 )
 addi 2,2,1 ; n = n+1
@@ -35,6 +35,13 @@ j 4 ; pc = pc - 5         reg[2]= 2(10), 3(17), 5(24),8(31),13(38),21(45),34(52)
 nop ; f1 = 55 ; f2
 nop
 
+addi 0,1,2 ; reg[0] = reg[1] + 2 = 2
+addi 1,0,2 ; reg[1] = reg[0] + 2 = 4
+addi 2,1,3 ; reg[2] = reg[1] + 3 = 7
+addi 5,2,2 ; reg[5] = reg[2] + 2 = 9
+sw 0,2(5) ; SW rt, offset(base) ; memory[reg[5] + 2] ? rt ; memory[11]  = reg[0] = 2 
+lw 3,2(5) ; reg[3] = memory[reg[5] + 1] = 2
+add 4,3,5 ; reg[4] = reg[3] + reg[5] = 11
 */
 
 `include "Parameters.vh"
@@ -94,8 +101,8 @@ start = 1'b1;
 i=1;
 while(i<90)
     begin
-        //send_step();
-       @(posedge clk);
+       //send_step();
+       @(negedge clk);
         i = i + 1;
     end
     
@@ -112,15 +119,13 @@ TOP top_top
     .tx_done(tx_done)
 );
 
-//Sends a step_code by uart for a clk execution
+//Sends a step_code by uart to the loader, for a pipeline step execution
 task send_step;
-    begin : send_step
-        //sends step by step code to execute a posedge clock (si es el primero,ademas entra al modo paso a paso)
+    begin : send_step 
         tx_in = `STEP_BY_STEP_CODE;
          tx_start = 1'b1;
          @(negedge tx_done)tx_start = 1'b0;
          #10000;
-         //sends 0 signal to execute a negedge clock
          tx_in = 'h00;
          tx_start = 1'b1;
          @(negedge tx_done)tx_start = 1'b0;

@@ -153,6 +153,7 @@ IF_top top_if
     //Input control signals
     .enable(enable && enable2),
     .IF_ID_write(IF_ID_write && enable2),
+    .enable_load(enable2),
     .IF_ID_reset(IF_ID_reset), // -----------------------------------------------
     .pc_src(ID_pc_src),
     .wea(wea),
@@ -254,7 +255,8 @@ EX_top ex_top
     .Branch_in(ID_Branch),
     .MemtoReg_in(ID_MemtoReg),
     .RegWrite_in(ID_RegWrite),
-    .EX_MEM_reset(EX_MEM_reset && enable2), // ---------------- reset?
+    .EX_MEM_reset(EX_MEM_reset), 
+    .enable(enable2),            // enable ----------------------------------------
     //Outputs
     .pc_adder(EX_pc_adder),
     .pc_adder1(EX_pc_adder1),
