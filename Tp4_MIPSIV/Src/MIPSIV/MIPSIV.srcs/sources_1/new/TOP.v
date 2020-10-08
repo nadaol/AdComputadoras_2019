@@ -69,6 +69,7 @@ wire [`ALUOP_WIDTH -1:0]ID_Aluop;
 // To IF stage
 wire [1:0]ID_pc_src;
 wire IF_ID_reset;           // -------------------------------------------------
+wire [`REGISTERS_WIDTH - 1 :0] Read_data1_out;
 //used in later stages
 wire ID_Branch,ID_MemWrite,ID_RegWrite;
 wire EX_MEM_reset;  // ---------------------------------------------------------
@@ -149,7 +150,7 @@ IF_top top_if
     .write_addr(write_addr),
     .instruction_data_write(instruction_data_write),
     .pc_offset(EX_pc_adder),
-    .pc_register(ID_Read_data1),
+    .pc_register(Read_data1_out), // ------------------------------------------- ID_Read_data1
     //Input control signals
     .enable(enable && enable2),
     .IF_ID_write(IF_ID_write && enable2),
@@ -202,6 +203,7 @@ Stall_unit top_stall_unit
     .rd(ID_rd),
     .rs(ID_rs),
     .pc_adder(ID_pc_adder),
+    .Read_data1_out(Read_data1_out),
     //control signal outputs
     .RegWrite(ID_RegWrite),
     .Branch(ID_Branch),

@@ -35,6 +35,7 @@ module ID_top(
     //Outputs
     output reg [`PC_WIDTH - 1 :0] pc_adder,
     output reg [`REGISTERS_WIDTH - 1 :0] Read_data1,Read_data2,
+    output [`REGISTERS_WIDTH - 1 :0] Read_data1_out,
     output reg [`REGISTERS_WIDTH - 1 :0] offset,
     output reg [`RT_WIDTH - 1 :0] rt,
     output reg [`RD_WIDTH - 1 :0] rd,
@@ -50,7 +51,7 @@ module ID_top(
     );
     
     //Modules outputs (ID/EX register inputs)
-    wire [`REGISTERS_WIDTH - 1 :0] Read_data1_out,Read_data2_out;
+    wire [`REGISTERS_WIDTH - 1 :0] Read_data2_out;
     wire [`REGISTERS_WIDTH - 1 :0] offset_out;
     //Control signals output
     wire [`ALUOP_WIDTH -1:0] Aluop_out;

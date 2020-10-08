@@ -102,7 +102,7 @@ i=1;
 while(i<90)
     begin
        //send_step();
-       @(negedge clk);
+       @(posedge clk);
         i = i + 1;
     end
     

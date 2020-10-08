@@ -87,7 +87,7 @@ wire [`PC_WIDTH-1 : 0] instr_index ;                  //PC <- inst_index (J,JAL)
 		.clk(clk), 
 		.reset(reset),
 		.enable(enable),
-		.instruction(instruction_out),
+		.instruction(instruction_out[25:0]),
 		.i_addr(next_pc),
 		.o_addr(pc_addr)
 );
