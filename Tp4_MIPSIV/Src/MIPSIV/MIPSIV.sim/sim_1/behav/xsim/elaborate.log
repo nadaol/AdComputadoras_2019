@@ -17,33 +17,4 @@ WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 8 fo
 WARNING: [VRFC 10-5021] port 'EX_write' is not connected on this instance [G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/TOP.v:237]
 WARNING: [VRFC 10-5021] port 'Alu_result' is not connected on this instance [G:/git/AdComputadoras_2019/Tp4_MIPSIV/Src/MIPSIV/MIPSIV.srcs/sources_1/new/ID_top.v:148]
 Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.Baud_rate_generator_default
-Compiling module xil_defaultlib.Rx_default
-Compiling module xil_defaultlib.Tx_default
-Compiling module xil_defaultlib.Instruction_loader
-Compiling module xil_defaultlib.Uart_top
-Compiling module xil_defaultlib.Mux_4to1
-Compiling module xil_defaultlib.Pc
-Compiling module xil_defaultlib.Adder
-Compiling module xil_defaultlib.Memory(init_value='b111111111111...
-Compiling module xil_defaultlib.IF_top
-Compiling module xil_defaultlib.Stall_unit
-Compiling module xil_defaultlib.Registers
-Compiling module xil_defaultlib.Sign_extend
-Compiling module xil_defaultlib.Control
-Compiling module xil_defaultlib.ID_top
-Compiling module xil_defaultlib.Forwarding_unit
-Compiling module xil_defaultlib.Mux_2to1
-Compiling module xil_defaultlib.Alu
-Compiling module xil_defaultlib.Alu_control
-Compiling module xil_defaultlib.EX_top
-Compiling module xil_defaultlib.Memory(memory_depth=256)
-Compiling module xil_defaultlib.MEM_top
-Compiling module xil_defaultlib.WB_top
-Compiling module xil_defaultlib.TOP
-Compiling module xil_defaultlib.test_bench_TOP
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot test_bench_TOP_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel

@@ -40,7 +40,7 @@ wire [1:0] operand1_hazard;
 wire [1:0] operand2_hazard;
 
 //-------- Stall unit outputs related connections
-wire enable;
+wire enable_pc;
 wire IF_ID_write;
 wire control_enable;
 
@@ -152,9 +152,9 @@ IF_top top_if
     .pc_offset(EX_pc_adder),
     .pc_register(Read_data1_out), // ------------------------------------------- ID_Read_data1
     //Input control signals
-    .enable(enable && enable2),
-    .IF_ID_write(IF_ID_write && enable2),
-    .enable_load(enable2),
+    .enable(enable_pc && enable2),              // Pc enable
+    .IF_ID_write(IF_ID_write && enable2),       // IF register enable
+    .enable_load(enable2),                      //instruction memory enable
     .IF_ID_reset(IF_ID_reset), // -----------------------------------------------
     .pc_src(ID_pc_src),
     .wea(wea),
@@ -174,7 +174,7 @@ Stall_unit top_stall_unit
         .IF_ID_rt (IF_instruction[`RT_SBIT + `RT_WIDTH - 1:`RT_SBIT]),
         .ID_EX_rt(ID_rt),
         //outputs
-        .enable(enable),
+        .enable_pc(enable_pc),  // Control signals for stall insertion in pipeline
         .control_enable(control_enable),
         .IF_ID_write(IF_ID_write) 
     );
@@ -194,7 +194,7 @@ Stall_unit top_stall_unit
     .Zero_in(EX_Zero),
     .control_enable(control_enable),
     .Branch_in(EX_Branch),
-    .ID_write(enable2),
+    .ID_write(enable2),             //ID register enable
     //outputs
     .Read_data1(ID_Read_data1),
     .Read_data2(ID_Read_data2),
@@ -214,7 +214,7 @@ Stall_unit top_stall_unit
     .AluSrc(ID_AluSrc),
     .MemtoReg(ID_MemtoReg),
     .pc_src(ID_pc_src),
-    .IF_ID_reset(IF_ID_reset),// -------------------------------------------
+    .IF_ID_reset(IF_ID_reset),// Reset to flush when branch is taken (by control unit)
     .EX_MEM_reset(EX_MEM_reset)
     
 );
@@ -258,7 +258,7 @@ EX_top ex_top
     .MemtoReg_in(ID_MemtoReg),
     .RegWrite_in(ID_RegWrite),
     .EX_MEM_reset(EX_MEM_reset), 
-    .enable(enable2),            // enable ----------------------------------------
+    .enable(enable2),            // EX Reg enable
     //Outputs
     .pc_adder(EX_pc_adder),
     .pc_adder1(EX_pc_adder1),
@@ -290,7 +290,7 @@ MEM_top mem_top
     .MemRead_in(EX_MemRead),
     .RegWrite_in(EX_MEM_RegWrite),
     .MemtoReg_in(EX_MemtoReg),
-    .MEM_write(enable2),
+    .MEM_write(enable2),                //MEM Register,mem enable
     //outputs
     .Read_data(MEM_Read_data),
     .Alu_result(MEM_Alu_result),

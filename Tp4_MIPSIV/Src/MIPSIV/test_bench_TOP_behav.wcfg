@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="27542930000fs"></ZoomStartTime>
-      <ZoomEndTime time="28798930001fs"></ZoomEndTime>
-      <Cursor1Time time="28210930000fs"></Cursor1Time>
+      <ZoomStartTime time="14028170000fs"></ZoomStartTime>
+      <ZoomEndTime time="63228170001fs"></ZoomEndTime>
+      <Cursor1Time time="25878170000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="217"></NameColumnWidth>
-      <ValueColumnWidth column_width="101"></ValueColumnWidth>
+      <ValueColumnWidth column_width="89"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="13" />
+   <WVObjectSize size="12" />
    <wvobject fp_name="/test_bench_TOP/start" type="logic">
       <obj_property name="ElementShortName">start</obj_property>
       <obj_property name="ObjectShortName">start</obj_property>
@@ -63,15 +63,9 @@
       <obj_property name="CustomSignalColor">#D2691E</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_bench_TOP/top_top/top_if/Pc/instruction" type="array">
-      <obj_property name="ElementShortName">instruction[31:0]</obj_property>
-      <obj_property name="ObjectShortName">instruction[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_bench_TOP/top_top/top_if/instruction" type="array">
-      <obj_property name="ElementShortName">instruction[31:0]</obj_property>
-      <obj_property name="ObjectShortName">instruction[31:0]</obj_property>
+   <wvobject fp_name="/test_bench_TOP/top_top/top_if/Instruction_memory/read_data" type="array">
+      <obj_property name="ElementShortName">read_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">read_data[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/test_bench_TOP/top_top/ex_top/alu/alu_result" type="array">
       <obj_property name="ElementShortName">alu_result[31:0]</obj_property>

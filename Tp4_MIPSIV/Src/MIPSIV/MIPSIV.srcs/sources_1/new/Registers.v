@@ -39,7 +39,7 @@ module Registers
  
  reg [memory_depth-1:0] registers [registers_width-1:0] ;          
  
-	always @(negedge clk)  //First write then read to avoid 3rd instruction dependencies
+	always @(negedge clk)  // Write&Read Same clock edge
 	begin
 	
 		if (reset)
@@ -49,20 +49,20 @@ module Registers
 		
 		if(enable)
 	    begin
-                if (control_write) 
+                if (control_write)  //Write data to register
 		          begin
 			         registers[write_register] <= write_data;
 		          end
-		      if(write_register == read_register1)
+		      if(write_register == read_register1) //If read address (read1 or read2) is the write addr ,forward write data(to avoid Wb instr dependencies)
 		          begin
 		              read_data1<=write_data;
 		              read_data2 <= registers[read_register2];
 		          end
 		      else if(write_register == read_register2)
 		          begin
-		              read_data1 <= registers[read_register1];
+		              read_data1 <= registers[read_register1];  
 		              read_data2<=write_data;
-		          end
+		          end                                           // Else read corresponding register
 		          else
 		               begin
 		                  read_data1 <= registers[read_register1];
@@ -70,7 +70,7 @@ module Registers
 		               end
 		  end
 		  
-	   else // if not enable
+	   else // Memory disabled
 	   begin
 	       read_data1 <= read_data1;
 		   read_data2<=read_data2;

@@ -19,28 +19,28 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-//Dependencia en primer instrucción, EX_MEM_RegWrite= 1 , 1b. EX/MEM.RegisterRd = ID/EX.RegisterRt.
 /*
 
+addi 11,2,5 ; reg[11] = reg[2] + 5
 addi 0,0,1 ; f1 = reg[0] = reg[0] + 1 = 1
 addi 1,2,1 ; f2 = reg[1] = reg[2] + 1 = 1
 addi 2,0,0;  n = reg[2] = reg[0] + 0 = 1
 addi 3,0,8 ; Niter = reg[3] = reg[0] + 8 = 9
-beq 2,3,7 ;  if(n==Niter)jump pc+1+7 (i= 62 )
+beq 2,3,7 ;  if(n==Niter)jump pc+1+6 (i= 62 )
 addi 2,2,1 ; n = n+1
 add 4,0,1 ; reg[4] = reg[0] + reg[1]
 add 0,0,1 ; f1 = f1 + f2
 sub 1,0,1 ; f2 = f1 - f2
-j 4 ; pc = pc - 5         reg[2]= 2(10), 3(17), 5(24),8(31),13(38),21(45),34(52),55(59)
-nop ; f1 = 55 ; f2
+jalr 10,11 ; pc = reg[11] = 5 , reg[10] = 11       reg[2]= 2(10), 3(17), 5(24),8(31),13(38),21(45),34(52),55(59)
 nop
+
 
 addi 0,1,2 ; reg[0] = reg[1] + 2 = 2
 addi 1,0,2 ; reg[1] = reg[0] + 2 = 4
 addi 2,1,3 ; reg[2] = reg[1] + 3 = 7
 addi 5,2,2 ; reg[5] = reg[2] + 2 = 9
-sw 0,2(5) ; SW rt, offset(base) ; memory[reg[5] + 2] ? rt ; memory[11]  = reg[0] = 2 
-lw 3,2(5) ; reg[3] = memory[reg[5] + 1] = 2
+sw 0,2(5) ; SW rt, offset(base) ; memory[9+2]  = reg[0] = 2 
+lw 3,2(5) ; reg[3] = memory[9 + 2] = 2
 add 4,3,5 ; reg[4] = reg[3] + reg[5] = 11
 */
 
@@ -93,7 +93,7 @@ while(ram[i] == ram[i])                 //Load out.coe instructions to instructi
 //
  
 //Start processor, end of instruction loader
-//send_step(); // Entro al modo paso a paso
+send_step(); // Entro al modo paso a paso
 tx_start = 1'b0;
 start = 1'b1;
 @(posedge clk);
@@ -101,8 +101,8 @@ start = 1'b1;
 i=1;
 while(i<90)
     begin
-       //send_step();
-       @(posedge clk);
+       send_step();
+       //@(posedge clk);
         i = i + 1;
     end
     

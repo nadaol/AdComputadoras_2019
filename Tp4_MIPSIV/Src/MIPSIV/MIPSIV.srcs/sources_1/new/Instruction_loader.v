@@ -36,7 +36,7 @@ module Instruction_loader
     output reg [`MEMORY_ADDR_WIDTH-1:0] loader_addr_out,   //to instruction memory write_addr
     output reg loader_wea,     
     output reg loader_rea,                                //to instruction memory wea/rea 
-    output reg enable                                 
+    output reg enable                                      //enable processor
     );
     
     localparam [3:0]
@@ -154,7 +154,6 @@ module Instruction_loader
                 
              STEP_MODE : //Step-by-Step mode
                 begin
-                        //state_next = IDLE;
                         if(rx_out == (`STEP_BY_STEP_CODE))
                         begin
                             if(enable == 1 && enable_aux == 1)
@@ -194,7 +193,7 @@ module Instruction_loader
 always@(*)
 case(state)
     IDLE :
-    begin   //Mantain addr till end loading new instrucion
+    begin   
     loader_inst_out = loader_inst_out;
     loader_addr_out = loader_addr_out;
     loader_wea = 0;//escritura de istrucciones
@@ -220,10 +219,6 @@ case(state)
         loader_addr_out = loader_addr_out;
         loader_wea = 0;
         loader_rea = 1; 
-        //if(enable)
-        //enableAll();
-        //if(rx_out == (`STEP_BY_STEP_CODE))clk = 1;
-        //else clk = 0;
     end
     default :
     begin
